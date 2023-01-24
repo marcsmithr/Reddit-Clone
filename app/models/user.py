@@ -12,7 +12,13 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
+    profile_pic = db.Column(db.String(1000))
     hashed_password = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=func.now())
+    updated_at = db.Column(db.DateTime(timezone=True), default=func.now())
+
+
+    post = db.relationship('Post', back_populates='user', cascade='all, delete-orphan')
 
     @property
     def password(self):
@@ -30,4 +36,22 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email
+        }
+
+    def to_dict_info(self):
+        '''
+        Returns a dict representing User
+        {
+            id,
+            username,
+            email,
+            profile_pic,
+        }
+        '''
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            "profile_pic": self.profile_pic,
+
         }
