@@ -19,6 +19,8 @@ class User(db.Model, UserMixin):
 
 
     post = db.relationship('Post', back_populates='user', cascade='all, delete-orphan')
+    community = db.relationship('Community', back_populates='user')
+
 
     @property
     def password(self):

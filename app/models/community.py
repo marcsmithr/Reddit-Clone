@@ -17,4 +17,4 @@ class Community(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), default=func.now())
 
-    user = db.relationship('User', back_populates='communities')
+    user = db.relationship('User', back_populates='community')
