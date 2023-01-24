@@ -16,3 +16,5 @@ class Community(db.Model):
     community_header = db.Column(db.String(1000))
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), default=func.now())
+
+    user = db.relationship('User', back_populates='communities')
