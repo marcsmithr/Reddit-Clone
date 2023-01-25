@@ -11,6 +11,7 @@ class Community(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     name = db.Column(db.String(50), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(2000), nullable=False)
     community_image = db.Column(db.String(1000))
     community_banner = db.Column(db.String(1000))
