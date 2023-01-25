@@ -10,7 +10,7 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
-    community_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("community.id")))
+    community_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("communities.id")))
     title = db.Column(db.String(200), nullable=False)
     text = db.Column(db.String(1000))
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())

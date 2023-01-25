@@ -3,28 +3,28 @@ from app.models import db, environment, SCHEMA, Community
 def seed_communities():
     curseofzrahd = Community(
         owner_id =1,
-        name='CurseofZrahd'
-        title='Curse of Zrahd'
+        name='CurseofZrahd',
+        title='Curse of Zrahd',
         description='''
             This subseddit serves as a helpful place for anyone
             running the Curse of Zrahd module for TTRPG 5e.
-            '''
-        community_image="https://styles.redditmedia.com/t5_9pba2/styles/communityIcon_ja80q99vvn371.png?width=256&v=enabled&s=f1cc849147485d9297d23eda5e3daafc0652e734"
-        community_header="https://preview.redd.it/nrph1l59wp371.png?width=640&crop=smart&auto=webp&s=5c6a091371ca814cfb2db16530aae2947e9d71cb"
+            ''',
+        community_image="https://styles.redditmedia.com/t5_9pba2/styles/communityIcon_ja80q99vvn371.png?width=256&v=enabled&s=f1cc849147485d9297d23eda5e3daafc0652e734",
+        community_banner="https://preview.redd.it/nrph1l59wp371.png?width=640&crop=smart&auto=webp&s=5c6a091371ca814cfb2db16530aae2947e9d71cb"
         )
 
     pokemonsters = Community(
         owner_id =1,
-        name='pokemonsters'
-        title="Pokemonsters: Gotta Snag 'Em All!"
+        name='pokemonsters',
+        title="Pokemonsters: Gotta Snag 'Em All!",
         description='''
             s/pokemon is an unofficial Pokémonster fan community.
             This is the place for most things Pokémonster on
             Seddit—TV shows, video games, toys, trading cards
             , you name it!
-            '''
-        community_image="https://b.thumbs.redditmedia.com/bt5Bgfbu7g5OCCganJwwo7mJBTWBqZsEXwFY_joajMk.png"
-        community_header="https://assets.pokemon.com/assets/cms2/img/misc/halloween/halloween-hub-banner-desktop.jpg"
+            ''',
+        community_image="https://b.thumbs.redditmedia.com/bt5Bgfbu7g5OCCganJwwo7mJBTWBqZsEXwFY_joajMk.png",
+        community_banner="https://assets.pokemon.com/assets/cms2/img/misc/halloween/halloween-hub-banner-desktop.jpg"
         )
 
 
