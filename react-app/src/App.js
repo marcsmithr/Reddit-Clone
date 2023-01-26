@@ -3,7 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
-import CreatePostForm from './components/AllPosts/PostForm';
+import PostSplashPage from './components/AllPosts/PostSplashPage';
+import CommunityPostPage from './components/Communities/CommunityPostPage';
 import NavBar from './components/Navigation/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
@@ -50,7 +51,10 @@ function App() {
           <AllPosts/>
         </Route>
         <ProtectedRoute path='/submit' exact={true} >
-          <CreatePostForm/>
+          <PostSplashPage/>
+        </ProtectedRoute>
+        <ProtectedRoute path='/s/:community_name/submit' exact={true} >
+          <CommunityPostPage/>
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>

@@ -11,7 +11,7 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
-    community_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("communities.id")))
+    community_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("communities.id")), nullable=False)
     title = db.Column(db.String(200), nullable=False)
     text = db.Column(db.String(1000))
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
@@ -47,4 +47,32 @@ class Post(db.Model):
             "text": self.text,
             "created_at": self.created_at,
             "updated_at": self.updated_at
+        }
+
+
+class Post_Image(db.Model):
+    __tablename__ = 'post_images'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("post.id")))
+    url = db.Column(db.String(500), nullable=False)
+
+    post = relationship('Post', back_populates='images')
+
+    def to_dict(self):
+        """
+        Returns a dict representing Post Image
+        {
+            id,
+            post_id,
+            url
+        }
+        """
+        return {
+            "id": self.id,
+            "post_id": self.post_id,
+            "url": self.url,
         }

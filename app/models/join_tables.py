@@ -9,3 +9,6 @@ community_users = db.Table(
     db.Column("business_id", db.ForeignKey(
         add_prefix_for_prod("communities.id")), primary_key=True)
 )
+
+if environment == "production":
+    community_users.schema = SCHEMA

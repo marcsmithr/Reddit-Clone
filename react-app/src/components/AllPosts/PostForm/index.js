@@ -9,6 +9,7 @@ function CreatePostForm(){
     const history = useHistory()
     const [ title, setTitle ] = useState('')
     const [ text, setText ] = useState('')
+    const [image, setImage] = useState('')
     const [ errors, setErrors ] = useState([])
 
     const updateTitle = (e) => setTitle(e.target.value)
@@ -24,6 +25,10 @@ function CreatePostForm(){
         setErrors([])
 
         history.push(`/`)
+    }
+
+    const changeCommunity = (communityName) => {
+        history.push(`/s/${communityName}/submit`)
     }
 
 
@@ -43,10 +48,15 @@ function CreatePostForm(){
 
     return(
         <div className='post-page'>
-            <select>
-                    <option>Choose a Community</option>
+            <select
+            onChange={(e) => changeCommunity(e.target.value)}
+            >
+                    <option value="" disabled selected>Choose a Community</option>
                 {communities.map((community)=>(
-                    <option>{community.name}</option>
+                    <option
+                    value={community.name}
+
+                    >{community.name}</option>
                 ))}
             </select>
             <form onSubmit={handleSubmit} className='postCreateContainer'>
@@ -69,6 +79,13 @@ function CreatePostForm(){
                     placeholder={'Text (optional)'}
                     value={text}
                     onChange={updateText}
+                />
+                <input
+                    className="non-text-form-inputs"
+                    type="url"
+                    placeholder=" Image Url"
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
                 />
                 <button className='postSubmit'>Submit</button>
             </form>
