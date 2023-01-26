@@ -11,6 +11,10 @@ function CreatePostForm(){
     const [ text, setText ] = useState('')
     const [ errors, setErrors ] = useState([])
 
+    const updateTitle = (e) => setTitle(e.target.value)
+    const updateText = (e) => setText(e.target.value)
+
+
     const clearData = (newReview) => {
         setTitle('')
         setText('')
@@ -42,26 +46,25 @@ function CreatePostForm(){
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
             }
-            <textarea
-                className='postTitle'
-                type={'text'}
-                placeholder={'Review'}
-                required
-                value={review}
-                onChange={updateReview}
-            />
-            <textarea
-                className='postText'
-                type={'text'}
-                placeholder={'Review'}
-                required
-                value={review}
-                onChange={updateReview}
-            />
+                <textarea
+                    className='postTitle'
+                    type={'text'}
+                    placeholder={'Title'}
+                    required
+                    value={title}
+                    onChange={updateTitle}
+                />
+                <textarea
+                    className='postText'
+                    type={'text'}
+                    placeholder={'Text (optional)'}
+                    value={text}
+                    onChange={updateText}
+                />
+                <button className='postSubmit'>Submit</button>
             </form>
         </div>
     )
-
-
-
 }
+
+export default CreatePostForm

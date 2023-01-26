@@ -9,7 +9,7 @@ post_routes = Blueprint('post', __name__)
 @post_routes.route('')
 def all_posts():
     '''
-    Queries for the all of the posts in the database
+    Queries for all of the posts in the database
     '''
     posts = Post.query.all()
     # print("POSTS IN BACKEND", posts)
@@ -27,7 +27,7 @@ def all_posts():
 def new_form():
     form = PostForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    
+
     if form.validate_on_submit():
         new_post = Post()
         form.populate_obj(new_post)

@@ -29,13 +29,13 @@ export const allPosts = () => async dispatch => {
 
 export const createPost = (payload) => async dispatch => {
     const {postPayload} = payload
-    const postReponse = await fetch('/api/posts', {
+    const postResponse = await fetch('/api/posts', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(postPayload)
     })
-    if(response.ok){
-        const post = await postReponse.json()
+    if(postResponse.ok){
+        const post = await postResponse.json()
         dispatch(create(post))
         return post
     }
