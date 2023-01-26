@@ -14,6 +14,9 @@ function CreatePostForm(){
     const updateTitle = (e) => setTitle(e.target.value)
     const updateText = (e) => setText(e.target.value)
 
+    const communities = Object.values(useSelector((state) => state.communities.allCommunities))
+    console.log("COMMUNITIES IN CREATE POSTFORM", communities)
+
 
     const clearData = (newReview) => {
         setTitle('')
@@ -39,7 +42,13 @@ function CreatePostForm(){
     }
 
     return(
-        <div className='postForm'>
+        <div className='post-page'>
+            <select>
+                    <option>Choose a Community</option>
+                {communities.map((community)=>(
+                    <option>{community.name}</option>
+                ))}
+            </select>
             <form onSubmit={handleSubmit} className='postCreateContainer'>
             {errors.length !== 0 &&
                 <ul style={{"marginBottom":"0px"}}>
