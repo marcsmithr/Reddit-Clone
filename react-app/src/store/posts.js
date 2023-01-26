@@ -1,9 +1,15 @@
 const LOAD = 'posts/LOAD'
+const CREATE = 'posts/CREATE'
 
 
 
 const loadAll = posts => ({
     type: LOAD,
+    posts
+})
+
+const create = posts => ({
+    type: CREATE,
     posts
 })
 
@@ -18,6 +24,20 @@ export const allPosts = () => async dispatch => {
         const posts = postsObj.Posts
         dispatch(loadAll(posts))
         return posts
+    }
+}
+
+export const createPost = (payload) => async dispatch => {
+    const {postPayload} = payload
+    const postReponse = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(postPayload)
+    })
+    if(response.ok){
+        const post = await postReponse.json()
+        dispatch(create(post))
+        return post
     }
 }
 
@@ -36,6 +56,12 @@ const postReducer = (state = initialState, action) => {
                 post2[post.id] = post
             });
             newState.allPosts = post2
+            return newState
+        }
+        case CREATE: {
+            newState = {...state}
+            let newAllPosts = {...state.allPosts, [action.post.id]: action.post}
+            newState.allPosts = newAllPosts
             return newState
         }
         default:

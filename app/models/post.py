@@ -1,6 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+from .community import Community
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -26,16 +27,22 @@ class Post(db.Model):
                 id,
                 user_id,
                 community_id,
+                community_name,
+                community_image,
                 title,
                 text,
                 created_at,
                 updated_at
             }
         """
+
+        post_community = Community.query.get(self.community_id)
         return {
             "id": self.id,
             "user": self.user.to_dict_info(),
             "community_id": self.community_id,
+            "community_name": post_community.name,
+            "community_image": post_community.community_image,
             "title": self.title,
             "text": self.text,
             "created_at": self.created_at,
