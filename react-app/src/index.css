@@ -1,1 +1,12 @@
 /* TODO Add site wide styles */
+
+body{
+    background-color: #DAE0E6;
+    margin: 10px 5%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* .post-card-likes{
+    padding:0 20px;
+    background-color: #F2F6F7;
+} */
