@@ -6,7 +6,6 @@ import './index.css'
 function AllPosts() {
 
     const allPosts = useSelector(state => state.posts.allPosts)
-    console.log("ALL POSTS IN ALL POSTS" , allPosts)
 
     const posts = Object.values(allPosts)
 

@@ -18,7 +18,6 @@ const create = posts => ({
 
 export const allPosts = () => async dispatch => {
     const response = await fetch(`/api/post`)
-
     if(response.ok){
         const postsObj = await response.json()
         const posts = postsObj.Posts
@@ -29,6 +28,7 @@ export const allPosts = () => async dispatch => {
 
 export const createPost = (payload) => async dispatch => {
     const {postPayload} = payload
+
     const postResponse = await fetch('/api/posts', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},

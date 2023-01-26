@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import './index.css'
 
 function PostCard({post}) {
-    console.log("POST IN POSTCARD", post)
     const user = post.user
     if(!post) return null
     return (
@@ -32,7 +31,7 @@ function PostCard({post}) {
                 <div className='post-interaction-container'>
                     <div className='post-card-comment-container'>
                         <div className='post-card-comment-icon'>
-                            <i class="fa-regular fa-comment"></i>
+                            <i className="fa-regular fa-comment"></i>
                         </div>
                         <div className='post-card-comment-text'>
                             <span>Comments</span>

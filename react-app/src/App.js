@@ -3,13 +3,14 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
-import CreatePostForm from './components/Communities/PostForm';
+import CreatePostForm from './components/AllPosts/PostForm';
 import NavBar from './components/Navigation/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import { allPosts } from './store/posts';
+import { allCommunities } from './store/communities';
 import AllPosts from './components/AllPosts';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
     (async() => {
       await dispatch(authenticate());
       await dispatch(allPosts())
+      await dispatch(allCommunities())
       setLoaded(true);
     })();
   }, [dispatch]);
