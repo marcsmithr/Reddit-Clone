@@ -43,6 +43,14 @@
 
 .post-title-container{
     font-weight:500;
+    overflow-wrap: normal;
+}
+
+.post-image-container > img {
+    object-fit: contain;
+    height: 500px;
+    width: 100%;
+
 }
 
 .post-card-comment-container{

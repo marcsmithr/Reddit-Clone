@@ -26,6 +26,18 @@ const LoginForm = () => {
     setPassword(e.target.value);
   };
 
+  const demoUser = async (e) => {
+    e.preventDefault();
+    // setEmail('demo@aa.io')
+    // setPassword('password')
+    let demoEmail = 'demo@aa.io'
+    let demoPw = 'password'
+    const demo = await dispatch(login(demoEmail, demoPw))
+    if (demo) {
+      setErrors(demo);
+    }
+  }
+
   if (user) {
     return <Redirect to='/' />;
   }
@@ -57,6 +69,7 @@ const LoginForm = () => {
           onChange={updatePassword}
         />
         <button type='submit'>Login</button>
+        <button className='single-login' onClick={demoUser}>Demo</button>
       </div>
     </form>
   );
