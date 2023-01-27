@@ -1,11 +1,33 @@
 const LOAD = 'community/LOAD'
+const GET_ONE = 'community/GET_ONE'
 
 
+
+const getOne = community => ({
+    type: GET_ONE,
+    community
+})
 
 const loadAll = communities =>({
     type: LOAD,
     communities
 })
+
+
+
+export const getOneCommunity = (name) => async dispatch =>{
+    console.log('NAME IN THUNK', name)
+    const response = await fetch(`/api/community/${name}`);
+    console.log('RESPONSE IN THUNK', response)
+    if(response.ok){
+        const communityObj = await response.json();
+        const community = communityObj.Community
+        dispatch(getOne(community))
+        return community
+    }
+    return response
+}
+
 
 export const allCommunities = () => async dispatch => {
     const response = await fetch(`/api/community`)
@@ -31,6 +53,15 @@ const communityReducer = (state = initialState, action) => {
                 community2[community.id] = community
             });
             newState.allCommunities = community2
+            return newState
+        }
+        case GET_ONE:{
+            newState = {
+                ...state,
+                allCommunities: {...state.allCommunities},
+                singleCommunity: {}
+            }
+            newState.singleCommunity = action.community
             return newState
         }
         default:
