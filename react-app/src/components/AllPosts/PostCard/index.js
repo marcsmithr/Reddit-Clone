@@ -5,7 +5,7 @@ import './index.css'
 function PostCard({post}) {
     const user = post.user
     const images = post.images
-    console.log("IMAGES[0].URL-----------", images[0])
+    console.log("IMAGES[0]-----------", images[0])
     if(!post) return null
     return (
        <div className='post-card-container'>
@@ -29,7 +29,7 @@ function PostCard({post}) {
                 </div>
                 {(images[0] == undefined)&&
                 <div className='post-image-container'>
-                    <img src='https://static1.cbrimages.com/wordpress/wp-content…03/strahd-dungeons-and-dragons-feature-header.jpg'></img>
+                    <img src={images[0].url}></img>
                 </div>
                 }
                 <div className='post-interaction-container'>
