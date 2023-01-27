@@ -4,8 +4,9 @@ import './index.css'
 
 function PostCard({post}) {
     const user = post.user
+    // console.log("POST.USER", user)
     const images = post.images
-    console.log("IMAGES[0]-----------", images[0])
+    // console.log("IMAGES[0]-----------", images[0])
     if(!post) return null
     return (
        <div className='post-card-container'>
@@ -29,7 +30,7 @@ function PostCard({post}) {
                 </div>
                 {(images[0]) &&
                 <div className='post-image-container'>
-                    <img src='https://upload.wikimedia.org/wikipedia/en/a/a7/Strahd_von_Zarovich_in_Shadows_of_the_Vampire.jpg'></img>
+                    <img src={images[0].url}></img>
                 </div>
                 }
                 <div className='post-interaction-container'>
