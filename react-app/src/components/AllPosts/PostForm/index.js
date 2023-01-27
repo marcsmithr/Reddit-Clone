@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { PostFormContext } from '../../context/PostFormContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
-import { createPost } from '../../../store/posts'
+import { postCreate } from '../../../store/posts'
 import './index.css'
 
 function CreatePostForm(){
@@ -12,12 +12,15 @@ function CreatePostForm(){
     // const [ text, setText ] = useState('')
     // const [image, setImage] = useState('')
     const [ errors, setErrors ] = useState([])
-
     const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage} = useContext(PostFormContext)
 
     const updateTitle = (e) => setPostTitle(e.target.value)
     const updateText = (e) => setPostText(e.target.value)
     const updateImage = (e) => setPostImage(e.target.value)
+
+    const {communityParam} = useParams()
+
+    console.log("COMMUNITYPARAM", communityParam)
 
     const communities = Object.values(useSelector((state) => state.communities.allCommunities))
     console.log("COMMUNITIES IN CREATE POSTFORM", communities)
@@ -41,13 +44,19 @@ function CreatePostForm(){
         e.preventDefault()
 
         let payload;
-
+        if(postImage){
+            payload= {
+                postTitle,
+                postText,
+                postImage
+            }
+        } else{
         payload = {
             postTitle,
             postText
         }
-
-        let newPost = await dispatch(createPost(payload))
+    }
+        let newPost = await dispatch(postCreate(payload, communityParam))
         if(newPost) history.push('/')
     }
 

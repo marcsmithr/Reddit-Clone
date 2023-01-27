@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Post
+from app.models import Post, Post_Image
 from ..models.db import db
-from ..forms import PostForm
+from ..forms import PostImageForm
 
 post_routes = Blueprint('post', __name__)
 
@@ -22,21 +22,31 @@ def all_posts():
     return {"Posts": all_posts}
 
 
-@post_routes.route('/new', methods=['POST'])
+@post_routes.route('/<int:id>/images', methods=["POST"])
 @login_required
-def new_form():
-    form = PostForm()
+def post_image(id):
+    '''
+    Creates a post image to the post you are adding
+    '''
+    post = Post.query.get_or_404(id)
+
+    if not post:
+        return { "errors": "Post not found"}, 404
+
+    form = PostImageForm()
+
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        new_post = Post()
-        form.populate_obj(new_post)
-        new_post.owner_id = current_user.id
-        db.session.add(new_post)
+        new_post_image = Post_Image()
+        form.populate_obj(new_post_image)
+        post.images.append(new_post_image)
+        db.session.add(new_post_image)
         db.session.commit()
-        return new_post.to_dict(), 201
+
+        return new_post_image.to_dict(), 200
 
     if form.errors:
         return {
-             "errors": form.errors
+            "errors": form.errors
         }, 400

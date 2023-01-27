@@ -8,16 +8,16 @@ const loadAll = posts => ({
     posts
 })
 
-const create = posts => ({
+const createPost = post => ({
     type: CREATE,
-    posts
+    post
 })
 
 
 
 
 export const allPosts = () => async dispatch => {
-    const response = await fetch(`/api/post`)
+    const response = await fetch(`/api/posts`)
     if(response.ok){
         const postsObj = await response.json()
         const posts = postsObj.Posts
@@ -26,18 +26,34 @@ export const allPosts = () => async dispatch => {
     }
 }
 
-export const createPost = (payload) => async dispatch => {
-    const {postPayload} = payload
-
-    const postResponse = await fetch('/api/posts', {
+export const postCreate = (post, community_name) => async dispatch => {
+    const response = await fetch(`/api/${community_name}/posts`, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(postPayload)
-    })
-    if(postResponse.ok){
-        const post = await postResponse.json()
-        dispatch(create(post))
-        return post
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(post)
+      })
+
+    if(response.ok){
+        const newPost = await response.json()
+        if(post.image){
+            const payload = {
+                "post_id": newPost.id,
+                "url": post.image
+            }
+            const imageResponse = await fetch(`/api/posts/${newPost.id}/images`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(payload)
+            })
+            if(imageResponse.ok){
+                const i = await imageResponse.json()
+                newPost.images = [i]
+                dispatch(createPost(newPost))
+                return newPost
+            }
+        }
+        dispatch(createPost(newPost))
+        return newPost
     }
 }
 
@@ -58,12 +74,11 @@ const postReducer = (state = initialState, action) => {
             newState.allPosts = post2
             return newState
         }
-        case CREATE: {
-            newState = {...state}
-            let newAllPosts = {...state.allPosts, [action.post.id]: action.post}
-            newState.allPosts = newAllPosts
+        case CREATE:
+            newState = {...state, allPosts: {...state.allPosts}, user: {...state.user}}
+            newState.user[action.post.id] = action.review
+            newState.allPosts[action.post.id] = action.post
             return newState
-        }
         default:
             return state
     }

@@ -48,7 +48,7 @@
 
 .post-image-container > img {
     object-fit: contain;
-    height: 500px;
+    height: 400px;
     width: 100%;
 
 }

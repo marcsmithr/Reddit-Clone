@@ -53,9 +53,7 @@ Do you have any suggestions ? does it seem like a good idea or should i just dit
         title="Why would you not want a Pokemon to evolve?",
         text='''
         Excuse me because I'm not a big Pokemon fan and I know basically nothing other than
-        the very basics, maybe slightly more than that, but not a lot.
-
-        I know there are certain things in some or all of the games that allow a Pokemon to not evolve,
+        the very basics, maybe slightly more than that, but not a lot. I know there are certain things in some or all of the games that allow a Pokemon to not evolve,
         and I think you can actually just tell a Pokemon not to in some of them, and they won't. But why
         would you want to do that? Don't you want the little guys to be as strong and leveled up as possible? Are there certain advantages to "young" versus "old" Pokemon?
         '''

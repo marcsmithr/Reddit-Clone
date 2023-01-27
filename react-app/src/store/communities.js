@@ -8,7 +8,7 @@ const loadAll = communities =>({
 })
 
 export const allCommunities = () => async dispatch => {
-    const response = await fetch(`/api/community`)
+    const response = await fetch(`/api/communities`)
 
     if(response.ok){
         const communitiesObj = await response.json()
