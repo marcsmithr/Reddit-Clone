@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { PostFormContext } from '../../context/PostFormContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { createPost } from '../../../store/posts'
@@ -7,21 +8,25 @@ import './index.css'
 function CreatePostForm(){
     const dispatch = useDispatch()
     const history = useHistory()
-    const [ title, setTitle ] = useState('')
-    const [ text, setText ] = useState('')
-    const [image, setImage] = useState('')
+    // const [ title, setTitle ] = useState('')
+    // const [ text, setText ] = useState('')
+    // const [image, setImage] = useState('')
     const [ errors, setErrors ] = useState([])
 
-    const updateTitle = (e) => setTitle(e.target.value)
-    const updateText = (e) => setText(e.target.value)
+    const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage} = useContext(PostFormContext)
+
+    const updateTitle = (e) => setPostTitle(e.target.value)
+    const updateText = (e) => setPostText(e.target.value)
+    const updateImage = (e) => setPostImage(e.target.value)
 
     const communities = Object.values(useSelector((state) => state.communities.allCommunities))
     console.log("COMMUNITIES IN CREATE POSTFORM", communities)
 
 
     const clearData = (newReview) => {
-        setTitle('')
-        setText('')
+        setPostTitle('')
+        setPostText('')
+        setPostImage('')
         setErrors([])
 
         history.push(`/`)
@@ -38,12 +43,12 @@ function CreatePostForm(){
         let payload;
 
         payload = {
-            title,
-            text
+            postTitle,
+            postText
         }
 
         let newPost = await dispatch(createPost(payload))
-        if(newPost) clearData()
+        if(newPost) history.push('/')
     }
 
     return(
@@ -70,22 +75,22 @@ function CreatePostForm(){
                     type={'text'}
                     placeholder={'Title'}
                     required
-                    value={title}
+                    value={postTitle}
                     onChange={updateTitle}
                 />
                 <textarea
                     className='postText'
                     type={'text'}
                     placeholder={'Text (optional)'}
-                    value={text}
+                    value={postText}
                     onChange={updateText}
                 />
                 <input
                     className="non-text-form-inputs"
                     type="url"
                     placeholder=" Image Url"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
+                    value={postImage}
+                    onChange={updateImage}
                 />
                 <button className='postSubmit'>Submit</button>
             </form>

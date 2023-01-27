@@ -11,13 +11,14 @@ class Post(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
-    community_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("communities.id")), nullable=False)
+    community_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("communities.id")))
     title = db.Column(db.String(200), nullable=False)
     text = db.Column(db.String(1000))
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), default=func.now())
 
     user = db.relationship('User', back_populates='post')
+    images = db.relationship('Post_Image', back_populates='post', cascade='all, delete-orphan')
 
 
     def to_dict(self):
@@ -31,6 +32,7 @@ class Post(db.Model):
                 community_image,
                 title,
                 text,
+                images,
                 created_at,
                 updated_at
             }
@@ -45,6 +47,7 @@ class Post(db.Model):
             "community_image": post_community.community_image,
             "title": self.title,
             "text": self.text,
+            "images": [image.to_dict() for image in self.images],
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }
@@ -57,7 +60,7 @@ class Post_Image(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("post.id")))
+    post_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("posts.id")))
     url = db.Column(db.String(500), nullable=False)
 
     post = relationship('Post', back_populates='images')
