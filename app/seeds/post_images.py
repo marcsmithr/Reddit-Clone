@@ -4,7 +4,7 @@ def seed_post_images():
 
     curseofzrahd1 = Post_Image(
         post_id = 1,
-        url = 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/03/strahd-dungeons-and-dragons-feature-header.jpg'
+        url = 'https://upload.wikimedia.org/wikipedia/en/a/a7/Strahd_von_Zarovich_in_Shadows_of_the_Vampire.jpg'
     )
 
     pokemonsters = Post_Image(

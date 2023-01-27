@@ -27,9 +27,9 @@ function PostCard({post}) {
                 <div className='post-title-container'>
                     <span> {post.text} </span>
                 </div>
-                {(images[0] == undefined)&&
+                {(images[0]) &&
                 <div className='post-image-container'>
-                    <img src={images[0].url}></img>
+                    <img src='https://upload.wikimedia.org/wikipedia/en/a/a7/Strahd_von_Zarovich_in_Shadows_of_the_Vampire.jpg'></img>
                 </div>
                 }
                 <div className='post-interaction-container'>
