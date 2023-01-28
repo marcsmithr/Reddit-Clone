@@ -61,7 +61,7 @@ function CreatePostForm(){
         }
     }
         let newPost = await dispatch(postCreate(payload, communityName))
-        if(newPost) history.push('/')
+        if(newPost) clearData()
     }
 
     function postButton() {
@@ -122,11 +122,17 @@ function CreatePostForm(){
                             className="non-text-form-inputs"
                             type="url"
                             placeholder=" Image Url"
+                            required
                             value={postImage}
                             onChange={updateImage}
                         />
                     }
+                    {(!communityName) &&
+                        <button className='postSubmit' disabled>Submit</button>
+                    }
+                    {(communityName) &&
                     <button className='postSubmit'>Submit</button>
+                    }
                 </form>
             </div>
         </div>
