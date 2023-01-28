@@ -22,6 +22,19 @@ def all_posts():
     return {"Posts": all_posts}
 
 
+@post_routes.route('/<int:id>')
+def one_post(id):
+    '''
+    Gets one post
+    '''
+    post = Post.query.get(id)
+
+    post_to_dict = post.to_dict()
+    if not post:
+        return {"errors": "Business not found"}, 404
+
+    return {"Post": post_to_dict}
+
 @post_routes.route('/<int:id>/images', methods=["POST"])
 @login_required
 def post_image(id):

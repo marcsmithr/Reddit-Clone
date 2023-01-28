@@ -1,4 +1,5 @@
-const LOAD = 'community/LOAD'
+const LOAD = 'communities/LOAD'
+const GET_ONE = 'communities/GET_ONE'
 
 
 
@@ -6,6 +7,25 @@ const loadAll = communities =>({
     type: LOAD,
     communities
 })
+
+const getOne = community => ({
+    type: GET_ONE,
+    community
+})
+
+
+
+export const getOneCommunity = (id) => async dispatch => {
+    const response = await fetch(`/api/communities/${id}`);
+    if (response.ok){
+        const communityObj = await response.json();
+        const community = communityObj.Community
+        dispatch(getOne(community))
+        return community
+    }
+    return response
+}
+
 
 export const allCommunities = () => async dispatch => {
     const response = await fetch(`/api/communities`)
@@ -31,6 +51,15 @@ const communityReducer = (state = initialState, action) => {
                 community2[community.id] = community
             });
             newState.allCommunities = community2
+            return newState
+        }
+        case GET_ONE: {
+            newState = {
+                ...state,
+                allCommunities: {...state.allCommunities},
+                singleCommunity: {}
+            }
+            newState.singleCommunity = action.community
             return newState
         }
         default:

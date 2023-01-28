@@ -1,18 +1,25 @@
 import React, {useEffect} from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { getOnePost } from '../../../store/posts'
+import { useDispatch, useSelector } from 'react-redux'
 import './index.css'
 
 function SinglePostPage() {
     const dispatch = useDispatch()
+    const { post_id } = useParams()
+    console.log('ASDFFFFF', post_id)
+
+    useEffect(()=> {
+        dispatch(getOnePost(post_id))
+    }, [dispatch])
+
+    const post= useSelector((state)=> state.posts.singlePost)
+    console.log("POST IN SINGLE POST", post)
     const user = post.user
     const images = post.images
-    const { postId } = useParams()
 
-    const post= useEffect(()=> {
-        dispatch()
-    })
 
-    if(!postId) return null
+    if(!post) return null
     return (
        <div className='post-card-container'>
 
@@ -57,10 +64,7 @@ function SinglePostPage() {
                     </div>
                 </div>
             </div>
-
-
         </div>
-
     )
 }
 

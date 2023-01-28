@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
 import SignUpForm from './components/auth/SignUpForm';
+import  {allPosts}  from './store/posts';
+import SinglePostPage from './components/AllPosts/SinglePostPage';
 import PostSplashPage from './components/AllPosts/PostSplashPage';
 import CommunityPostPage from './components/Communities/CommunityPostPage';
 import NavBar from './components/Navigation/NavBar';
@@ -10,7 +12,6 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
-import { allPosts } from './store/posts';
 import { allCommunities } from './store/communities';
 import AllPosts from './components/AllPosts';
 
@@ -56,6 +57,9 @@ function App() {
         <ProtectedRoute path='/s/:community_name/submit' exact={true} >
           <CommunityPostPage/>
         </ProtectedRoute>
+        <Route path='/s/:community_name/:post_id/comments' exact={true}>
+          <SinglePostPage/>
+        </Route>
       </Switch>
     </BrowserRouter>
   );

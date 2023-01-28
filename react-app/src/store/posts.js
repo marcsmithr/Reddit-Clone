@@ -1,11 +1,17 @@
 const LOAD = 'posts/LOAD'
 const CREATE = 'posts/CREATE'
+const GET_ONE = 'posts/GET_ONE'
 
 
 
 const loadAll = posts => ({
     type: LOAD,
     posts
+})
+
+const getOne = post => ({
+    type: GET_ONE,
+    post
 })
 
 const createPost = post => ({
@@ -15,6 +21,20 @@ const createPost = post => ({
 
 
 
+
+export const getOnePost = (id) => async dispatch => {
+    console.log("ID IN THUNK", id)
+    const response = await fetch(`/api/posts/${id}`);
+    console.log("RESPONSE IN THUNK", response)
+    if (response.ok){
+        const postObj = await response.json();
+        const post = postObj.Post
+        dispatch(getOne(post))
+        console.log("POST IN THUNK", post)
+        return post
+    }
+    return response
+}
 
 export const allPosts = () => async dispatch => {
     const response = await fetch(`/api/posts`)
@@ -27,8 +47,6 @@ export const allPosts = () => async dispatch => {
 }
 
 export const postCreate = (post, community_name) => async dispatch => {
-    console.log("COMMUNITY NAME", community_name)
-    console.log("POST IN THUNK", post)
     const response = await fetch(`/api/communities/${community_name}/posts`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
@@ -76,11 +94,22 @@ const postReducer = (state = initialState, action) => {
             newState.allPosts = post2
             return newState
         }
-        case CREATE:
-            newState = {...state, allPosts: {...state.allPosts}, user: {...state.user}}
+        case CREATE:{
+            newState = {...state, allPosts: {...state.allPosts}, singlePost:{...state.singlePost}, user: {...state.user}}
             newState.user[action.post.id] = action.review
             newState.allPosts[action.post.id] = action.post
             return newState
+        }
+        case GET_ONE: {
+            newState = {
+                ...state,
+                allPosts: {...state.allPosts},
+                singlePost: {},
+                user: {...state.user}
+            }
+            newState.singlePost = action.post
+            return newState
+        }
         default:
             return state
     }
