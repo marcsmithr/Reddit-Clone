@@ -22,8 +22,10 @@ def all_communities():
 
 
 
-@community_routes.route('/<int:community_name>')
+@community_routes.route('/<string:community_name>')
 def get_one(community_name):
+    '''Gets one community'''
+
     community = Community.query.get(community_name)
     community_to_dict = community.to_dict()
     if not community:
@@ -31,16 +33,31 @@ def get_one(community_name):
     return {"Community": community_to_dict}
 
 
-@community_routes.route('/<int:id>/posts', methods=['POST'])
+@community_routes.route('/<string:community_name>/posts', methods=['POST'])
 @login_required
-def new_form():
+def new_form(community_name):
+    '''
+    Creates a post for a community
+    '''
+    print('COMMUNITY NAME', community_name)
+    current_community = Community.query.filter_by(name= community_name).all()
+    print('CURRENT COMMUNITY-------', current_community)
+    community = current_community[0].to_dict()
+    print('COMMUNITY-------', community['id'])
     form = PostForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    print('FORM DATA', form.data)
+    print("HELLO FROM BACKEND--------------")
+
+    if not current_community:
+        return {"errors": "Community not found"}, 404
 
     if form.validate_on_submit():
         new_post = Post()
         form.populate_obj(new_post)
-        new_post.owner_id = current_user.id
+        new_post.user_id = current_user.id
+        new_post.community_id = community['id']
+        new_post.user = current_user
         db.session.add(new_post)
         db.session.commit()
         return new_post.to_dict(), 201

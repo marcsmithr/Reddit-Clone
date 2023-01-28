@@ -27,7 +27,9 @@ export const allPosts = () => async dispatch => {
 }
 
 export const postCreate = (post, community_name) => async dispatch => {
-    const response = await fetch(`/api/${community_name}/posts`, {
+    console.log("COMMUNITY NAME", community_name)
+    console.log("POST IN THUNK", post)
+    const response = await fetch(`/api/communities/${community_name}/posts`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(post)

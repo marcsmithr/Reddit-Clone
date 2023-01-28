@@ -26,7 +26,7 @@ function PostCard({post}) {
                     </div>
                 </div>
                 <div className='post-title-container'>
-                    <span> {post.text} </span>
+                    <span> {post.title} </span>
                 </div>
                 {(images[0]) &&
                 <div className='post-image-container'>
