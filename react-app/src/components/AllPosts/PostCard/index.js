@@ -33,6 +33,11 @@ function PostCard({post}) {
                     <img src={images[0].url}></img>
                 </div>
                 }
+                {(post.text)&&
+                <div className='post-card-text-container'>
+                    <span>{post.text}</span>
+                </div>
+                }
                 <div className='post-interaction-container'>
                     <div className='post-card-comment-container'>
                         <div className='post-card-comment-icon'>

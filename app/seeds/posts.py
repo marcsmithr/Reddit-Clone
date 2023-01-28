@@ -4,12 +4,7 @@ def seed_posts():
     curseofzrahd1 = Post(
         user_id=2,
         community_id=1,
-        title="What does your Zrahd sound like?",
-        text='''
-        Just wondering how other people interpret him/play him.
-        Mine cocky and has a rather pleasant but commanding American accent
-        (almost like some business dude). Sometimes a bit of a British accent slips in too.
-        '''
+        title="What does your Zrahd sound like?"
     )
 
     curseofzrahd2 = Post(
@@ -51,12 +46,6 @@ Do you have any suggestions ? does it seem like a good idea or should i just dit
         user_id=5,
         community_id=2,
         title="Why would you not want a Pokemon to evolve?",
-        text='''
-        Excuse me because I'm not a big Pokemon fan and I know basically nothing other than
-        the very basics, maybe slightly more than that, but not a lot. I know there are certain things in some or all of the games that allow a Pokemon to not evolve,
-        and I think you can actually just tell a Pokemon not to in some of them, and they won't. But why
-        would you want to do that? Don't you want the little guys to be as strong and leveled up as possible? Are there certain advantages to "young" versus "old" Pokemon?
-        '''
     )
 
     db.session.add(curseofzrahd1)
