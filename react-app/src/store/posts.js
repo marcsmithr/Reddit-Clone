@@ -1,5 +1,6 @@
 const LOAD = 'posts/LOAD'
 const CREATE = 'posts/CREATE'
+const UPDATE = 'posts/UPDATE'
 const GET_ONE = 'posts/GET_ONE'
 const DELETE = 'posts/DELETE'
 // const GET_SOME = 'posts/GET_SOME'
@@ -23,6 +24,11 @@ const getOne = post => ({
 
 const createPost = post => ({
     type: CREATE,
+    post
+})
+
+const update = post => ({
+    type: UPDATE,
     post
 })
 
@@ -104,6 +110,41 @@ export const postCreate = (post, community_name) => async dispatch => {
     }
 }
 
+export const postEdit = (post, post_id) => async dispatch => {
+    console.log('Post IN THE THUNK ', post)
+    const response = await fetch(`/api/posts/${post_id}`, {
+        method: 'PUT',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(post)
+    })
+    console.log("RESPONSE IN THE THUNK", response)
+
+    if(response.ok){
+        const newPost = await response.json()
+        // console.log("NEWPOST IN CREATE POST", newPost)
+        if(post.image){
+            const payload = {
+                "post_id": newPost.id,
+                "url": post.image
+            }
+            const imageResponse = await fetch(`/api/posts/${newPost.id}/image`, {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(payload)
+            })
+            if(imageResponse.ok){
+                const i = await imageResponse.json()
+                newPost.images[i.id] = [i]
+                dispatch(update(newPost))
+                return newPost
+            }
+        }
+        dispatch(createPost(newPost))
+        return newPost
+    }
+}
+
+
 export const deletePost = (id) => async dispatch => {
     console.log('id IN DELETE THUNK', id)
     const response = await fetch(`/api/posts/${id}`, {
@@ -150,6 +191,11 @@ const postReducer = (state = initialState, action) => {
                 user: {...state.user}
             }
             newState.singlePost = action.post
+            return newState
+        }
+        case UPDATE: {
+            newState = {...state, allPosts: {...state.allPosts} }
+            newState.allPosts[action.post.id] = action.post
             return newState
         }
         case DELETE: {

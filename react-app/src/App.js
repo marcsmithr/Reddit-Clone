@@ -62,9 +62,9 @@ function App() {
         <ProtectedRoute path='/s/:community_name/submit' exact={true} >
           <CommunityPostPage/>
         </ProtectedRoute>
-        {/* <ProtectedRoute>
+        <ProtectedRoute path='/s/:community_name/:post_id/edit'>
           <EditPostForm/>
-        </ProtectedRoute> */}
+        </ProtectedRoute>
         <Route path='/s/:community_name/:post_id/comments' exact={true}>
           <SinglePostPage/>
         </Route>

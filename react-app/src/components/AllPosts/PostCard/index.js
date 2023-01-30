@@ -7,7 +7,7 @@ function PostCard({post}) {
     // console.log("POST.USER", user)
     const images = post.images
     // console.log("IMAGES[0]-----------", images[0])
-    if(!post) return null
+    if(!post||!user) return null
     return (
         <>
             <Link className='post-card-link' to={`/s/${post.community_name}/${post.id}/comments`}>

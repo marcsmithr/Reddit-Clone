@@ -7,7 +7,7 @@ from app.models import Community, Post
 
 community_routes = Blueprint('community', __name__)
 
-
+#GET ALL COMMUNITIES
 @community_routes.route('')
 def all_communities():
     '''
@@ -22,6 +22,7 @@ def all_communities():
 
 
 
+#GETS ONE COMMUNITY
 @community_routes.route('/<string:community_name>')
 def get_one(community_name):
     '''Gets one community'''
@@ -33,6 +34,7 @@ def get_one(community_name):
     return {"Community": community_to_dict}
 
 
+#CREATES POST FOR COMMUNITY
 @community_routes.route('/<string:community_name>/posts', methods=['POST'])
 @login_required
 def new_form(community_name):

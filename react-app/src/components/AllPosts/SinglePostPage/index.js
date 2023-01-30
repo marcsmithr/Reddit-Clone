@@ -13,6 +13,7 @@ function SinglePostPage() {
 
     const currentUser = useSelector(state => state.session.user)
     const post= useSelector((state)=> state.posts.singlePost)
+    const community_name = post.community_name
 
     console.log("POST IN SINGLE POST", post)
     const user = post.user
@@ -25,6 +26,10 @@ function SinglePostPage() {
         await dispatch(authenticate())
         history.push('/')
         alert('Post Deleted')
+    }
+
+    const editPost = () => {
+        history.push(`/s/${community_name}/${post.id}/edit`)
     }
 
     useEffect(()=> {
@@ -74,6 +79,7 @@ function SinglePostPage() {
                     <div className='post-card-save-container'>
                         <div className='"owner-crud-container'>
                         <button onClick={removePost} className="owner-crud">Delete Post</button>
+                        <button onClick={editPost} className="owner-crud">Edit Post</button>
                         </div>
                     </div>
                 </div>

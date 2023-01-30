@@ -1,142 +1,127 @@
-// import React, { useContext, useEffect, useState } from 'react'
-// import { PostFormContext } from '../../context/PostFormContext'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { useHistory, useParams } from 'react-router-dom'
-// import { postCreate } from '../../../store/posts'
-// import './index.css'
+import React, { useContext, useEffect, useState } from 'react'
+import { PostFormContext } from '../../context/PostFormContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, useParams } from 'react-router-dom'
+import { allPosts, getOnePost, postCreate, postEdit } from '../../../store/posts'
+import './index.css'
 
-// function EditPostForm(){
-//     const dispatch = useDispatch()
-//     const history = useHistory()
-//     // const [ title, setTitle ] = useState('')
-//     // const [ text, setText ] = useState('')
-//     // const [image, setImage] = useState('')
-//     const [ errors, setErrors ] = useState([])
-//     const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage,
-//         communityName, setCommunityName, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
+function EditPostForm(){
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const [ title, setTitle ] = useState('')
+    const [ text, setText ] = useState('')
+    const [image, setImage] = useState('')
+    const [ errors, setErrors ] = useState([])
 
-//     const updateTitle = (e) => setPostTitle(e.target.value)
-//     const updateText = (e) => setPostText(e.target.value)
-//     const updateImage = (e) => setPostImage(e.target.value)
+    const updateTitle = (e) => setTitle(e.target.value)
+    const updateText = (e) => setText(e.target.value)
+    const updateImage = (e) => setImage(e.target.value)
 
-//     const {communityParam} = useParams()
+    const {communityName, post_id} = useParams()
 
-
-//     console.log("COMMUNITY", communityName)
-
-//     const communities = Object.values(useSelector((state) => state.communities.allCommunities))
-//     console.log("COMMUNITIES IN Edit POSTFORM", communities)
+    const {imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
+    const communities = Object.values(useSelector((state) => state.communities.allCommunities))
+    const post = useSelector((state)=> state.posts.singlePost)
+    const images = post.images
 
 
-//     const clearData = (newReview) => {
-//         setPostTitle('')
-//         setPostText('')
-//         setPostImage('')
-//         setErrors([])
+    const clearData = (newReview) => {
+        setTitle('')
+        setText('')
+        setImage('')
+        setImageForm(false)
+        setPostForm(true)
+        setErrors([])
 
-//         history.push(`/`)
-//     }
-
-//     const changeCommunity = (communityName) => {
-//         setCommunityName(communityName)
-//         history.push(`/s/${communityName}/submit`)
-//     }
+        history.push(`/`)
+    }
 
 
-//     const handleSubmit = async (e) => {
-//         e.preventDefault()
+    const handleSubmit = async (e) => {
+        e.preventDefault()
 
 
-//         let payload;
-//         if(postImage){
-//             payload= {
-//                 title: postTitle,
-//                 text: postText,
-//                 image: postImage
-//             }
-//         } else{
-//         payload = {
-//             title: postTitle,
-//             text: postText
-//         }
-//     }
-//         let newPost = await dispatch(postEdit(payload, communityName))
-//         if(newPost) clearData()
-//     }
+        let payload;
+        if(image){
+            console.log("hello")
+            payload= {
+                title,
+                image
+            }
+        } else{
+            console.log('hi')
+            payload = {
+            title,
+            text
+        }
+    }
+    let newPost = await dispatch(postEdit(payload, post_id))
 
-//     function postButton() {
-//         setImageForm(false)
-//         setPostForm(true)
-//     }
-
-//     function imageButton() {
-//         setPostForm(false)
-//         setImageForm(true)
-//     }
+    if(newPost) {
+        await dispatch(allPosts())
+        await dispatch(getOnePost(post.id))
+        clearData()}
+}
 
 
-//     return(
-//         <div className='post-page'>
-//             <select
-//             onChange={(e) => changeCommunity(e.target.value)}
-//             value={communityName}
-//             >
-//                     <option value="" disabled selected>Choose a Community</option>
-//                 {communities.map((community)=>(
-//                     <option
-//                     value={community.name}
-//                     key={community.id}
-//                     >{community.name}</option>
-//                 ))}
-//             </select>
-//             <div className='post-form-outer-container'>
-//                 <div className='form-type-buttons-container'>
-//                     <button onClick={postButton}>Post</button>
-//                     <button onClick={imageButton}>Image</button>
-//                 </div>
-//                 <form onSubmit={handleSubmit} className='postEditContainer'>
-//                 {errors.length !== 0 &&
-//                     <ul style={{"marginBottom":"0px"}}>
-//                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-//                     </ul>
-//                 }
-//                     <textarea
-//                         className='postTitle'
-//                         type={'text'}
-//                         placeholder={'Title'}
-//                         required
-//                         value={postTitle}
-//                         onChange={updateTitle}
-//                     />
-//                     { (postForm===true)&&
-//                     <textarea
-//                         className='postText'
-//                         type={'text'}
-//                         placeholder={'Text (optional)'}
-//                         value={postText}
-//                         onChange={updateText}
-//                     />
-//                     }
-//                     { (imageForm===true)&&
-//                         <input
-//                             className="non-text-form-inputs"
-//                             type="url"
-//                             placeholder=" Image Url"
-//                             required
-//                             value={postImage}
-//                             onChange={updateImage}
-//                         />
-//                     }
-//                     {(!communityName) &&
-//                         <button className='postSubmit' disabled>Submit</button>
-//                     }
-//                     {(communityName) &&
-//                     <button className='postSubmit'>Submit</button>
-//                     }
-//                 </form>
-//             </div>
-//         </div>
-//     )
-// }
+useEffect(()=> {
+    dispatch(getOnePost(post_id))
+    .then((res)=>{
+        setTitle(res.title)
+        if(res.text){
+            setText(res.text)
+        }
+        if(res.images){
+            setImage(res.images[0].url)
+        }
+    })
+}, [dispatch, post_id])
+console.log("HELLO THERE")
 
-// export default EditPostForm
+return(
+    <div className='post-page'>
+            <div className='post-form-outer-container'>
+                <div className='form-type-buttons-container'>
+                </div>
+                <form onSubmit={handleSubmit} className='postEditContainer'>
+                {errors.length !== 0 &&
+                    <ul style={{"marginBottom":"0px"}}>
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    </ul>
+                }
+                    <textarea
+                        className='postTitle'
+                        type={'text'}
+                        placeholder={'Title'}
+                        required
+                        value={title}
+                        onChange={updateTitle}
+                    />
+                    { (post.text)&&
+                    <textarea
+                        className='postText'
+                        type={'text'}
+                        placeholder={'Text (optional)'}
+                        value={text}
+                        onChange={updateText}
+                    />
+                    }
+                    { (images)&&
+                        <input
+                            className="non-text-form-inputs"
+                            type="url"
+                            placeholder=" Image Url"
+                            required
+                            value={image}
+                            onChange={updateImage}
+                        />
+                    }
+                    <button className='postSubmit'>Submit</button>
+
+                </form>
+            </div>
+        </div>
+    )
+}
+
+export default EditPostForm

@@ -2,10 +2,11 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import Post, Post_Image
 from ..models.db import db
-from ..forms import PostImageForm
+from ..forms import PostImageForm, PostForm
 
 post_routes = Blueprint('post', __name__)
 
+#GET ALL POSTS
 @post_routes.route('')
 def all_posts():
     '''
@@ -22,6 +23,7 @@ def all_posts():
     return {"Posts": all_posts}
 
 
+#GET ONE POST
 @post_routes.route('/<int:id>')
 def one_post(id):
     '''
@@ -31,10 +33,12 @@ def one_post(id):
 
     post_to_dict = post.to_dict()
     if not post:
-        return {"errors": "Business not found"}, 404
+        return {"errors": "Post not found"}, 404
 
     return {"Post": post_to_dict}
 
+
+#CREATE IMAGE
 @post_routes.route('/<int:id>/images', methods=["POST"])
 @login_required
 def post_image(id):
@@ -64,16 +68,65 @@ def post_image(id):
             "errors": form.errors
         }, 400
 
-
+#DELETE
 @post_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_item(id):
-    print("REQUEST IN BACKEND", request)
-    print("ID IN THE BACKEND-----", id)
     post = Post.query.get(id)
-    print("POST IN THE BACKEND-----", post)
     db.session.delete(post)
     db.session.commit()
     if not post:
         return {"errors": "Post not found"}, 404
     return {"message": "post deleted"}
+
+
+# UPDATE POST
+@post_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_post_by_id(id):
+    current_post = Post.query.get(id)
+    print ('HELLO FROM BACKEND--------')
+    if not current_post:
+        return {"errors": "Post not found"}, 404
+
+    form = PostForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print("FORM DATA IN EDIT-------", form.data)
+
+    if form.validate_on_submit():
+        form.populate_obj(current_post)
+
+        db.session.add(current_post)
+        db.session.commit()
+        return current_post.to_dict(), 201
+
+    if form.errors:
+        return {
+            "errors": form.errors
+        }, 400
+
+
+# UPDATE POST IMAGE
+@post_routes.route('/<int:id>/image', methods=['PUT'])
+@login_required
+def update_image_by_id(id):
+    current_image = Post_Image.query.get(id)
+    print ('HELLO FROM BACKEND--------')
+    if not current_image:
+        return {"errors": "Post not found"}, 404
+
+    form = PostImageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    print("FORM DATA IN EDIT-------", form.data)
+
+    if form.validate_on_submit():
+        form.populate_obj(current_image)
+
+        db.session.add(current_image)
+        db.session.commit()
+        return current_image.to_dict(), 201
+
+    if form.errors:
+        return {
+            "errors": form.errors
+        }, 400
