@@ -71,17 +71,17 @@ export const allPosts = () => async dispatch => {
 }
 
 export const postCreate = (post, community_name) => async dispatch => {
-    console.log("COMMUNITY NAME IN CREATE POST", community_name)
-    console.log("POST IN CREATE POST", post)
+    // console.log("COMMUNITY NAME IN CREATE POST", community_name)
+    // console.log("POST IN CREATE POST", post)
     const response = await fetch(`/api/communities/${community_name}/posts`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(post)
       })
-      console.log("RESPONSE IN CREATE POST", response)
+    //   console.log("RESPONSE IN CREATE POST", response)
     if(response.ok){
         const newPost = await response.json()
-        console.log("NEWPOST IN CREATE POST", newPost)
+        // console.log("NEWPOST IN CREATE POST", newPost)
         if(post.image){
             const payload = {
                 "post_id": newPost.id,
@@ -105,8 +105,8 @@ export const postCreate = (post, community_name) => async dispatch => {
 }
 
 export const deletePost = (id) => async dispatch => {
-    console.log('id IN THUNK', id)
-    const response = await fetch(`/api/post/${id}`, {
+    console.log('id IN DELETE THUNK', id)
+    const response = await fetch(`/api/posts/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
     })

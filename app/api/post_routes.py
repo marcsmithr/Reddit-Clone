@@ -68,6 +68,7 @@ def post_image(id):
 @post_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_item(id):
+    print("REQUEST IN BACKEND", request)
     print("ID IN THE BACKEND-----", id)
     post = Post.query.get(id)
     print("POST IN THE BACKEND-----", post)

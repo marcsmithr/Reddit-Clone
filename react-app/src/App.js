@@ -6,6 +6,7 @@ import SignUpForm from './components/auth/SignUpForm';
 import  {allPosts}  from './store/posts';
 import SinglePostPage from './components/AllPosts/SinglePostPage';
 import PostSplashPage from './components/AllPosts/PostSplashPage';
+import EditPostForm from './components/AllPosts/PostEditForm';
 import CommunityPage from './components/Communities';
 import CommunityPostPage from './components/Communities/CommunityPostPage';
 import NavBar from './components/Navigation/NavBar';
@@ -61,6 +62,9 @@ function App() {
         <ProtectedRoute path='/s/:community_name/submit' exact={true} >
           <CommunityPostPage/>
         </ProtectedRoute>
+        {/* <ProtectedRoute>
+          <EditPostForm/>
+        </ProtectedRoute> */}
         <Route path='/s/:community_name/:post_id/comments' exact={true}>
           <SinglePostPage/>
         </Route>
