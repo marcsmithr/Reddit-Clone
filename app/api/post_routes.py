@@ -63,3 +63,14 @@ def post_image(id):
         return {
             "errors": form.errors
         }, 400
+
+
+@post_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_item(id):
+    post = Post.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    if not post:
+        return {"errors": "Post not found"}, 404
+    return {"message": "post deleted"}

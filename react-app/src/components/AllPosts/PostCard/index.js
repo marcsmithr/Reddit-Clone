@@ -20,7 +20,9 @@ function PostCard({post}) {
                                     <img src={post.community_image} alt={`${post.community_name} community image`} />
                                 </div>
                                 <div className='post-card-community-header-container'>
+                                <Link className='post-card-link' to={`/s/${post.community_name}`}>
                                     <span className='post-card-community-header'>s/{post.community_name}</span>
+                                </Link>
                                 </div>
                                 <div className='post-card-user-container'>
                                     <span>· posted by u/{user.username}</span>

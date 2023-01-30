@@ -1,25 +1,37 @@
-import React, {useEffect} from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { getOnePost } from '../../../store/posts'
+import {useEffect} from 'react'
+import { useParams, Link, useHistory } from 'react-router-dom'
+import { authenticate } from '../../../store/session'
+import { allPosts, getOnePost, deletePost } from '../../../store/posts'
 import { useDispatch, useSelector } from 'react-redux'
 import './index.css'
 
 function SinglePostPage() {
+    const history = useHistory()
     const dispatch = useDispatch()
     const { post_id } = useParams()
-    console.log('ASDFFFFF', post_id)
+    console.log('POST ID', post_id)
 
-    useEffect(()=> {
-        dispatch(getOnePost(post_id))
-    }, [dispatch])
-
+    const currentUser = useSelector(state => state.session.user)
     const post= useSelector((state)=> state.posts.singlePost)
+
     console.log("POST IN SINGLE POST", post)
     const user = post.user
     const images = post.images
 
+    const removePost = async () => {
+        console.log("Post ID", post.id)
+        await dispatch(deletePost(post.id))
+        await dispatch(allPosts())
+        await dispatch(authenticate())
+        history.push('/')
+        alert('Post Deleted')
+    }
 
-    if(!post) return null
+    useEffect(()=> {
+        dispatch(getOnePost(post_id))
+    }, [dispatch, post_id])
+
+    if(!post||!user) return null
     return (
        <div className='post-card-container'>
 
@@ -60,7 +72,9 @@ function SinglePostPage() {
                         </div>
                     </div>
                     <div className='post-card-save-container'>
-
+                        <div className='"owner-crud-container'>
+                        <button onClick={removePost} className="owner-crud">Delete Post</button>
+                        </div>
                     </div>
                 </div>
             </div>

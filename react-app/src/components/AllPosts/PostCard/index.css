@@ -36,10 +36,14 @@
     margin: 5px
 }
 
-.post-card-community-header-container > span{
+.post-card-community-header{
     margin-right: 5px;
     font-size: 12px;
     font-weight: bold;
+}
+
+.post-card-community-header:hover{
+    text-decoration: underline;
 }
 
 .post-card-user-container > span{
