@@ -56,8 +56,8 @@ function CreatePostForm(){
             }
         } else{
         payload = {
-            postTitle,
-            postText
+            title: postTitle,
+            text: postText
         }
     }
         let newPost = await dispatch(postCreate(payload, communityName))

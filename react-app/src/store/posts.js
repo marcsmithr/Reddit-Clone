@@ -72,6 +72,7 @@ export const allPosts = () => async dispatch => {
 
 export const postCreate = (post, community_name) => async dispatch => {
     console.log("COMMUNITY NAME IN CREATE POST", community_name)
+    console.log("POST IN CREATE POST", post)
     const response = await fetch(`/api/communities/${community_name}/posts`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
