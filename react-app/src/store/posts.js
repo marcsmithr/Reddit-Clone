@@ -35,14 +35,11 @@ const remove = id => ({
 
 
 export const getOnePost = (id) => async dispatch => {
-    console.log("ID IN THUNK", id)
     const response = await fetch(`/api/posts/${id}`);
-    console.log("RESPONSE IN THUNK", response)
     if (response.ok){
         const postObj = await response.json();
         const post = postObj.Post
         dispatch(getOne(post))
-        console.log("POST IN THUNK", post)
         return post
     }
     return response
@@ -74,14 +71,16 @@ export const allPosts = () => async dispatch => {
 }
 
 export const postCreate = (post, community_name) => async dispatch => {
+    console.log("COMMUNITY NAME IN CREATE POST", community_name)
     const response = await fetch(`/api/communities/${community_name}/posts`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(post)
       })
-
+      console.log("RESPONSE IN CREATE POST", response)
     if(response.ok){
         const newPost = await response.json()
+        console.log("NEWPOST IN CREATE POST", newPost)
         if(post.image){
             const payload = {
                 "post_id": newPost.id,

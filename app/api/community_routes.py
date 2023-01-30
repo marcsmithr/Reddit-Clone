@@ -63,6 +63,7 @@ def new_form(community_name):
         return new_post.to_dict(), 201
 
     if form.errors:
+        print("FORM ERRORS", form.errors)
         return {
              "errors": form.errors
         }, 400
