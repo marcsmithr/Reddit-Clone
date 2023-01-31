@@ -9,7 +9,7 @@ import PostSplashPage from './components/AllPosts/PostSplashPage';
 import EditPostForm from './components/AllPosts/PostEditForm';
 import CommunityPage from './components/Communities';
 import CommunityPostPage from './components/Communities/CommunityPostPage';
-import NavBar from './components/Navigation/NavBar';
+import Navigation from './components/Navigation/index';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
@@ -36,7 +36,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <Navigation />
       <Switch>
         <Route exact path='/login'>
           <LoginForm />

@@ -1,0 +1,192 @@
+.nav-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px;
+    padding: 10px 30px 0px;
+    height: 50px;
+    background-color: #f9f9f9;
+    border-bottom: lightgray .5px solid;
+}
+
+#upper-navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.nav-buttons-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 265px
+}
+
+.upper-left-home {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.upper-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.nav-button-container {
+    display: flex;
+    flex-direction: row;
+}
+.nav-button {
+    width: 125px
+}
+
+.upper-right-buttons {
+    display: flex;
+}
+
+.login-button {
+    width: 100%;
+    height: 35px;
+    background-color: #0079D3;
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color;
+}
+
+.login-button:hover{
+        background-color: #0078d3d5;
+}
+
+.signup-button {
+    width: 100%;
+    height: 35px;
+    background-color: white;
+    border: #0079D3 solid 1px;
+    border-radius: 30px;
+    color: #0079D3;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.signup-button:hover {
+    background-color:whitesmoke;
+}
+
+
+
+
+a:link {
+    text-decoration: none;
+}
+
+.hidden {
+    display: none
+}
+
+.profile-dropdown {
+    position: absolute;
+    margin-top: 10px;
+}
+
+.dropdown-menu {
+    align-items: center;
+    align-content: flex-end;
+    background-color: white;
+    border-radius: .25rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 0.25rem;
+    height: auto;
+    list-style: none;
+    padding: 0.75rem;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.25rem);
+}
+
+.dropdown-menu .user-info {
+    display: flex;
+    flex: column;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 30px;
+}
+
+.profile-button {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    border-style: hidden;
+    background-color: transparent;
+}
+
+.fa-user-circle {
+    font-size: 40px;
+    color: gray;
+    height: 20px;
+    width: 20px;
+
+}
+
+.for-business-container {
+    margin-right: 1.4em;
+
+}
+
+#for-business {
+    text-decoration: none;
+    color: rgba(45, 46, 47, 1);
+    font-weight: bold;
+    width: 100%;
+    font-size: 16px;
+    padding: 0.7em;
+    border-radius: 0.5em;
+}
+
+#for-business:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.bookmark-button {
+    transition: all 0.3s ease-in-out;
+    background: none;
+    border: none;
+    width: 80px;
+    height: 30px;
+}
+
+.loginSign-button1 {
+    background: none;
+    border: none;
+    width: 80px;
+    height: 30px;
+}
+
+.bookmark-button:hover {
+    background-color: #dcd7d7;
+    border-radius: 5px;
+}
+
+.loginSign-button1:hover {
+    background-color: #dcd7d7;
+    border-radius: 5px;
+}
+
+.web-icon{
+    height: 35px;
+}
