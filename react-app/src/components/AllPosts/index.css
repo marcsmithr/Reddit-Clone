@@ -1,0 +1,8 @@
+.splash-page-body{
+    display: grid;
+    grid-template-columns: 5fr 2fr;
+}
+
+.recent-activities{
+    margin-right: 25px;
+}
