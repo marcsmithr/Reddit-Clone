@@ -1,0 +1,19 @@
+.code-languages-container{
+    margin-top: 20px;
+    width: 325px;
+    height: 270px;
+    position: sticky;
+    top: 10px;
+    background-color: white;
+    color:#6C6868;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows:  1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.code-lang{
+    margin-left: 10px;
+    margin-right: 10px;
+}

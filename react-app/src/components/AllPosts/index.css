@@ -1,13 +1,43 @@
-.splash-page-body{
+.home-page-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.home-page-content{
     display: grid;
     grid-template-columns: 5fr 2fr;
     justify-items: end;
 }
 
-.recent-activities{
+.left-main-home-div{
     display: flex;
     flex-direction: column;
     align-items:center;
     margin-right: 25px;
     width: 700px
+}
+
+.left-main-home-header{
+    margin-top: 20px;
+    background-color: white;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-main-home-header > h1 {
+    margin: 0px;
+    font-size: 25px;
+}
+
+.right-main-home-div{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
 }
