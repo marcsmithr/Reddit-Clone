@@ -67,11 +67,13 @@ function CreatePostForm(){
     function postButton() {
         setImageForm(false)
         setPostForm(true)
+        setPostImage('')
     }
 
     function imageButton() {
         setPostForm(false)
         setImageForm(true)
+        setPostText('')
     }
 
 
@@ -80,6 +82,7 @@ function CreatePostForm(){
             <select
             onChange={(e) => changeCommunity(e.target.value)}
             value={communityName}
+            className="post-community-select"
             >
                     <option value="" disabled selected>Choose a Community</option>
                 {communities.map((community)=>(
@@ -91,49 +94,62 @@ function CreatePostForm(){
             </select>
             <div className='post-form-outer-container'>
                 <div className='form-type-buttons-container'>
-                    <button onClick={postButton}>Post</button>
-                    <button onClick={imageButton}>Image</button>
+                    {}
+                    <button onClick={postButton} className="form-type-button">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                         Post
+                    </button>
+                    <button onClick={imageButton} className="form-type-button">
+                        <i class="fa-regular fa-image"></i>
+                        Image
+                    </button>
                 </div>
-                <form onSubmit={handleSubmit} className='postCreateContainer'>
-                {errors.length !== 0 &&
-                    <ul style={{"marginBottom":"0px"}}>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                    </ul>
-                }
-                    <textarea
-                        className='postTitle'
-                        type={'text'}
-                        placeholder={'Title'}
-                        required
-                        value={postTitle}
-                        onChange={updateTitle}
-                    />
-                    { (postForm===true)&&
-                    <textarea
-                        className='postText'
-                        type={'text'}
-                        placeholder={'Text (optional)'}
-                        value={postText}
-                        onChange={updateText}
-                    />
+                <div className='post-create-container'>
+                    <form onSubmit={handleSubmit} className='post-form'>
+                    {errors.length !== 0 &&
+                        <ul style={{"marginBottom":"0px"}}>
+                        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                        </ul>
                     }
-                    { (imageForm===true)&&
-                        <input
-                            className="non-text-form-inputs"
-                            type="url"
-                            placeholder=" Image Url"
+                        <textarea
+                            className='post-title'
+                            type={'text'}
+                            placeholder={'Title'}
                             required
-                            value={postImage}
-                            onChange={updateImage}
+                            value={postTitle}
+                            onChange={updateTitle}
+                            maxLength="200"
                         />
-                    }
-                    {(!communityName) &&
-                        <button className='postSubmit' disabled>Submit</button>
-                    }
-                    {(communityName) &&
-                    <button className='postSubmit'>Submit</button>
-                    }
-                </form>
+                        { (postForm===true)&&
+                        <textarea
+                            className='post-text'
+                            type={'text'}
+                            placeholder={'Text (optional)'}
+                            value={postText}
+                            onChange={updateText}
+                            maxLength="1000"
+                        />
+                        }
+                        { (imageForm===true)&&
+                            <input
+                                className="post-image"
+                                type="url"
+                                placeholder=" Image Url (optional)"
+                                required
+                                value={postImage}
+                                onChange={updateImage}
+                            />
+                        }
+                        <div className='post-submit-container'>
+                            {(!communityName || !postTitle) &&
+                                <button className='post-submit' disabled>Post</button>
+                            }
+                            {(communityName && postTitle) &&
+                            <button className='post-submit'>Post</button>
+                            }
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     )

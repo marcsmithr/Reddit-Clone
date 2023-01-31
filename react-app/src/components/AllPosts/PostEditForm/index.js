@@ -80,45 +80,56 @@ console.log("HELLO THERE")
 
 return(
     <div className='post-page'>
+            <div className='post-page-header'>
+                <h1>Edit post</h1>
+            </div>
             <div className='post-form-outer-container'>
-                <div className='form-type-buttons-container'>
+                <div className='post-create-container'>
+                    <form onSubmit={handleSubmit} className='post-edit-form'>
+                    {errors.length !== 0 &&
+                        <ul style={{"marginBottom":"0px"}}>
+                        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                        </ul>
+                    }
+                        <textarea
+                                className='post-title'
+                                type={'text'}
+                                placeholder={'Title'}
+                                required
+                                value={title}
+                                onChange={updateTitle}
+                                maxLength="200"
+                            />
+                        { (post.text)&&
+                        <textarea
+                                className='post-text'
+                                type={'text'}
+                                placeholder={'Text (optional)'}
+                                value={text}
+                                onChange={updateText}
+                                maxLength="1000"
+                            />
+                        }
+                        { (images)&&
+                            <input
+                                    className="post-image"
+                                    type="url"
+                                    placeholder=" Image Url (optional)"
+                                    required
+                                    value={image}
+                                    onChange={updateImage}
+                                />
+                        }
+                        <div className='post-submit-container'>
+                                {(!title) &&
+                                    <button className='post-submit' disabled>Post</button>
+                                }
+                                {(title) &&
+                                <button className='post-submit'>Post</button>
+                                }
+                            </div>
+                    </form>
                 </div>
-                <form onSubmit={handleSubmit} className='postEditContainer'>
-                {errors.length !== 0 &&
-                    <ul style={{"marginBottom":"0px"}}>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                    </ul>
-                }
-                    <textarea
-                        className='postTitle'
-                        type={'text'}
-                        placeholder={'Title'}
-                        required
-                        value={title}
-                        onChange={updateTitle}
-                    />
-                    { (post.text)&&
-                    <textarea
-                        className='postText'
-                        type={'text'}
-                        placeholder={'Text (optional)'}
-                        value={text}
-                        onChange={updateText}
-                    />
-                    }
-                    { (images)&&
-                        <input
-                            className="non-text-form-inputs"
-                            type="url"
-                            placeholder=" Image Url"
-                            required
-                            value={image}
-                            onChange={updateImage}
-                        />
-                    }
-                    <button className='postSubmit'>Submit</button>
-
-                </form>
             </div>
         </div>
     )
