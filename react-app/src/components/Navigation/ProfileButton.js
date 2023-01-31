@@ -34,11 +34,11 @@ function ProfileButton({ user }) {
     history.push('/')
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = "create-community-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <div>
-      <button className="profile-button" onClick={openMenu}>
+      <button className="create-community-button" onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -47,7 +47,6 @@ function ProfileButton({ user }) {
             <li className='user-info'>{user.username}</li>
             <li className='user-info'>{user.email}</li>
             <li>
-              <button className="loginSign-button1" onClick={logout}>Log Out</button>
             </li>
           </>
         </div>

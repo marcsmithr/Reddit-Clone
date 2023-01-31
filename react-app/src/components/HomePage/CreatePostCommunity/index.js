@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import CreateCommunityButton from '../../Communities/CreateCommunity'
 import './index.css'
 
 function CreatePostCommunity(){
@@ -29,7 +30,8 @@ function CreatePostCommunity(){
                 <Link to='/submit'>
                 <button className='create-post-button'>Create Post</button>
                 </Link>
-                <button className='create-community-button'>Create Community</button>
+                {/* <button className='create-community-button'>Create Community</button> */}
+                <CreateCommunityButton/>
             </div>
         </div>
     )
