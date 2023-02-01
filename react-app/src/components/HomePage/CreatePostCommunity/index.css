@@ -4,6 +4,7 @@
     width: 325px;
     height: 270px;
     background-color: white;
+    /* z-index: -1; */
 }
 
 .create-p-c-header{

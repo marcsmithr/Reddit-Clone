@@ -31,13 +31,13 @@ function CreateCommunityButton({ user }) {
     setShowMenu(false);
   };
 
-//   useEffect(() => {
-//     if (!showMenu) return;
+  // useEffect(() => {
+  //   if (!showMenu) return;
 
-//     document.addEventListener('click', closeMenu);
+  //   document.addEventListener('click', closeMenu);
 
-//     return () => document.removeEventListener("click", closeMenu);
-//   }, [showMenu]);
+  //   return () => document.removeEventListener("click", closeMenu);
+  // }, [showMenu]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,11 +54,13 @@ function CreateCommunityButton({ user }) {
     if(communityBanner){
       payload.community_banner = communityBanner
     }
+    let newCommunityName
     dispatch(createCommunity(payload))
-    history.push('/')
+    .then((res)=> newCommunityName = res.name)
+    .then(() => history.push(`/s/${newCommunityName}`))
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  let ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
     <div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
+import CommunityDetails from './CommunityDetails';
 import PostCard from '../AllPosts/PostCard';
 import { getOneCommunity } from '../../store/communities';
 import './index.css'
@@ -8,9 +9,12 @@ import './index.css'
 const CommunityPage = () => {
     const dispatch = useDispatch()
     const {community_name} = useParams()
+
     const allPosts = Object.values(useSelector((state) => state.posts.allPosts))
     const communityPosts = allPosts.filter((post) => community_name === post.community_name)
     const community = useSelector((state)=> state.communities.singleCommunity)
+    const currentUser = useSelector(state => state.session.user)
+
     console.log("COMMUNITY", community)
     useEffect(()=>{
         dispatch(getOneCommunity(community_name))
@@ -33,10 +37,20 @@ const CommunityPage = () => {
                             <h1>{community.title}</h1>
                         </div>
                         <div className='community-page-name'>
-
+                            <span>s/{community.name}</span>
                         </div>
 
                     </div>
+                        {(currentUser.id===community.owner_id)&&
+                    <div className='community-page-owner-crud'>
+                        <div>
+                            <button>Edit Community</button>
+                        </div>
+                        <div>
+                            <button>Delete Community</button>
+                        </div>
+                    </div>
+                        }
                 </div>
             </div>
             <div className='community-page-body'>
@@ -51,8 +65,8 @@ const CommunityPage = () => {
                         ))}
                     </div>
                 </div>
-                <div className='right-main-home-div'>
-                    placeholder
+                <div className='right-main-community-div'>
+                    <CommunityDetails community={community}/>
                 </div>
             </div>
         </div>
