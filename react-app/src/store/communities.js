@@ -1,4 +1,5 @@
 const LOAD = 'communities/LOAD'
+const CREATE = 'communities/CREATE'
 const GET_ONE = 'communities/GET_ONE'
 
 
@@ -6,6 +7,11 @@ const GET_ONE = 'communities/GET_ONE'
 const loadAll = communities =>({
     type: LOAD,
     communities
+})
+
+const create = community => ({
+    type: CREATE,
+    community
 })
 
 const getOne = community => ({
@@ -38,6 +44,22 @@ export const allCommunities = () => async dispatch => {
     }
 }
 
+export const createCommunity = (newCommunity) => async dispatch =>{
+    const response = await fetch(`/api/communities/new`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newCommunity)
+    })
+    if(response.ok){
+        const createdCommunity = await response.json()
+        await dispatch(create(createdCommunity))
+        return createdCommunity
+    }
+    return response
+}
+
 
 const initialState = {allCommunities: {}, singleCommunity: {}}
 
@@ -60,6 +82,12 @@ const communityReducer = (state = initialState, action) => {
                 singleCommunity: {}
             }
             newState.singleCommunity = action.community
+            return newState
+        }
+        case CREATE: {
+            newState = {...state}
+            let newAllCommunities = {...state.allCommunities, [action.community.id]: action.community}
+            newState.allCommunities = newAllCommunities
             return newState
         }
         default:

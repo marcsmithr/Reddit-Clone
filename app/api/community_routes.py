@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from ..forms import PostForm
+from ..forms import PostForm, CommunityForm
 from ..models.db import db
 from app.models import Community, Post
 
@@ -63,6 +63,32 @@ def new_form(community_name):
         db.session.add(new_post)
         db.session.commit()
         return new_post.to_dict(), 201
+
+    if form.errors:
+        print("FORM ERRORS", form.errors)
+        return {
+             "errors": form.errors
+        }, 400
+
+
+#Creates a New Community
+@community_routes.route('/new', methods=['POST'])
+@login_required
+def create_community():
+    '''
+    Creates a community
+    '''
+    form = CommunityForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+
+    if form.validate_on_submit():
+        new_community = Community()
+        form.populate_obj(new_community)
+        new_community.owner_id = current_user.id
+        db.session.add(new_community)
+        db.session.commit()
+        return new_community.to_dict(), 201
 
     if form.errors:
         print("FORM ERRORS", form.errors)
