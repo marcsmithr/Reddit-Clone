@@ -10,7 +10,7 @@ def seed_communities():
             running the Curse of Zrahd module for TTRPG 5e.
             ''',
         community_image="https://styles.redditmedia.com/t5_9pba2/styles/communityIcon_ja80q99vvn371.png?width=256&v=enabled&s=f1cc849147485d9297d23eda5e3daafc0652e734",
-        community_banner="https://preview.redd.it/nrph1l59wp371.png?width=640&crop=smart&auto=webp&s=5c6a091371ca814cfb2db16530aae2947e9d71cb"
+        community_banner="https://preview.redd.it/9wx5mi5o50051.jpg?auto=webp&s=b96fca9eba8e18526019677aba408809aa5e21a5"
         )
 
     pokemonsters = Community(

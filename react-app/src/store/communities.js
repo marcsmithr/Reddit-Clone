@@ -21,11 +21,15 @@ const getOne = community => ({
 
 
 
-export const getOneCommunity = (id) => async dispatch => {
-    const response = await fetch(`/api/communities/${id}`);
+export const getOneCommunity = (community_name) => async dispatch => {
+    console.log("COMMUNITY NAME IN THUNK", community_name)
+    const response = await fetch(`/api/communities/${community_name}`);
+    console.log("RESPONSE IN THUNK", response)
     if (response.ok){
         const communityObj = await response.json();
+        console.log("COMMUNITYOBJ IN THUNK", communityObj)
         const community = communityObj.Community
+        console.log("COMMUNITY IN THUNK", community)
         dispatch(getOne(community))
         return community
     }

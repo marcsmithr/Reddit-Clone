@@ -26,9 +26,11 @@ def all_communities():
 @community_routes.route('/<string:community_name>')
 def get_one(community_name):
     '''Gets one community'''
-
-    community = Community.query.get(community_name)
+    print ('COMM NAME IN BACKEND', community_name)
+    community = Community.query.filter_by(name= community_name).first()
+    print ('COMMUNITY IN BACKEND--------', community)
     community_to_dict = community.to_dict()
+    print ('COMMUNITY to dict IN BACKEND--------', community_to_dict)
     if not community:
         return {"errors": "Subseddit not found"}, 404
     return {"Community": community_to_dict}
