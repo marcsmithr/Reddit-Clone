@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
 import CommunityDetails from './CommunityDetails';
+import DeleteCommunityButton from './DeleteCommunity';
+import EditCommunityButton from './EditCommunity';
 import PostCard from '../AllPosts/PostCard';
 import { getOneCommunity } from '../../store/communities';
 import './index.css'
@@ -41,16 +43,16 @@ const CommunityPage = () => {
                         </div>
 
                     </div>
-                        {(currentUser.id===community.owner_id)&&
+                        {currentUser && currentUser.id===community.owner_id&&(
                     <div className='community-page-owner-crud'>
                         <div>
-                            <button>Edit Community</button>
+                            <EditCommunityButton community={community}/>
                         </div>
                         <div>
-                            <button>Delete Community</button>
+                            <DeleteCommunityButton community={community}/>
                         </div>
                     </div>
-                        }
+                        )}
                 </div>
             </div>
             <div className='community-page-body'>

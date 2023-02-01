@@ -2,7 +2,7 @@ from app.models import db, environment, SCHEMA, Community
 
 def seed_communities():
     curseofzrahd = Community(
-        owner_id =1,
+        owner_id =2,
         name='CurseofZrahd',
         title='Curse of Zrahd',
         description='''

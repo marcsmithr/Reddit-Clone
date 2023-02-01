@@ -1,0 +1,63 @@
+.hidden {
+    display: none
+}
+
+.profile-dropdown {
+    position: absolute;
+    margin-top: 10px;
+}
+
+.dropdown-menu {
+    align-items: center;
+    align-content: flex-end;
+    background-color: white;
+    border-radius: .25rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 0.25rem;
+    height: auto;
+    list-style: none;
+    padding: 0.75rem;
+    position: absolute;
+    right: 50%;
+    top: calc(100% + 0.25rem);
+}
+
+
+.profile-button {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    border-style: hidden;
+    background-color: transparent;
+}
+
+.edit-community-modal{
+    height:425px;
+    width: 450px;
+    z-index: 50;
+}
+
+.edit-community-modal-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-community-modal-header > h2 {
+    font-size: 18px;
+    margin: 3px
+}
+
+.community-form-header > h2 {
+    font-size: 18px;
+    margin: 3px
+}
+
+.edit-community-form{
+    display: flex;
+    flex-direction: column;
+}

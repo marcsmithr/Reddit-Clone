@@ -1,6 +1,8 @@
 const LOAD = 'communities/LOAD'
 const CREATE = 'communities/CREATE'
+const UPDATE = 'communities/UPDATE'
 const GET_ONE = 'communities/GET_ONE'
+const DELETE = 'communities/DELETE'
 
 
 
@@ -19,17 +21,26 @@ const getOne = community => ({
     community
 })
 
+const update = community => ({
+    type: UPDATE,
+    community
+})
+
+const remove = id => ({
+    type: DELETE,
+    id
+})
 
 
 export const getOneCommunity = (community_name) => async dispatch => {
-    console.log("COMMUNITY NAME IN THUNK", community_name)
+    // console.log("COMMUNITY NAME IN THUNK", community_name)
     const response = await fetch(`/api/communities/${community_name}`);
-    console.log("RESPONSE IN THUNK", response)
+    // console.log("RESPONSE IN THUNK", response)
     if (response.ok){
         const communityObj = await response.json();
-        console.log("COMMUNITYOBJ IN THUNK", communityObj)
+        // console.log("COMMUNITYOBJ IN THUNK", communityObj)
         const community = communityObj.Community
-        console.log("COMMUNITY IN THUNK", community)
+        // console.log("COMMUNITY IN THUNK", community)
         dispatch(getOne(community))
         return community
     }
@@ -64,6 +75,38 @@ export const createCommunity = (newCommunity) => async dispatch =>{
     return response
 }
 
+export const updateCommunity = (community, id) => async dispatch => {
+    console.log('COMMUNITY IN TEH HTUNKJ ', community)
+
+    const response = await fetch(`/api/communities/${id}`, {
+        method: 'PUT',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(community)
+    })
+
+    if(response.ok){
+        await response.json()
+        dispatch(update(community))
+        return community
+    }
+}
+
+export const deleteCommunity = (id) => async dispatch => {
+    // console.log('PARAMS IN THUNK', params)
+    const response = await fetch(`/api/communities/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    if (response.ok){
+        const deletedCommunity = await response.json()
+        dispatch(remove(id))
+        return deletedCommunity
+    }
+    return response
+}
+
+
+
 
 const initialState = {allCommunities: {}, singleCommunity: {}}
 
@@ -92,6 +135,16 @@ const communityReducer = (state = initialState, action) => {
             newState = {...state}
             let newAllCommunities = {...state.allCommunities, [action.community.id]: action.community}
             newState.allCommunities = newAllCommunities
+            return newState
+        }
+        case UPDATE: {
+            newState = {...state, allCommunities: {...state.allCommunities} }
+            newState.allCommunities[action.community.id] = action.community
+            return newState
+        }
+        case DELETE: {
+            newState = {...state, allCommunities: {...state.allCommunities}, singleCommunity:{...state.singleCommunity}}
+            delete newState.allCommunities[action.id]
             return newState
         }
         default:

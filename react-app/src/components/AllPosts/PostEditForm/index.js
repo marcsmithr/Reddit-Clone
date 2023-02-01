@@ -76,7 +76,6 @@ useEffect(()=> {
         }
     })
 }, [dispatch, post_id])
-console.log("HELLO THERE")
 
 return(
     <div className='post-page'>

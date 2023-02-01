@@ -97,3 +97,37 @@ def create_community():
         return {
              "errors": form.errors
         }, 400
+
+
+#EDIT A COMMUNITY
+@community_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_community_by_id(id):
+    current_community = Community.query.get(id)
+
+    if not current_community:
+        return {"errors": "Community not found"}, 404
+
+    form = CommunityForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        form.populate_obj(current_community)
+        db.session.add(current_community)
+        db.session.commit()
+        return current_community.to_dict(), 201
+
+    if form.errors:
+        return {
+            "errors": form.errors
+        }, 400
+
+@community_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_item(id):
+    community= Community.query.get(id)
+    db.session.delete(community)
+    db.session.commit()
+    if not community:
+        return {"errors": "Community not found"}, 404
+    return {"message": "Community deleted"}
