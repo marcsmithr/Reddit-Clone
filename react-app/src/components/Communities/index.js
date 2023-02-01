@@ -20,18 +20,23 @@ const CommunityPage = () => {
     if(!community) return null
     return(
         <div className='community-page'>
-            <div className='community-header'>
-                <div className='community-banner'>
+            <div className='community-page-header'>
+                <div className='community-page-banner'>
                     <img src={community.community_banner} alt="community banner"></img>
                 </div>
-                <div>
+                <div className='community-page-lower-header'>
+                    <div className='community-icon'>
+                        <img src={community.community_image} alt="community icon"></img>
+                    </div>
+                    <div className='community-page-name-container'>
+                        <div className='community-page-title'>
+                            <h1>{community.title}</h1>
+                        </div>
+                        <div className='community-page-name'>
 
-                </div>
-                <div>
-                    
-                </div>
-                <div>
+                        </div>
 
+                    </div>
                 </div>
             </div>
             <div className='community-page-body'>
