@@ -35,7 +35,7 @@
 }
 
 .create-community-modal{
-    height:425px;
+    height:450px;
     width: 450px;
     z-index: 50;
 }
@@ -79,9 +79,10 @@
     height:30px;
 }
 
-.create-community-form > span {
+.form-input > span {
     color: grey;
     font-size: 10px;
+    margin-left: 15px;
 }
 
 .create-form-child{
@@ -99,4 +100,12 @@
 
 .fa-x {
     cursor: pointer;
+}
+
+#community-form-title{
+    margin-top: 0px;
+}
+
+#create-community-span{
+    height: 5px;
 }

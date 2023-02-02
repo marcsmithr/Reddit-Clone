@@ -14,6 +14,7 @@ function LoginSignupModal(){
       };
 
       const closeMenu = () => {
+        
         setShowMenu(false);
       };
 

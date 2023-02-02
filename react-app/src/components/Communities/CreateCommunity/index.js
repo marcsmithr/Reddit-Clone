@@ -97,6 +97,7 @@ function CreateCommunityButton({ user }) {
                 </div>
                 <div>
                     <form className="create-community-form" onSubmit={handleSubmit}>
+                      <div className="form-input">
                         <input
                         className='community-form-name margin-t-10 create-form-child'
                         type={'text'}
@@ -106,9 +107,13 @@ function CreateCommunityButton({ user }) {
                         onChange={updateCommunityName}
                         maxLength="25"
                         />
-                        <span className="margin-t-10">{`${25-communityName.length} characters remaining`}</span>
+                        </div>
+                        <div className="form-input" id="create-community-span">
+                          <span className="margin-t-10">{`${25-communityName.length} characters remaining`}</span>
+                        </div>
+                        <div className="form-input">
                         <input
-                        className='community-form-title margin-t-10 create-form-child'
+                        id='community-form-title'
                         type={'text'}
                         placeholder={'Community Title'}
                         required
@@ -116,30 +121,36 @@ function CreateCommunityButton({ user }) {
                         onChange={updateCommunityTitle}
                         maxLength="50"
                         />
-
+                        </div>
+                        <div className="form-textarea">
                         <textarea
-                            className='community-form-description margin-t-10 create-form-child'
+                            className='community-form-description create-form-child'
                             type={'text'}
                             placeholder={'Decription'}
                             value={description}
                             onChange={updateDescription}
-                            maxLength="150"
+                            maxLength="500"
                             required
                         />
+                        </div>
+                        <div className="form-input">
                         <input
-                        className='community-form-image margin-t-10 create-form-child'
+                        className='community-form-image create-form-child'
                         type='url'
                         placeholder={'Community Icon (optional)'}
                         value={communityImage}
                         onChange={updateCommunityImage}
                         />
+                        </div>
+                        <div className="form-input">
                         <input
-                        className='community-form-banner margin-t-10 create-form-child'
+                        className='community-form-banner create-form-child'
                         type='url'
                         placeholder={'Community Banner (optional)'}
                         value={communityBanner}
                         onChange={updateCommunityBanner}
                         />
+                        </div>
                         <div className='community-submit-container margin-t-10'>
                             {(!communityName) &&
                                 <button className='post-submit' disabled>Create</button>

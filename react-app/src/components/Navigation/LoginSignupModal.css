@@ -41,6 +41,8 @@
 
 }
 
+
+
 .login-input-container > input{
     width: 100%;
     height: 100%;
@@ -87,4 +89,18 @@
     border: none;
     color: white;
     background-color: #ff4400d9;
+}
+
+.characters-remaining{
+    margin-top: 5px;
+    margin-left: 25px;
+}
+
+.characters-remaining > span{
+    color: grey;
+    font-size: 10px;
+}
+
+#signup-email{
+    margin-top: 3px;
 }

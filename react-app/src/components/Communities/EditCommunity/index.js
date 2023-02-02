@@ -88,48 +88,57 @@ function EditCommunityButton({ community }) {
                 </div>
                 <div>
                     <form className="edit-community-form" onSubmit={handleSubmit}>
-                        <input
-                        className='community-form-name'
-                        type={'text'}
-                        placeholder={'Community Name'}
-                        required
-                        value={communityName}
-                        onChange={updateCommunityName}
-                        maxLength="25"
-                        />
-                        <input
-                        className='community-form-title'
-                        type={'text'}
-                        placeholder={'Community Title'}
-                        required
-                        value={communityTitle}
-                        onChange={updateCommunityTitle}
-                        maxLength="50"
-                        />
-
-                        <textarea
-                            className='community-form-description'
-                            type={'text'}
-                            placeholder={'Decription'}
-                            value={description}
-                            onChange={updateDescription}
-                            maxLength="1000"
-                            required
-                        />
-                        <input
-                        className='community-form-image'
-                        type='url'
-                        placeholder={'Community Icon (optional)'}
-                        value={communityImage}
-                        onChange={updateCommunityImage}
-                        />
-                        <input
-                        className='community-form-banner'
-                        type='url'
-                        placeholder={'Community Banner (optional)'}
-                        value={communityBanner}
-                        onChange={updateCommunityBanner}
-                        />
+                        <div className="form-input">
+                          <input
+                          className='community-form-name'
+                          type={'text'}
+                          placeholder={'Community Name'}
+                          required
+                          value={communityName}
+                          onChange={updateCommunityName}
+                          maxLength="25"
+                          />
+                        </div>
+                        <div className="form-input">
+                          <input
+                          className='community-form-title'
+                          type={'text'}
+                          placeholder={'Community Title'}
+                          required
+                          value={communityTitle}
+                          onChange={updateCommunityTitle}
+                          maxLength="50"
+                          />
+                        </div>
+                        <div className="form-textarea">
+                          <textarea
+                              className='community-form-description'
+                              type={'text'}
+                              placeholder={'Decription'}
+                              value={description}
+                              onChange={updateDescription}
+                              maxLength="500"
+                              required
+                          />
+                        </div>
+                        <div className="form-input">
+                          <input
+                          className='community-form-image'
+                          type='url'
+                          placeholder={'Community Icon (optional)'}
+                          value={communityImage}
+                          onChange={updateCommunityImage}
+                          />
+                        </div>
+                        <div className="form-input">
+                          <input
+                          className='community-form-banner'
+                          type='url'
+                          placeholder={'Community Banner (optional)'}
+                          value={communityBanner}
+                          onChange={updateCommunityBanner}
+                          />
+                        </div>
                         <div className='community-submit-container'>
                             {(!communityName) &&
                                 <button className='post-submit' disabled>Edit</button>

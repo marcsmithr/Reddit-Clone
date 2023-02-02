@@ -11,7 +11,7 @@
 
 .community-page-details-container{
     background-color: white;
-    
+
     width: 300px;
 }
 
@@ -21,6 +21,7 @@
 
 .community-page-details-decription > span {
     font-size: 13px;
+    word-wrap: break-word;
     color: rgba(0, 0, 0, 0.719);
 }
 
