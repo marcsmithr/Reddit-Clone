@@ -16,8 +16,10 @@ function SinglePostPage() {
     const community_name = post.community_name
 
     console.log("POST IN SINGLE POST", post)
+    console.log("CURRENT USER", currentUser)
     const user = post.user
     const images = post.images
+
 
     const removePost = async () => {
         console.log("Post ID", post.id)
@@ -48,7 +50,9 @@ function SinglePostPage() {
                         <img src={post.community_image} alt={`${post.community_name} community image`} />
                     </div>
                     <div className='post-card-community-header-container'>
-                        <span className='post-card-community-header'>s/{post.community_name}</span>
+                         <Link className='post-card-link' to={`/s/${post.community_name}`}>
+                            <span className='post-card-community-header'>s/{post.community_name}</span>
+                        </Link>
                     </div>
                     <div className='post-card-user-container'>
                         <span>· posted by u/{user.username}</span>
@@ -68,19 +72,21 @@ function SinglePostPage() {
                 </div>
                 }
                 <div className='post-interaction-container'>
-                    <div className='post-card-comment-container'>
+                    {/* <div className='post-card-comment-container'>
                         <div className='post-card-comment-icon'>
                             <i className="fa-regular fa-comment"></i>
                         </div>
                         <div className='post-card-comment-text'>
                             <span>Comments</span>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='post-card-save-container'>
+                        {currentUser && currentUser.id===user.id &&
                         <div className='"owner-crud-container'>
                         <button onClick={removePost} className="owner-crud">Delete Post</button>
                         <button onClick={editPost} className="owner-crud">Edit Post</button>
                         </div>
+                        }
                     </div>
                 </div>
             </div>

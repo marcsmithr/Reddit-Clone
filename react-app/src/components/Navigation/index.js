@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import LoginSignupModal from './LoginSignupModal';
 // import * as sessionActions from '../../store/session';
 // import { useHistory } from "react-router-dom";
 import ProfileButton from './ProfileButton';
@@ -30,19 +31,15 @@ const Navigation = ({ loaded }) => {
             {/* <NavLink exact to="/writeareview">WRITE A REVIEW</NavLink> */}
             {!sessionUser && (
             <div className='nav-buttons-container'>
-              <div className='nav-button'>
+              {/* <div className='nav-button'>
                 <NavLink exact to="/sign-up">
                   <button className='signup-button'>
                     Sign Up
                   </button>
                 </NavLink>
-                </div>
+                </div> */}
               <div className='nav-button'>
-                <NavLink exact to="/login">
-                  <button className='login-button'>
-                  Log In
-                  </button>
-                </NavLink>
+                  <LoginSignupModal/>
               </div>
               </div>
             )}

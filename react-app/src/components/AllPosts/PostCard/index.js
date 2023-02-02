@@ -42,14 +42,14 @@ function PostCard({post}) {
                             </div>
                             }
                             <div className='post-interaction-container'>
-                                <div className='post-card-comment-container'>
+                                {/* <div className='post-card-comment-container'>
                                     <div className='post-card-comment-icon'>
                                         <i className="fa-regular fa-comment"></i>
                                     </div>
                                     <div className='post-card-comment-text'>
                                         <span>Comments</span>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className='post-card-save-container'>
 
                                 </div>

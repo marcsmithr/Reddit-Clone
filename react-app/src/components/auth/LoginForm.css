@@ -1,4 +1,4 @@
-.hidden {
+/* .hidden {
     display: none
 }
 
@@ -34,7 +34,7 @@
     background-color: transparent;
 }
 
-.create-community-modal{
+.login-modal{
     height:425px;
     width: 450px;
     z-index: 50;
@@ -55,7 +55,7 @@
     font-weight: 400;
 }
 
-.community-form-header{
+.login-form-header{
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -99,4 +99,4 @@
 
 .fa-x {
     cursor: pointer;
-}
+} */

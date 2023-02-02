@@ -22,7 +22,6 @@ function EditPostForm(){
     const {imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
     const communities = Object.values(useSelector((state) => state.communities.allCommunities))
     const post = useSelector((state)=> state.posts.singlePost)
-    const images = post.images
 
 
     const clearData = (newReview) => {
@@ -71,7 +70,7 @@ useEffect(()=> {
         if(res.text){
             setText(res.text)
         }
-        if(res.images){
+        if(!res.text){
             setImage(res.images[0].url)
         }
     })
@@ -109,7 +108,7 @@ return(
                                 maxLength="1000"
                             />
                         }
-                        { (images)&&
+                        { !post.text && (
                             <input
                                     className="post-image"
                                     type="url"
@@ -118,7 +117,8 @@ return(
                                     value={image}
                                     onChange={updateImage}
                                 />
-                        }
+
+                            )}
                         <div className='post-submit-container'>
                                 {(!title) &&
                                     <button className='post-submit' disabled>Post</button>

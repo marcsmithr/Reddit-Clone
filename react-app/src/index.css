@@ -6,6 +6,10 @@ body{
     margin: -1px
 }
 
+textarea{
+    resize: none;
+}
+
 
 
 /* .post-card-likes{
