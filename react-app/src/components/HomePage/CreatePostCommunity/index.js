@@ -1,11 +1,18 @@
+import { useContext } from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import CreateCommunityButton from '../../Communities/CreateCommunity'
+import { LoginModalContext } from '../../context/LoginModalContext'
 import './index.css'
 
 function CreatePostCommunity(){
+    const currentUser = useSelector((state)=> state.session.user)
+    const { showMenu, setShowMenu} = useContext(LoginModalContext)
 
-
-
+    const openMenu = () => {
+        if (showMenu) return;
+        setShowMenu(true);
+    };
 
 
     return (
@@ -27,10 +34,14 @@ function CreatePostCommunity(){
                 </div>
             </div>
             <div className="create-p-c-button-container">
+                {currentUser &&
                 <Link to='/submit'>
                 <button className='create-post-button'>Create Post</button>
                 </Link>
-                {/* <button className='create-community-button'>Create Community</button> */}
+                }
+                {!currentUser &&
+                <button className='create-post-button' onClick={openMenu}>Create Post</button>
+                }
                 <CreateCommunityButton/>
             </div>
         </div>

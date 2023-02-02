@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../../store/session'
 import { NavLink, useHistory } from "react-router-dom";
-import { getOneCommunity, updateCommunity } from "../../../store/communities";
+import { getOneCommunity, updateCommunity, allCommunities } from "../../../store/communities";
 import './index.css'
 
 function EditCommunityButton({ community }) {
@@ -14,7 +14,6 @@ function EditCommunityButton({ community }) {
   const [communityImage, setCommunityImage] = useState(community.community_image)
   const [communityBanner, setCommunityBanner] = useState(community.community_banner)
   const ulRef = useRef();
-  const history = useHistory()
 
   const updateCommunityName = (e) => setCommunityName(e.target.value)
   const updateCommunityTitle = (e) => setCommunityTitle(e.target.value)
@@ -42,6 +41,7 @@ function EditCommunityButton({ community }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     let payload = {
+      id:community.id,
       name: communityName,
       title: communityTitle,
       description: description,
@@ -56,6 +56,7 @@ function EditCommunityButton({ community }) {
     }
     dispatch(updateCommunity(payload, community.id))
     .then((res)=> community = res)
+    .then(()=> dispatch(allCommunities()))
     .then(() => dispatch(getOneCommunity(community.name)))
     .then(closeMenu())
   };
@@ -68,9 +69,11 @@ function EditCommunityButton({ community }) {
 
   return (
     <div>
-      <button className="edit-community-button" onClick={openMenu}>
-        Edit Community
-      </button>
+      <div className="community-owner-crud">
+        <button className="edit-community-button" onClick={openMenu}>
+          Edit Community
+        </button>
+      </div>
       <ul className={ulClassName} ref={ulRef}>
         <div className="dropdown-menu">
             <div className="edit-community-modal">

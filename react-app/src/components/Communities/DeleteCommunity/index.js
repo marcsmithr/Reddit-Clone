@@ -36,9 +36,11 @@ function DeleteCommunityButton({ community }) {
 
   return (
     <div>
-      <button className="edit-community-button" onClick={openMenu}>
-        Delete Community
-      </button>
+      <div className="community-owner-crud">
+        <button className="delete-community-button" onClick={openMenu}>
+          Delete Community
+        </button>
+      </div>
       <ul className={ulClassName} ref={ulRef}>
         <div className="dropdown-menu">
             <div className="edit-community-modal">
