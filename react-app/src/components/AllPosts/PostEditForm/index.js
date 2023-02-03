@@ -19,7 +19,7 @@ function EditPostForm(){
 
     const {communityName, post_id} = useParams()
 
-    const {imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
+    const { setPostText, postImage, setPostImage, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
     const communities = Object.values(useSelector((state) => state.communities.allCommunities))
     const post = useSelector((state)=> state.posts.singlePost)
 
@@ -32,7 +32,19 @@ function EditPostForm(){
         setPostForm(true)
         setErrors([])
 
-        history.push(`/`)
+        history.push(`/s/${communityName}/${post.id}/comments`)
+    }
+
+    function postButton() {
+        setImageForm(false)
+        setPostForm(true)
+        setImage('')
+    }
+
+    function imageButton() {
+        setPostForm(false)
+        setImageForm(true)
+        setText('')
     }
 
 
@@ -78,10 +90,23 @@ useEffect(()=> {
 
 return(
     <div className='post-page'>
+        <div className='post-page-body'>
+            <div className='post-page-content'>
+                <div className='post-page-left-div'></div>
             <div className='post-page-header'>
                 <h1>Edit post</h1>
             </div>
             <div className='post-form-outer-container'>
+            <div className='form-type-buttons-container'>
+                    <button onClick={postButton} className="form-type-button">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                         Post
+                    </button>
+                    <button onClick={imageButton} className="form-type-button">
+                        <i class="fa-regular fa-image"></i>
+                        Image
+                    </button>
+                </div>
                 <div className='post-create-container'>
                     <form onSubmit={handleSubmit} className='post-edit-form'>
                     {errors.length !== 0 &&
@@ -98,7 +123,7 @@ return(
                                 onChange={updateTitle}
                                 maxLength="200"
                             />
-                        { (post.text)&&
+                        { (postForm===true)&&
                         <textarea
                                 className='post-text'
                                 type={'text'}
@@ -108,7 +133,7 @@ return(
                                 maxLength="1000"
                             />
                         }
-                        { !post.text && (
+                        { imageForm===true && (
                             <input
                                     className="post-image"
                                     type="url"
@@ -130,6 +155,10 @@ return(
                     </form>
                 </div>
             </div>
+        </div>
+        </div>
+                <div className='post-page-right-div'>
+                </div>
         </div>
     )
 }

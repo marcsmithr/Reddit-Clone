@@ -83,8 +83,12 @@ function SinglePostPage() {
                     <div className='post-card-save-container'>
                         {currentUser && currentUser.id===user.id &&
                         <div className='"owner-crud-container'>
-                        <button onClick={removePost} className="owner-crud">Delete Post</button>
-                        <button onClick={editPost} className="owner-crud">Edit Post</button>
+                            <div className='post-crud-button'>
+                                <button onClick={editPost} className="delete-community-button">Edit Post</button>
+                            </div>
+                            <div className='post-crud-button'>
+                                <button onClick={removePost} className="edit-community-button">Delete Post</button>
+                            </div>
                         </div>
                         }
                     </div>

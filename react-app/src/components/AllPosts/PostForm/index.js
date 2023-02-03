@@ -94,7 +94,6 @@ function CreatePostForm(){
             </select>
             <div className='post-form-outer-container'>
                 <div className='form-type-buttons-container'>
-                    {}
                     <button onClick={postButton} className="form-type-button">
                         <i class="fa-regular fa-pen-to-square"></i>
                          Post
