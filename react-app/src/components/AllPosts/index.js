@@ -1,16 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useSelector } from 'react-redux'
 import PostCard from './PostCard'
 import CreatePostCommunity from '../HomePage/CreatePostCommunity'
 import CodeLangBox from '../HomePage/CodeLangBox'
+import { PostFormContext } from '../context/PostFormContext'
 
 import './index.css'
 
 function AllPosts() {
 
+    const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage,
+        communityName, setCommunityName, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
+
     const allPosts = useSelector(state => state.posts.allPosts)
 
+    function postButton() {
+        setImageForm(false)
+        setPostForm(true)
+        setPostImage('')
+    }
+
     const posts = Object.values(allPosts)
+    const clearData = () => {
+        setPostTitle('')
+        setPostText('')
+        setPostImage('')
+        setCommunityName('')
+        postButton()
+    }
+
+    useEffect(()=>{
+        clearData()
+    })
 
     return (
         <div className='home-page-body'>

@@ -74,6 +74,9 @@ function EditPostForm(){
         clearData()}
 }
 
+ let postButtonId =  postForm ? "active" : ""
+let imageButtonId = imageForm ? "active" : ""
+
 
 useEffect(()=> {
     dispatch(getOnePost(post_id))
@@ -98,14 +101,14 @@ return(
             </div>
             <div className='post-form-outer-container'>
             <div className='form-type-buttons-container'>
-                    <button onClick={postButton} className="form-type-button">
+                <button onClick={postButton} className="form-type-button" id={postButtonId}>
                         <i class="fa-regular fa-pen-to-square"></i>
                          Post
-                    </button>
-                    <button onClick={imageButton} className="form-type-button">
+                </button>
+                <button  onClick={imageButton} className="form-type-button" id={imageButtonId}>
                         <i class="fa-regular fa-image"></i>
                         Image
-                    </button>
+                </button>
                 </div>
                 <div className='post-create-container'>
                     <form onSubmit={handleSubmit} className='post-edit-form'>
