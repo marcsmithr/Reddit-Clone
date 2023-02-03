@@ -1,6 +1,6 @@
 import {useEffect} from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
-import { authenticate } from '../../../store/session'
+import { authenticate, getUser } from '../../../store/session'
 import { allPosts, getOnePost, deletePost } from '../../../store/posts'
 import { useDispatch, useSelector } from 'react-redux'
 import './index.css'

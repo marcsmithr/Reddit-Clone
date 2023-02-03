@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { postCreate } from '../../../store/posts'
 import './index.css'
+import { getUser } from '../../../store/session'
 
 function CreatePostForm(){
     const dispatch = useDispatch()

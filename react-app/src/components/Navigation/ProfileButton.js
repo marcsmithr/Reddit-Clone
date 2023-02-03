@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
-import { NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import './index.css'
 
 function ProfileButton({ user }) {
@@ -46,8 +46,9 @@ function ProfileButton({ user }) {
           <>
             <li className='user-info'>{user.username}</li>
             <li className='user-info'>{user.email}</li>
-            <li>
-            </li>
+            <Link to={`/users/${user.username}`}>
+              <li className="profile-link">Profile</li>
+            </Link>
             <li>
               <button className="loginSign-button1" onClick={logout}>Log Out</button>
             </li>

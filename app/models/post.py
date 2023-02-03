@@ -41,7 +41,37 @@ class Post(db.Model):
         post_community = Community.query.get(self.community_id)
         return {
             "id": self.id,
-            "user": self.user.to_dict_info(),
+            "user": self.user.to_dict(),
+            "community_id": self.community_id,
+            "community_name": post_community.name,
+            "community_image": post_community.community_image,
+            "title": self.title,
+            "text": self.text,
+            "images": [image.to_dict() for image in self.images],
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }
+
+    def to_dict_no_user(self):
+        """
+            Returns a dict representing Post
+            {
+                id,
+                user_id,
+                community_id,
+                community_name,
+                community_image,
+                title,
+                text,
+                images,
+                created_at,
+                updated_at
+            }
+        """
+
+        post_community = Community.query.get(self.community_id)
+        return {
+            "id": self.id,
             "community_id": self.community_id,
             "community_name": post_community.name,
             "community_image": post_community.community_image,

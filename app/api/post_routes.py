@@ -13,11 +13,11 @@ def all_posts():
     Queries for all of the posts in the database
     '''
     posts = Post.query.all()
-    # print("POSTS IN BACKEND", posts)
+    print("POSTS IN BACKEND", posts)
     all_posts = []
     for post in posts:
         all_posts.append(post.to_dict())
-        # print("Hi there")
+        print("Hi there")
         # print({"Reviews": all_reviews})
     # return {"Reviews": [review.to_dict() for review in reviews]}
     return {"Posts": all_posts}

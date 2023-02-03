@@ -50,6 +50,8 @@ class User(db.Model, UserMixin):
             username,
             email,
             profile_pic,
+            posts,
+            communities
         }
         '''
         return {
@@ -57,5 +59,6 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email,
             "profile_pic": self.profile_pic,
-
+            "posts": [p.to_dict_no_user() for p in self.post ],
+            "communities": [c.to_dict() for c in self.community]
         }

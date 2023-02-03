@@ -67,7 +67,9 @@ export const getOnePost = (id) => async dispatch => {
 // }
 
 export const allPosts = () => async dispatch => {
+    console.log("HELLO FROM ALLPOSTS")
     const response = await fetch(`/api/posts`)
+    console.log("RESPONSE FROM ALLPOSTS", response)
     if(response.ok){
         const postsObj = await response.json()
         const posts = postsObj.Posts

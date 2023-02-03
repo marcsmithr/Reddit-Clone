@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { allPosts, getOnePost, postCreate, postEdit } from '../../../store/posts'
 import './index.css'
+import { getUser } from '../../../store/session'
 
 function EditPostForm(){
     const dispatch = useDispatch()
@@ -70,6 +71,7 @@ function EditPostForm(){
 
     if(newPost) {
         await dispatch(allPosts())
+        await dispatch(getUser(post.user.id))
         await dispatch(getOnePost(post.id))
         clearData()}
 }

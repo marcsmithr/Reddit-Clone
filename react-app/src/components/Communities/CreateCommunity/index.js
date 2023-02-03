@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { LoginModalContext } from "../../context/LoginModalContext";
 import { createCommunity } from "../../../store/communities";
 import './index.css'
+import { getUser } from "../../../store/session";
 
 function CreateCommunityButton({ user }) {
   const dispatch = useDispatch();

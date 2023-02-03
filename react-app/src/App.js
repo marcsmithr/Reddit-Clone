@@ -11,8 +11,8 @@ import CommunityPage from './components/Communities';
 import CommunityPostPage from './components/Communities/CommunityPostPage';
 import Navigation from './components/Navigation/index';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import UsersList from './components/UsersList';
-import User from './components/User';
+import UsersList from './components/User/UsersList';
+import User from './components/User/User';
 import { authenticate } from './store/session';
 import { allCommunities } from './store/communities';
 import AllPosts from './components/AllPosts';
@@ -24,6 +24,7 @@ function App() {
   useEffect(() => {
     (async() => {
       await dispatch(authenticate());
+      console.log("BEFORE ALLPOSTS")
       await dispatch(allPosts())
       await dispatch(allCommunities())
       setLoaded(true);
@@ -44,10 +45,10 @@ function App() {
         <Route path='/sign-up' exact={true}>
           <SignUpForm />
         </Route>
-        <ProtectedRoute path='/users' exact={true} >
+        {/* <ProtectedRoute path='/users' exact={true} >
           <UsersList/>
-        </ProtectedRoute>
-        <ProtectedRoute exact path='/users/:userId' >
+        </ProtectedRoute> */}
+        <ProtectedRoute exact path='/users/:username' >
           <User />
         </ProtectedRoute>
         <Route path='/' exact={true} >
