@@ -40,6 +40,11 @@ function SinglePostPage() {
 
     if(!post||!user) return null
     return (
+        <div className='post-page-body'>
+            <div className='post-page-content'>
+                <div className='left-main-post-div'>
+                    <div className='left-main-post-header'>
+                        </div>
        <div className='post-card-container'>
 
             <div className='post-card-likes'>
@@ -92,6 +97,11 @@ function SinglePostPage() {
                         </div>
                         }
                     </div>
+                </div>
+            </div>
+        </div>
+        </div>
+                <div className='right-main-post-div'>
                 </div>
             </div>
         </div>
