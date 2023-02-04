@@ -1,0 +1,54 @@
+.community-info-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.community-card-link{
+    text-decoration: none;
+    color: inherit
+
+}
+
+.community-card-container{
+    background-color: white;
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: 1fr 18fr;
+    border: .4px solid rgba(128, 128, 128, .5);
+    border-radius: 4px;
+    height:40px;
+    width: 80px;
+}
+
+.community-card-community-image-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    height: 20px;
+}
+
+.community-card-community-image-container > img{
+    height: 22px;
+    border-radius: 100%;
+}
+
+.community-card-likes{
+    padding:0 20px;
+    background-color: #F2F6F7;
+}
+
+.community-card-main{
+    margin: 5px
+}
+
+.community-card-community-header{
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.community-card-community-header:hover{
+    text-decoration: underline;
+}

@@ -104,6 +104,7 @@ export const getUser = (username) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
+    console.log("DATA IN GETUSER", data)
     dispatch(setUser(data))
     return null;
   } else if (response.status < 500) {
