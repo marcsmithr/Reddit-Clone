@@ -55,7 +55,7 @@ function CreateCommunityButton({ user }) {
       name: communityName,
       title: communityTitle,
       description: communityTitle,
-      community_image: 'https://www.iconpacks.net/icons/2/free-reddit-logo-icon-2436-thumb.png',
+      community_image: 'https://i.ibb.co/qxFYBgf/subseddit-icon.png',
       community_banner: 'https://i.redd.it/sgf6r5easbh31.jpg'
     }
     if(communityImage){

@@ -23,14 +23,14 @@ function CreatePostCommunity(){
             <div className="create-p-c-content-container">
                 <div className='home-header'>
                     <div className='create-p-c-icon'>
-                        <img src='https://assets.stickpng.com/images/580b57fcd9996e24bc43c531.png' ></img>
+                        <img src='https://i.ibb.co/pLg64fC/seddit-mascot.png' ></img>
                     </div>
                     <div className='home-span'>
                     <span>Home</span>
                     </div>
                 </div>
                 <div className='create-p-c-body'>
-                    <span>Your personal Reddit frontpage. Come here to check in with your favorite communities.</span>
+                    <span>Your personal Seddit frontpage. Come here to check in with your favorite communities.</span>
                 </div>
             </div>
             <div className="create-p-c-button-container">

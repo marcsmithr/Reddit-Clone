@@ -24,7 +24,7 @@ const Navigation = ({ loaded }) => {
       <div id='upper-navigation'>
         <div className='upper-left-home'>
           <NavLink exact to="/">
-            <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Reddit_logo_new.svg/2560px-Reddit_logo_new.svg.png' className='web-icon' alt='icon'/>
+            <img src='https://i.ibb.co/DDLZKSK/seddit-logo.png' className='web-icon' alt='icon'/>
           </NavLink>
         </div>
         <div className='upper-right-buttons'>
