@@ -1,12 +1,9 @@
 import React from "react"
 import PostCard from "../../AllPosts/PostCard"
 
-function UserPosts({user}){
-    console.log('POSTS IN USERS', user)
-    const posts = user.posts
-    console.log('ACTUALLY POSTS IN USERS', posts)
+function UserPosts({posts}){
 
-    if(!posts){
+    if(posts.length===0){
         return(
             <h1>
                 {'No Posts Yet :('}
@@ -15,14 +12,10 @@ function UserPosts({user}){
     }
     return(
         <>
-        <div className='left-main-home-header'>
-            <h1 id='recent-act-text'> Recent Activity </h1>
-        </div>
         <div className='posts-container'>
             {posts.map((post) => (
                 <PostCard
-                 post={post}
-                 user={user}
+                post={post}
                 key={post.id}
                             />
                 ))}

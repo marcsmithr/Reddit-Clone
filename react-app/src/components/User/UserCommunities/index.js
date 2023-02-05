@@ -6,6 +6,14 @@ function UserCommunities({user}){
     const communities = Object.values(user.communities)
     console.log("COMMUNITIES IN USERCOMM", communities)
 
+
+    if(communities.length===0){
+        return(
+            <h1>
+                {'No Communities Yet :('}
+            </h1>
+        )
+    }
     return(
         <div className="community-cards-container">
             {communities.map((community)=>(

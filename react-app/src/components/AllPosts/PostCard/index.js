@@ -2,10 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './index.css'
 
-function PostCard({post, user}) {
-    if(!user){
+function PostCard({post}) {
     const user = post.user
-    }
+
     // console.log("POST.USER", user)
     const images = post.images
     // console.log("IMAGES[0]-----------", images[0])
