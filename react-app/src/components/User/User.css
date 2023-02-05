@@ -1,3 +1,24 @@
+.user-nav{
+display: flex;
+flex-direction: row;
+align-items: center;
+background-color: white;
+height: 35px;
+padding-top: 1px;
+}
+
+.user-nav-buttons > button{
+    background-color: white;
+    height:35px;
+    border:none;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.649);
+}
+
+.community-cards-container{
+    margin-left: 10px;
+}
+
 .community-info-container{
     display: flex;
     flex-direction: row;
@@ -17,7 +38,12 @@
     border: .4px solid rgba(128, 128, 128, .5);
     border-radius: 4px;
     height: 30px;
-    width: 80px;
+    width: 225px;
+    transition: border;
+}
+
+.community-card-container:hover{
+    border: 1px solid rgba(128, 128, 128, 0.88);
 }
 
 .community-card-community-image-container{
@@ -30,15 +56,12 @@
 }
 
 .community-card-community-image-container > img{
+    padding-top: 10px;
     height: 22px;
     border-radius: 100%;
     object-fit: contain;
 }
 
-.community-card-likes{
-    padding:0 20px;
-    background-color: #F2F6F7;
-}
 
 .community-card-main{
     margin: 5px
@@ -50,6 +73,11 @@
     font-weight: bold;
 }
 
-.community-card-community-header:hover{
-    text-decoration: underline;
+
+.community-card-community-header-container{
+    padding-top: 3px;
+}
+
+.user-info-ul {
+    list-style: none;
 }

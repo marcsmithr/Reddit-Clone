@@ -52,6 +52,11 @@ textarea{
     padding-left: 10px;
 }
 
+#active{
+    color: #0079D3;
+    border-bottom: solid 3px #0079D3;
+}
+
 /* .post-card-likes{
     padding:0 20px;
     background-color: #F2F6F7;
