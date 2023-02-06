@@ -1,10 +1,31 @@
-.code-languages-container{
+.project-info-container{
     margin-top: 20px;
     width: 325px;
-    height: 270px;
     position: sticky;
     top: 10px;
     background-color: white;
+}
+
+.about-me{
+    height: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-me:hover{
+    background-color: #6c686876;
+}
+
+.git-hub-span{
+    font-size: 25px;
+    color:#6C6868;
+}
+
+.code-languages-container{
+    height: 270px;
     color:#6C6868;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -12,6 +33,7 @@
     justify-content: center;
     align-items: center;
     z-index: -1;
+    border-bottom: .5px solid #6c68684e;
 }
 
 .code-lang{

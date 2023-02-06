@@ -85,11 +85,20 @@
     background-color:whitesmoke;
 }
 
-.profile-button{
-
+.profile-link{
+    color: black;
+    background: none;
+    border: none;
+    width: 80px;
+    height: 30px;
+    padding-left: 28px;
+    padding-top: 10px;
 }
 
-
+.profile-link:hover{
+    background-color: #dcd7d7;
+    border-radius: 5px;
+}
 
 
 a:link {
@@ -154,27 +163,6 @@ a:link {
 
 }
 
-#for-business {
-    text-decoration: none;
-    color: rgba(45, 46, 47, 1);
-    font-weight: bold;
-    width: 100%;
-    font-size: 16px;
-    padding: 0.7em;
-    border-radius: 0.5em;
-}
-
-#for-business:hover {
-    background-color: rgb(230, 230, 230);
-}
-
-.bookmark-button {
-    transition: all 0.3s ease-in-out;
-    background: none;
-    border: none;
-    width: 80px;
-    height: 30px;
-}
 
 .loginSign-button1 {
     background: none;

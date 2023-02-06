@@ -4,7 +4,7 @@ import "./index.css"
 function CodeLangBox (){
 
     return(
-
+        <div className="project-info-container">
             <div className='code-languages-container'>
                 <div className="code-lang">
                     <span>
@@ -62,6 +62,14 @@ function CodeLangBox (){
                     </span>
                 </div>
             </div>
+            <a href="https://github.com/marcsmithr">
+            <div className="about-me">
+                    <div className="git-hub-span-container">
+                        <span className="git-hub-span">Git Hub</span>
+                    </div>
+            </div>
+            </a>
+        </div>
     )
 
 
