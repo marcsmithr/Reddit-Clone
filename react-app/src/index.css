@@ -57,6 +57,15 @@ textarea{
     border-bottom: solid 3px #0079D3;
 }
 
+.x-div{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+}
+
+
 /* .post-card-likes{
     padding:0 20px;
     background-color: #F2F6F7;

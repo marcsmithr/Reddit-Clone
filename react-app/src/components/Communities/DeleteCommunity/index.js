@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { getOneCommunity, deleteCommunity } from "../../../store/communities";
+import { allPosts } from "../../../store/posts";
+import { deleteCommunity, allCommunities } from "../../../store/communities";
 import './index.css'
 
 function DeleteCommunityButton({ community }) {
@@ -25,6 +26,8 @@ function DeleteCommunityButton({ community }) {
     e.preventDefault();
 
     dispatch(deleteCommunity(community.id))
+    .then(()=> dispatch(allCommunities()) )
+    .then(()=> dispatch(allPosts()) )
     .then(()=> history.push('/') )
   };
 
@@ -43,18 +46,20 @@ function DeleteCommunityButton({ community }) {
       </div>
       <ul className={ulClassName} ref={ulRef}>
         <div className="dropdown-menu">
-            <div className="edit-community-modal">
-                <div className="edit-community-modal-header">
+            <div className="delete-community-modal">
+                <div className="delete-community-modal-header">
                     <h2>Delete Community</h2>
-                    <i className="fa-solid fa-x" onClick={closeMenu}></i>
+                    <div className="x-div">
+                      <i className="fa-solid fa-x" onClick={closeMenu}></i>
+                    </div>
                 </div>
                 <div className="community-form-header">
                     <h2>Warning</h2>
                     <span>Once deleted, a community is gone for good.</span>
                 </div>
                 <div>
-                    <button on onClick={handleSubmit}>Delete</button>
-                    <button onClick={closeMenu}>Cancel</button>
+                    <button onClick={handleSubmit} className="delete-button" >Delete</button>
+                    <button onClick={closeMenu} className="cancel-button" >Cancel</button>
                 </div>
 
             </div>
