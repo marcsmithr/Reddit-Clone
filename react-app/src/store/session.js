@@ -3,14 +3,17 @@ const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const GET_USER = 'session/GET_USER'
 
+
 const setUser = (user) => ({
   type: SET_USER,
   payload: user
 });
 
 const removeUser = () => ({
-  type: REMOVE_USER,
+  type: REMOVE_USER
 })
+
+
 
 
 const initialState = { user: null };
@@ -116,6 +119,8 @@ export const getUser = (username) => async (dispatch) => {
     return ['An error occurred. Please try again.']
   }
 }
+
+
 
 
 export default function reducer(state = initialState, action) {

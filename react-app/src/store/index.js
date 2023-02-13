@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import session from './session'
 import postReducer from './posts';
 import communityReducer from './communities';
+import userReducer from './users';
 
 const rootReducer = combineReducers({
   session,
   posts: postReducer,
-  communities: communityReducer
+  communities: communityReducer,
+  users: userReducer
 });
 
 

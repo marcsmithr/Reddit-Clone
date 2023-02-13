@@ -5,6 +5,7 @@ import UserCommunities from './UserCommunities';
 import UserPosts from './UserPosts';
 import { getUser } from '../../store/session';
 import { UserPageContext } from '../context/UserPageContext';
+import DeleteUserButton from './DeleteUser';
 import './User.css'
 
 function User() {
@@ -58,14 +59,24 @@ function User() {
                     </div>
                 </div>
             </div>
-            <ul className='user-info-ul'>
-            <li>
-                <strong>Username:</strong> {user.username}
-            </li>
-            <li>
-                <strong>Email:</strong> {user.email}
-            </li>
-            </ul>
+            <div>
+                <ul className='user-info-ul'>
+                    <li>
+                        <strong>Username:</strong> {user.username}
+                    </li>
+                    <li>
+                        <strong>Email:</strong> {user.email}
+                    </li>
+                </ul>
+                <div className='user-profile-crud-container'>
+                    {/* <div>
+                        <EditCommunityButton community={community}/>
+                    </div> */}
+                    <div>
+                        <DeleteUserButton user={user}/>
+                    </div>
+                </div>
+            </div>
         </div>
   );
 }

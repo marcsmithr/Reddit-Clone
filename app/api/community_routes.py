@@ -103,6 +103,9 @@ def create_community():
 @community_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_community_by_id(id):
+    '''
+    EDITS A COMMUNITY
+    '''
     current_community = Community.query.get(id)
 
     if not current_community:
@@ -122,9 +125,13 @@ def update_community_by_id(id):
             "errors": form.errors
         }, 400
 
+#DELETES A COMMUNITY
 @community_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_item(id):
+    '''
+    DELETES A COMMUNITY
+    '''
     community= Community.query.get(id)
     db.session.delete(community)
     db.session.commit()

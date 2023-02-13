@@ -20,8 +20,8 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime(timezone=True), default=func.now())
 
 
+    community = db.relationship('Community', back_populates='user', cascade='all, delete-orphan')
     post = db.relationship('Post', back_populates='user', cascade='all, delete-orphan')
-    community = db.relationship('Community', back_populates='user')
 
 
     @property
