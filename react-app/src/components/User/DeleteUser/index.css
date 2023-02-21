@@ -52,3 +52,7 @@
     left: 50%;
     top: calc(100% + 0.25rem);
 }
+
+.delete-user-form-header{
+    margin-bottom: 5px;
+}

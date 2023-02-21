@@ -55,7 +55,7 @@ function DeleteUserButton({ user }) {
                       <i className="fa-solid fa-x" onClick={closeMenu}></i>
                     </div>
                 </div>
-                <div className="user-form-header">
+                <div className="delete-user-form-header">
                     <h2>Warning</h2>
                     <span>Once deleted, a user is gone for good.</span>
                 </div>

@@ -6,6 +6,7 @@ import UserPosts from './UserPosts';
 import { getUser } from '../../store/session';
 import { UserPageContext } from '../context/UserPageContext';
 import DeleteUserButton from './DeleteUser';
+import EditUserButton from './EditUser';
 import './User.css'
 
 function User() {
@@ -70,7 +71,7 @@ function User() {
                 </ul>
                 <div className='user-profile-crud-container'>
                     {/* <div>
-                        <EditCommunityButton community={community}/>
+                        <EditUserButton user={user}/>
                     </div> */}
                     <div>
                         <DeleteUserButton user={user}/>

@@ -1,4 +1,5 @@
 const LOAD = 'users/LOAD'
+const UPDATE = 'users/UPDATE'
 const DELETE = 'users/DELETE_USER'
 
 
@@ -11,6 +12,10 @@ const remove = () => ({
     type: DELETE
   })
 
+const update = community => ({
+    type: UPDATE,
+    community
+})
 
 
 export const allUsers = () => async dispatch => {
@@ -23,6 +28,22 @@ export const allUsers = () => async dispatch => {
         const users = usersObj.users
         dispatch(loadAll(users))
         return users
+    }
+}
+
+export const updateUser = (user, id) => async dispatch => {
+    console.log('USER IN TEH HTUNKJ ', user)
+
+    const response = await fetch(`/api/users/${id}`, {
+        method: 'PUT',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(user)
+    })
+
+    if(response.ok){
+        await response.json()
+        dispatch(update(user))
+        return user
     }
 }
 
@@ -72,11 +93,11 @@ const userReducer = (state = initialState, action) => {
         //     newState.allCommunities = newAllCommunities
         //     return newState
         // }
-        // case UPDATE: {
-        //     newState = {...state, allCommunities: {...state.allCommunities} }
-        //     newState.allCommunities[action.community.id] = action.community
-        //     return newState
-        // }
+        case UPDATE: {
+            newState = {...state, allUsers: {...state.allUsers} }
+            newState.allUsers[action.user.id] = action.user
+            return newState
+        }
         case DELETE: {
             newState = {...state, allUsers: {...state.allUsers}, singleUser:{...state.singleUser}}
             delete newState.allUsers[action.id]
