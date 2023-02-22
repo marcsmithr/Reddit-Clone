@@ -12,7 +12,7 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("posts.id")), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("comments.id")))
-    text = db.Column(db.String(250), nullable=False)
+    text = db.Column(db.String(1000), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), default=func.now())
 
