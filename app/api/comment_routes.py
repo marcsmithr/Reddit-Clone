@@ -7,7 +7,7 @@ from ..forms import CommentForm
 comment_routes = Blueprint('comment', __name__)
 
 #GET ALL COMMENTS FOR POST
-@comment_routes.route('/<int:id>')
+@comment_routes.route('/post/<int:id>')
 def all_comments_for_post(id):
     '''
     Queries for all of the comments for a single post
