@@ -20,6 +20,7 @@ class Post(db.Model):
     user = db.relationship('User', back_populates='post')
     images = db.relationship('Post_Image', back_populates='post', cascade='all, delete-orphan')
     community = db.relationship('Community', back_populates='posts')
+    comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
     def to_dict(self):
         """
             Returns a dict representing Post

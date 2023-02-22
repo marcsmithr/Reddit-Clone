@@ -11,33 +11,32 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("posts.id")), nullable=False)
-    parent_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("comments.id")), nullable=False)
-    text = db.Column(db.String(100), nullable=False)
+    parent_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("comments.id")))
+    text = db.Column(db.String(250), nullable=False)
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), default=func.now())
 
-    # user = db.relationship('User', back_populates='community')
-    # posts = db.relationship('Post', back_populates='community', cascade='all, delete-orphan')
+    user = db.relationship('User', back_populates='comment')
+    post = db.relationship('Post', back_populates='comments')
+    parent= db.relationship('Comment', remote_side=[id])
 
-    # def to_dict(self):
-    #     """
-    #     Returns a dict representing Business
-    #     {
-    #         id,
-    #         owner_id,
-    #         name,
-    #         title,
-    #         description,
-    #         community_image,
-    #         community_banner,
-    #     }
-    #     """
-    #     return {
-    #         "id": self.id,
-    #         "owner_id": self.owner_id,
-    #         "name": self.name,
-    #         "title": self.title,
-    #         "description": self.description,
-    #         "community_image": self.community_image,
-    #         "community_banner": self.community_banner
-    #     }
+    def to_dict(self):
+        """
+            Returns a dict representing Comment
+            {
+                id,
+                user_id,
+                post_id,
+                text,
+                created_at,
+                updated_at
+            }
+        """
+        return {
+            "id": self.id,
+            "user": self.user.to_dict(),
+            "post_id": self.post_id,
+            "text": self.text,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
+        }

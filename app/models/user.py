@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
 
     community = db.relationship('Community', back_populates='user', cascade='all, delete-orphan')
     post = db.relationship('Post', back_populates='user', cascade='all, delete-orphan')
+    comment = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
 
 
     @property
