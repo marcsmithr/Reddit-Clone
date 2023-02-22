@@ -36,7 +36,9 @@ function SinglePostPage() {
 
     useEffect(()=> {
         dispatch(getOnePost(post_id))
+        
     }, [dispatch, post_id])
+
 
     if(!post||!user) return null
     return (
