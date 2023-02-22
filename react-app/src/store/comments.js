@@ -1,4 +1,4 @@
-const LOAD = 'posts/LOAD'
+const LOAD = 'comments/LOAD'
 // const CREATE = 'posts/CREATE'
 // const UPDATE = 'posts/UPDATE'
 // const GET_ONE = 'posts/GET_ONE'
