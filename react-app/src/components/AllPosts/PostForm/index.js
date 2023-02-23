@@ -13,6 +13,7 @@ function CreatePostForm(){
     // const [ text, setText ] = useState('')
     // const [image, setImage] = useState('')
     const [ errors, setErrors ] = useState([])
+    const [imageLoading, setImageLoading] = useState(false);
     const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage,
         communityName, setCommunityName, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
 
@@ -30,6 +31,7 @@ function CreatePostForm(){
 
 
     const clearData = () => {
+        setImageLoading(false)
         setPostTitle('')
         setPostText('')
         setPostImage('')
@@ -49,13 +51,15 @@ function CreatePostForm(){
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-
         let payload;
         if(postImage){
+            setImageLoading(true);
+            const formData = new FormData();
+            formData.append("image", postImage);
             payload= {
                 title: postTitle,
                 text: postText,
-                image: postImage
+                formData
             }
         } else{
         payload = {
@@ -137,12 +141,14 @@ function CreatePostForm(){
                         { (imageForm===true)&&
                             <input
                                 className="post-image"
-                                type="url"
+                                type="file"
+                                accept='image/*'
                                 placeholder=" Image Url (optional)"
                                 required
                                 value={postImage}
                                 onChange={updateImage}
                             />
+
                         }
                         <div className='post-submit-container'>
                             {(!communityName || !postTitle) &&
@@ -151,6 +157,7 @@ function CreatePostForm(){
                             {(communityName && postTitle) &&
                             <button className='post-submit'>Post</button>
                             }
+                            {(imageLoading)&& <p>Loading...</p>}
                         </div>
                     </form>
                 </div>

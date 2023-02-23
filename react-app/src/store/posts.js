@@ -97,8 +97,7 @@ export const postCreate = (post, community_name) => async dispatch => {
             }
             const imageResponse = await fetch(`/api/posts/${newPost.id}/images`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(payload)
+                body: post.formData
             })
             if(imageResponse.ok){
                 const i = await imageResponse.json()
