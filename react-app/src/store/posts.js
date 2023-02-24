@@ -102,9 +102,9 @@ export const postCreate = (post, community_name, formData=null) => async dispatc
             })
             console.log("IMAGERESPONSE", imageResponse)
             if(imageResponse.ok){
-                const i = await imageResponse.json()
-                console.log("i IN THUNK", i)
-                newPost.images = [i]
+                const newImage = await imageResponse.json()
+                console.log("newImage IN THUNK", newImage)
+                newPost.images = [newImage]
                 dispatch(createPost(newPost))
                 return newPost
             }

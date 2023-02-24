@@ -19,7 +19,7 @@ function CreatePostForm(){
 
     const updateTitle = (e) => setPostTitle(e.target.value)
     const updateText = (e) => setPostText(e.target.value)
-    const updateImage = (e) => setPostImage(e.target.value)
+    const updateImage = (e) => setPostImage(e.target.files[0])
 
     // const {communityParam} = useParams()
 
@@ -49,16 +49,19 @@ function CreatePostForm(){
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+
         let payload;
         if(postImage){
             setImageLoading(true);
             const formData = new FormData();
             formData.append("image", postImage);
-            console.log("FORMDATA IN HANDLE SUBMIT", formData)
+            console.log("FORMDATA.IMAGE IN HANDLE SUBMIT", formData.get('image'))
+            console.log("POST IMAGE FILE OBJ IN SUBMIT", postImage)
             payload= {
                 title: postTitle
             }
             let newPost = await dispatch(postCreate(payload, communityName, formData))
+            console.log("POSTCREATE RESPONSE IN HANDLE SUBMIT", newPost)
             if(newPost) clearData()
         } else{
             payload = {
@@ -144,7 +147,6 @@ function CreatePostForm(){
                                 accept='image/*'
                                 placeholder=" Image Url (optional)"
                                 required
-                                value={postImage}
                                 onChange={updateImage}
                             />
 

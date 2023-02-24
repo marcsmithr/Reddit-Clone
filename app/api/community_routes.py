@@ -43,15 +43,15 @@ def new_form(community_name):
     '''
     Creates a post for a community
     '''
-    print('COMMUNITY NAME', community_name)
+    # print('COMMUNITY NAME', community_name)
     current_community = Community.query.filter_by(name= community_name).all()
-    print('CURRENT COMMUNITY-------', current_community)
+    # print('CURRENT COMMUNITY-------', current_community)
     community = current_community[0].to_dict()
-    print('COMMUNITY-------', community['id'])
+    # print('COMMUNITY-------', community['id'])
     form = PostForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print('FORM DATA', form.data)
-    print("HELLO FROM BACKEND--------------")
+    # print('FORM DATA', form.data)
+    # print("HELLO FROM BACKEND--------------")
 
     if not current_community:
         return {"errors": "Community not found"}, 404
