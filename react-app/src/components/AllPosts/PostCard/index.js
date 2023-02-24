@@ -5,9 +5,7 @@ import './index.css'
 function PostCard({post}) {
     const user = post.user
 
-    // console.log("POST.USER", user)
     const images = post.images
-    // console.log("IMAGES[0]-----------", images[0])
     if(!post||!user) return null
     return (
         <>

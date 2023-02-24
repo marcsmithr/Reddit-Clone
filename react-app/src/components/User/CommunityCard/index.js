@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 function CommunityCard({community}){
-    console.log("COMMUNITY IN COMMCARD", community.name)
     return(
         <>
         <Link className='community-card-link' to={`/s/${community.name}`}>

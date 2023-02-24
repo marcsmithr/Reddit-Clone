@@ -14,7 +14,6 @@ function User() {
     const { username }  = useParams();
     const user = useSelector((state)=>state.session.user)
     const allPosts = Object.values(useSelector((state)=> state.posts.allPosts))
-    console.log("USERS IN USER", user)
     const posts = allPosts.filter(post => post.user.username===username)
 
     const { showCommunities, setShowCommunities, showPosts, setShowPosts } = useContext(UserPageContext)

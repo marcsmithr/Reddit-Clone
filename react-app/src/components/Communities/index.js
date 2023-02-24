@@ -17,7 +17,6 @@ const CommunityPage = () => {
     const community = useSelector((state)=> state.communities.singleCommunity)
     const currentUser = useSelector(state => state.session.user)
 
-    console.log("COMMUNITY", community)
     useEffect(()=>{
         dispatch(getOneCommunity(community_name))
     },[dispatch, community_name])

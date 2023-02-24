@@ -9,20 +9,16 @@ function SinglePostPage() {
     const history = useHistory()
     const dispatch = useDispatch()
     const { post_id } = useParams()
-    console.log('POST ID', post_id)
 
     const currentUser = useSelector(state => state.session.user)
     const post= useSelector((state)=> state.posts.singlePost)
     const community_name = post.community_name
 
-    console.log("POST IN SINGLE POST", post)
-    console.log("CURRENT USER", currentUser)
     const user = post.user
     const images = post.images
 
 
     const removePost = async () => {
-        console.log("Post ID", post.id)
         await dispatch(deletePost(post.id))
         await dispatch(allPosts())
         await dispatch(authenticate())
@@ -36,7 +32,7 @@ function SinglePostPage() {
 
     useEffect(()=> {
         dispatch(getOnePost(post_id))
-        
+
     }, [dispatch, post_id])
 
 

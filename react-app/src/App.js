@@ -25,7 +25,6 @@ function App() {
   useEffect(() => {
     (async() => {
       await dispatch(authenticate());
-      console.log("BEFORE ALLPOSTS")
       await dispatch(allPosts())
       await dispatch(allCommunities())
       await dispatch(allUsers())

@@ -2,9 +2,7 @@ import React from 'react'
 import CommunityCard from "../CommunityCard"
 
 function UserCommunities({user}){
-    console.log("USER IN USERCOMM", user)
     const communities = Object.values(user.communities)
-    console.log("COMMUNITIES IN USERCOMM", communities)
 
 
     if(communities.length===0){

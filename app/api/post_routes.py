@@ -49,6 +49,8 @@ def post_image(id):
     '''
     post = Post.query.get_or_404(id)
 
+    print("REQUEST IN BACKEND", request)
+
     if not post:
         return { "errors": "Post not found"}, 404
 

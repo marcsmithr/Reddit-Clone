@@ -32,7 +32,6 @@ export const allUsers = () => async dispatch => {
 }
 
 export const updateUser = (user, id) => async dispatch => {
-    console.log('USER IN TEH HTUNKJ ', user)
 
     const response = await fetch(`/api/users/${id}`, {
         method: 'PUT',
@@ -71,7 +70,6 @@ const userReducer = (state = initialState, action) => {
         case LOAD: {
             newState = {...state, allUsers: {...state.allUsers}, singleUser:{...state.singleUser}}
             let user2={}
-            console.log('USERS IN REDUCER', action.users)
             action.users.forEach(user => {
                 user2[user.id] = user
             });

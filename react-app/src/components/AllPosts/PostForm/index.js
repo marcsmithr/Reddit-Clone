@@ -21,13 +21,11 @@ function CreatePostForm(){
     const updateText = (e) => setPostText(e.target.value)
     const updateImage = (e) => setPostImage(e.target.value)
 
-    const {communityParam} = useParams()
+    // const {communityParam} = useParams()
 
 
-    console.log("COMMUNITY", communityName)
 
     const communities = Object.values(useSelector((state) => state.communities.allCommunities))
-    console.log("COMMUNITIES IN CREATE POSTFORM", communities)
 
 
     const clearData = () => {
@@ -56,19 +54,20 @@ function CreatePostForm(){
             setImageLoading(true);
             const formData = new FormData();
             formData.append("image", postImage);
+            console.log("FORMDATA IN HANDLE SUBMIT", formData)
             payload= {
-                title: postTitle,
-                text: postText,
-                formData
+                title: postTitle
             }
+            let newPost = await dispatch(postCreate(payload, communityName, formData))
+            if(newPost) clearData()
         } else{
-        payload = {
-            title: postTitle,
-            text: postText
+            payload = {
+                title: postTitle,
+                text: postText
+            }
+            let newPost = await dispatch(postCreate(payload, communityName))
+            if(newPost) clearData()
         }
-    }
-        let newPost = await dispatch(postCreate(payload, communityName))
-        if(newPost) clearData()
     }
 
     function postButton() {
@@ -104,11 +103,11 @@ function CreatePostForm(){
             <div className='post-form-outer-container'>
                 <div className='form-type-buttons-container'>
                 <button onClick={postButton} className="form-type-button" id={postButtonId}>
-                        <i class="fa-regular fa-pen-to-square"></i>
+                        <i className="fa-regular fa-pen-to-square"></i>
                          Post
                 </button>
                 <button  onClick={imageButton} className="form-type-button" id={imageButtonId}>
-                        <i class="fa-regular fa-image"></i>
+                        <i className="fa-regular fa-image"></i>
                         Image
                 </button>
                 </div>

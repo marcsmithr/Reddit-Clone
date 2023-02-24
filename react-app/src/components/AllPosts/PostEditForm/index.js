@@ -55,13 +55,11 @@ function EditPostForm(){
 
         let payload;
         if(image){
-            console.log("hello")
             payload= {
                 title,
                 image
             }
         } else{
-            console.log('hi')
             payload = {
             title,
             text

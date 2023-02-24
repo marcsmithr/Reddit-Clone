@@ -67,9 +67,7 @@ export const getOnePost = (id) => async dispatch => {
 // }
 
 export const allPosts = () => async dispatch => {
-    console.log("HELLO FROM ALLPOSTS")
     const response = await fetch(`/api/posts`)
-    console.log("RESPONSE FROM ALLPOSTS", response)
     if(response.ok){
         const postsObj = await response.json()
         const posts = postsObj.Posts
@@ -78,9 +76,10 @@ export const allPosts = () => async dispatch => {
     }
 }
 
-export const postCreate = (post, community_name) => async dispatch => {
+export const postCreate = (post, community_name, formData=null) => async dispatch => {
     // console.log("COMMUNITY NAME IN CREATE POST", community_name)
     // console.log("POST IN CREATE POST", post)
+
     const response = await fetch(`/api/communities/${community_name}/posts`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
@@ -90,17 +89,21 @@ export const postCreate = (post, community_name) => async dispatch => {
     if(response.ok){
         const newPost = await response.json()
         // console.log("NEWPOST IN CREATE POST", newPost)
-        if(post.image){
-            const payload = {
-                "post_id": newPost.id,
-                "url": post.image
-            }
+        if(formData){
+            // const payload = {
+            //     "post_id": newPost.id,
+            //     "url": post.image
+            // }
+
+            console.log("FORMDATA IN THUNK", formData)
             const imageResponse = await fetch(`/api/posts/${newPost.id}/images`, {
                 method: "POST",
-                body: post.formData
+                body: formData
             })
+            console.log("IMAGERESPONSE", imageResponse)
             if(imageResponse.ok){
                 const i = await imageResponse.json()
+                console.log("i IN THUNK", i)
                 newPost.images = [i]
                 dispatch(createPost(newPost))
                 return newPost

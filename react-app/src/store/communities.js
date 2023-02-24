@@ -76,7 +76,6 @@ export const createCommunity = (newCommunity) => async dispatch =>{
 }
 
 export const updateCommunity = (community, id) => async dispatch => {
-    console.log('COMMUNITY IN TEH HTUNKJ ', community)
 
     const response = await fetch(`/api/communities/${id}`, {
         method: 'PUT',
