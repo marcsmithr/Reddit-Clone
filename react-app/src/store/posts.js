@@ -90,10 +90,6 @@ export const postCreate = (post, community_name, formData=null) => async dispatc
         const newPost = await response.json()
         // console.log("NEWPOST IN CREATE POST", newPost)
         if(formData){
-            // const payload = {
-            //     "post_id": newPost.id,
-            //     "url": post.image
-            // }
 
             console.log("FORMDATA IN THUNK", formData)
             const imageResponse = await fetch(`/api/posts/${newPost.id}/images`, {

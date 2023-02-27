@@ -141,15 +141,18 @@ function CreatePostForm(){
                         />
                         }
                         { (imageForm===true)&&
+                        <div className='create-post-image-container'>
                             <input
-                                className="post-image"
+                                className="create-post-image"
+                                id='file'
                                 type="file"
                                 accept='image/*'
                                 placeholder=" Image Url (optional)"
                                 required
                                 onChange={updateImage}
                             />
-
+                            <label for="file" className='create-post-image-lable'>Upload</label>
+                        </div>
                         }
                         <div className='post-submit-container'>
                             {(!communityName || !postTitle) &&

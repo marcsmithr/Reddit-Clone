@@ -63,11 +63,39 @@
     border: solid .5px rgba(128, 128, 128, 0.362)
 }
 
-.post-image{
+.create-post-image-container{
+    display: flex;
+    flex-direction: row;
+    height: 275px;
     border-radius: 3px;
     border: solid .5px rgba(128, 128, 128, 0.362);
-    height:25px
+    justify-content: center;
+    align-items: center;
 }
+
+.create-post-image{
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+
+.create-post-image-container label {
+    display: block;
+    position: relative;
+    width: 200px;
+    height: 50px;
+    border-radius: 30px;
+    background-color: white;
+    border: #0079D3 solid 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0079D3;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform .2s ease-out;
+  }
 
 .post-submit{
     width: 70px;
