@@ -13,13 +13,22 @@ function CreatePostForm(){
     // const [ text, setText ] = useState('')
     // const [image, setImage] = useState('')
     const [ errors, setErrors ] = useState([])
+    const [showErrors, setShowErrors] = useState([])
+    const [disabled, setDisabled] = useState(false)
     const [imageLoading, setImageLoading] = useState(false);
+    const [preview, setPreview] = useState('')
     const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage,
         communityName, setCommunityName, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
 
+
     const updateTitle = (e) => setPostTitle(e.target.value)
     const updateText = (e) => setPostText(e.target.value)
-    const updateImage = (e) => setPostImage(e.target.files[0])
+    const updateImage = (e) => {
+        setShowErrors([])
+        if (!e.target.files || e.target.files.length === 0) {
+        setPreview('')
+        }
+        setPostImage(e.target.files[0])}
 
     // const {communityParam} = useParams()
 
@@ -49,7 +58,9 @@ function CreatePostForm(){
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-
+        if(errors){
+            setShowErrors(errors)
+        }
         let payload;
         if(postImage){
             setImageLoading(true);
@@ -73,13 +84,54 @@ function CreatePostForm(){
         }
     }
 
+    useEffect(()=>{
+        const errors = []
+        if(imageForm){
+            if(postImage){
+                console.log(postImage?.type)
+                if(postImage?.type !== 'image/jpg' && postImage?.type !== 'image/png' && postImage?.type !== 'image/jpeg'){
+                    errors.push('Please select a valid image file type')
+                    setShowErrors(['Please select a valid image file type (jpg, png, jpeg)'])
+                }
+            }
+            if(!postImage){
+                errors.push('Please select an image to upload')
+            }
+        }
+            if(!postTitle){
+            errors.push('Please fill out the post title')
+        }
+        if(!communityName){
+            errors.push('Please select a community')
+        }
+        if (errors.length > 0) setDisabled(true)
+        else setDisabled(false)
+        setErrors(errors)
+        console.log("ERRORS", errors)
+    }, [imageForm, postForm, postTitle, postImage, communityName, disabled])
+
+    useEffect(() => {
+        if (!postImage) {
+            setPreview('')
+            return
+        }
+        if (postImage?.type !== 'image/jpg' && postImage?.type !== 'image/png' && postImage?.type !== 'image/jpeg') return
+        const objectUrl = URL.createObjectURL(postImage)
+        setPreview(objectUrl)
+
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [postImage])
+
     function postButton() {
+        setShowErrors([])
         setImageForm(false)
         setPostForm(true)
         setPostImage('')
     }
 
     function imageButton() {
+        setShowErrors([])
         setPostForm(false)
         setImageForm(true)
         setPostText('')
@@ -116,9 +168,9 @@ function CreatePostForm(){
                 </div>
                 <div className='post-create-container'>
                     <form onSubmit={handleSubmit} className='post-form'>
-                    {errors.length !== 0 &&
-                        <ul style={{"marginBottom":"0px"}}>
-                        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {showErrors.length !== 0 &&
+                        <ul style={{"marginBottom":"0px"}} className="errors-list">
+                        {showErrors.map((showErrors, idx) => <li key={idx}>{showErrors}</li>)}
                         </ul>
                     }
                         <textarea
@@ -152,16 +204,19 @@ function CreatePostForm(){
                                 onChange={updateImage}
                             />
                             <label for="file" className='create-post-image-lable'>Upload</label>
+                            <img src='preview'></img>
+
                         </div>
                         }
                         <div className='post-submit-container'>
-                            {(!communityName || !postTitle) &&
+                            {(disabled) &&
                                 <button className='post-submit' disabled>Post</button>
                             }
-                            {(communityName && postTitle) &&
+                            {(!disabled) &&
                             <button className='post-submit'>Post</button>
                             }
                             {(imageLoading)&& <p>Loading...</p>}
+
                         </div>
                     </form>
                 </div>

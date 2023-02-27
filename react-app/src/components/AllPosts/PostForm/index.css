@@ -123,3 +123,8 @@
 .fa-regular{
     margin-right: 10px;
 }
+
+.errors-list > li{
+    color: red;
+    list-style: none;
+}

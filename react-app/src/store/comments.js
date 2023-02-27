@@ -46,7 +46,7 @@ const loadAll = comments => ({
 //     return response
 // }
 
-export const allComments = (id) => async dispatch => {
+export const loadAllComments = (id)=> async dispatch =>{
     console.log("HELLO FROM ALLCOMMENTS")
     const response = await fetch(`/api/comments/post/${id}`)
     console.log("RESPONSE FROM ALLComments", response)
@@ -57,6 +57,18 @@ export const allComments = (id) => async dispatch => {
         return comments
     }
 }
+
+// export const allComments = (id) => async dispatch => {
+//     console.log("HELLO FROM ALLCOMMENTS")
+//     const response = await fetch(`/api/comments/post/${id}`)
+//     console.log("RESPONSE FROM ALLComments", response)
+//     if(response.ok){
+//         const commentsObj = await response.json()
+//         const comments = commentsObj.Comments
+//         dispatch(loadAll(comments))
+//         return comments
+//     }
+// }
 
 // export const postCreate = (post, community_name) => async dispatch => {
 //     // console.log("COMMUNITY NAME IN CREATE POST", community_name)
