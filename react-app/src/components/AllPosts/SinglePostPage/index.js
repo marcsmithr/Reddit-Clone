@@ -4,6 +4,7 @@ import { authenticate, getUser } from '../../../store/session'
 import { allPosts, getOnePost, deletePost } from '../../../store/posts'
 import { useDispatch, useSelector } from 'react-redux'
 import './index.css'
+import { allComments } from '../../../store/comments'
 
 function SinglePostPage() {
     const history = useHistory()
@@ -12,6 +13,7 @@ function SinglePostPage() {
 
     const currentUser = useSelector(state => state.session.user)
     const post= useSelector((state)=> state.posts.singlePost)
+    const allComments = useSelector((state)=> state.comments.allComments)
     const community_name = post.community_name
 
     const user = post.user
@@ -32,6 +34,7 @@ function SinglePostPage() {
 
     useEffect(()=> {
         dispatch(getOnePost(post_id))
+        dispatch(allComments(post_id))
 
     }, [dispatch, post_id])
 

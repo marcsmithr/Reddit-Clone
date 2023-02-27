@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PostCard from './PostCard'
 import CreatePostCommunity from '../HomePage/CreatePostCommunity'
 import CodeLangBox from '../HomePage/CodeLangBox'
@@ -8,6 +8,7 @@ import { PostFormContext } from '../context/PostFormContext'
 import './index.css'
 
 function AllPosts() {
+    const dispatch = useDispatch
 
     const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage,
         communityName, setCommunityName, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
