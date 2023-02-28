@@ -9,9 +9,8 @@ import { getUser } from '../../../store/session'
 function CreatePostForm(){
     const dispatch = useDispatch()
     const history = useHistory()
-    // const [ title, setTitle ] = useState('')
-    // const [ text, setText ] = useState('')
-    // const [image, setImage] = useState('')
+
+
     const [ errors, setErrors ] = useState([])
     const [showErrors, setShowErrors] = useState([])
     const [disabled, setDisabled] = useState(false)
@@ -198,7 +197,7 @@ function CreatePostForm(){
                                 className="create-post-image"
                                 id='file'
                                 type="file"
-                                accept='image/*'
+                                accept='image/*, png, jpeg, jpg'
                                 placeholder=" Image Url (optional)"
                                 required
                                 onChange={updateImage}
