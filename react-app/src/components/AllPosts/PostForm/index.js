@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useCallback } from 'react'
 import { PostFormContext } from '../../context/PostFormContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
@@ -10,32 +10,31 @@ function CreatePostForm(){
     const dispatch = useDispatch()
     const history = useHistory()
 
-
+    //ALL THE VARIABLES IN MY USE STATE INCLUDING THOSE WITH CONTEXT
     const [ errors, setErrors ] = useState([])
     const [showErrors, setShowErrors] = useState([])
-    const [disabled, setDisabled] = useState(false)
+    const [disabled, setDisabled] = useState(true)
     const [imageLoading, setImageLoading] = useState(false);
     const [preview, setPreview] = useState('')
     const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage,
         communityName, setCommunityName, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
 
-
+    //UPDATES USESTATE AS FORM RECIEVES INPUT
     const updateTitle = (e) => setPostTitle(e.target.value)
     const updateText = (e) => setPostText(e.target.value)
     const updateImage = (e) => {
         setShowErrors([])
         if (!e.target.files || e.target.files.length === 0) {
-        setPreview('')
+            setPreview('')
         }
-        setPostImage(e.target.files[0])}
+        setPostImage(e.target.files[0])
+    }
+    (console.log("UPDATEIMAGE- POSTIMAGE", postImage))
 
-    // const {communityParam} = useParams()
-
-
-
+    //GRABS THE COMMUNITIES TO BE USED IN THE COMMUNITY SELECTOR
     const communities = Object.values(useSelector((state) => state.communities.allCommunities))
 
-
+    //CLEARS DATA AND RESETS FORM AFTER SUBMIT THEN SEND TO HOMEPAGE
     const clearData = () => {
         setImageLoading(false)
         setPostTitle('')
@@ -47,20 +46,22 @@ function CreatePostForm(){
 
         history.push(`/`)
     }
-
+    //CHANGES DEFAULT POST PAGE TO COMMUNITY POST PAGE WHEN SELECTED
     const changeCommunity = (communityName) => {
         setCommunityName(communityName)
         history.push(`/s/${communityName}/submit`)
     }
 
-
+    //HANDLE FORM SUBMISSION FUNCTION
     const handleSubmit = async (e) => {
         e.preventDefault()
+        console.log("hello from handle submit")
 
         if(errors){
             setShowErrors(errors)
         }
         let payload;
+
         if(postImage){
             setImageLoading(true);
             const formData = new FormData();
@@ -83,11 +84,11 @@ function CreatePostForm(){
         }
     }
 
+    //FORM VALIDATION USEEFFECT
     useEffect(()=>{
         const errors = []
         if(imageForm){
             if(postImage){
-                console.log(postImage?.type)
                 if(postImage?.type !== 'image/jpg' && postImage?.type !== 'image/png' && postImage?.type !== 'image/jpeg'){
                     errors.push('Please select a valid image file type')
                     setShowErrors(['Please select a valid image file type (jpg, png, jpeg)'])
@@ -109,19 +110,34 @@ function CreatePostForm(){
         console.log("ERRORS", errors)
     }, [imageForm, postForm, postTitle, postImage, communityName, disabled])
 
-    useEffect(() => {
-        if (!postImage) {
-            setPreview('')
-            return
-        }
-        if (postImage?.type !== 'image/jpg' && postImage?.type !== 'image/png' && postImage?.type !== 'image/jpeg') return
-        const objectUrl = URL.createObjectURL(postImage)
-        setPreview(objectUrl)
+    //PREVIEW FUNCTIONS
+    const handleCreateBase64 = useCallback(async (e) => {
+        const file = e.target.files[0];
+        const convertToBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+              const fileReader = new FileReader();
+                fileReader.readAsDataURL(file);
+                fileReader.onload = () => {
+                  resolve(fileReader.result);
+                };
 
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl)
-    }, [postImage])
+              fileReader.onerror = (error) => {
+                reject(error);
+              };
+            });
+          };
+        const base64 = await convertToBase64(file);
+        setPreview(base64);
+      }, []);
 
+
+      const updateAndPreview = (e) => {
+        handleCreateBase64(e)
+        updateImage(e)
+      }
+
+
+    //SWITCHES THE FORM BETWEEN TEXTPOST MODE TO IMAGEPOST MODE
     function postButton() {
         setShowErrors([])
         setImageForm(false)
@@ -136,8 +152,20 @@ function CreatePostForm(){
         setPostText('')
     }
 
+    //RESETS PREVIEW IMAGE WHEN X IS CLICKED
+    function resetPreviewImage(){
+        setPreview('')
+        setPostImage('')
+    }
+
+    //STYLES BUTTONS BLUE WHEN POST OR IMAGE BUTTON IS SELECTED
     let postButtonId =  postForm ? "active" : ""
     let imageButtonId = imageForm ? "active" : ""
+
+
+    let previewImageId = !preview? "hidden" : ""
+    let createImageContainerId = preview? "hideBorders" : ""
+    let uploadButtonId = preview? "hidden" : ""
 
     return(
         <div className='post-page'>
@@ -192,7 +220,9 @@ function CreatePostForm(){
                         />
                         }
                         { (imageForm===true)&&
-                        <div className='create-post-image-container'>
+                        <div className='create-post-image-container'
+                        id={createImageContainerId}
+                        >
                             <input
                                 className="create-post-image"
                                 id='file'
@@ -200,11 +230,15 @@ function CreatePostForm(){
                                 accept='image/*, png, jpeg, jpg'
                                 placeholder=" Image Url (optional)"
                                 required
-                                onChange={updateImage}
+                                onChange={updateAndPreview}
                             />
-                            <label for="file" className='create-post-image-lable'>Upload</label>
-                            <img src='preview'></img>
-
+                            <label for="file" className='create-post-image-label' id={uploadButtonId}>Upload</label>
+                            <div className='preview-image-container' id={previewImageId}>
+                                <div className='preview-image-x'>
+                                    <span onClick={resetPreviewImage}>X</span>
+                                </div>
+                                <img src={preview} className='preview-img' id={previewImageId}></img>
+                            </div>
                         </div>
                         }
                         <div className='post-submit-container'>
@@ -212,7 +246,7 @@ function CreatePostForm(){
                                 <button className='post-submit' disabled>Post</button>
                             }
                             {(!disabled) &&
-                            <button className='post-submit'>Post</button>
+                                <button className='post-submit' type='submit'>Post</button>
                             }
                             {(imageLoading)&& <p>Loading...</p>}
 
