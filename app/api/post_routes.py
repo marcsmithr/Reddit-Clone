@@ -99,7 +99,7 @@ def post_image(id):
     #         "errors": form.errors
     #     }, 400
 
-#DELETE
+#DELETE POST
 @post_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_item(id):
@@ -116,13 +116,11 @@ def delete_item(id):
 @login_required
 def update_post_by_id(id):
     current_post = Post.query.get(id)
-    print ('HELLO FROM BACKEND--------')
     if not current_post:
         return {"errors": "Post not found"}, 404
 
     form = PostForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    print("FORM DATA IN EDIT-------", form.data)
 
     if form.validate_on_submit():
         form.populate_obj(current_post)
@@ -138,26 +136,58 @@ def update_post_by_id(id):
 
 
 # UPDATE POST IMAGE
-@post_routes.route('/<int:id>/image', methods=['PUT'])
+@post_routes.route('/images/<int:id>', methods=['PUT'])
 @login_required
 def update_image_by_id(id):
     current_image = Post_Image.query.get(id)
-    print ('HELLO FROM BACKEND--------')
+    print ('HELLO FROM BACKEND UPDATE IMAGE--------')
     if not current_image:
-        return {"errors": "Post not found"}, 404
+        return {"errors": "Image not found"}, 404
 
-    form = PostImageForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    print("FORM DATA IN EDIT-------", form.data)
+    if "image" not in request.files:
+        return {"errors": "image required"}, 400
 
-    if form.validate_on_submit():
-        form.populate_obj(current_image)
+    image = request.files["image"]
 
-        db.session.add(current_image)
+    if not allowed_file(image.filename):
+        return {"errors": "file type not permitted"}, 400
+
+    image.filename = get_unique_filename(image.filename)
+    print ("IMAGE----------------", image)
+    upload = upload_file_to_s3(image)
+    print("UPLOAD-----------------", upload)
+
+    if "url" not in upload:
+        # if the dictionary doesn't have a url key
+        # it means that there was an error when we tried to upload
+        # so we send back that error message
+        return upload, 400
+
+
+    url = upload["url"]
+
+    if url:
+        current_image.url = url
         db.session.commit()
         return current_image.to_dict(), 201
 
-    if form.errors:
+    else:
         return {
-            "errors": form.errors
+            "errors": upload
         }, 400
+
+
+#DELETE POSTIMAGE
+@post_routes.route('/images/<int:id>', methods=['DELETE'])
+@login_required
+def delete_image(id):
+    print("DID WE HIT THE DELETE ROUTE?---------YES")
+    image = Post_Image.query.get(id)
+    if not image:
+        return {"errors": "Image not found"}, 404
+    post_id = image.post_id
+    db.session.delete(image)
+    db.session.commit()
+    return {"message": "Image deleted",
+            "post_id": post_id
+            }

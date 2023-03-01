@@ -3,7 +3,7 @@ const CREATE = 'posts/CREATE'
 const UPDATE = 'posts/UPDATE'
 const GET_ONE = 'posts/GET_ONE'
 const DELETE = 'posts/DELETE'
-// const GET_SOME = 'posts/GET_SOME'
+
 
 
 
@@ -17,10 +17,7 @@ const getOne = post => ({
     post
 })
 
-// const getSome = posts => ({
-//     type: GET_SOME,
-//     posts
-// })
+
 
 const createPost = post => ({
     type: CREATE,
@@ -51,20 +48,6 @@ export const getOnePost = (id) => async dispatch => {
     return response
 }
 
-// export const getSomePosts = (community_name) => async dispatch => {
-//     console.log('COMMUNITY NAME IN THUNK', community_name)
-//     const response = await fetch(`/api/posts/${community_name}`)
-//     console.log('RESPONSE IN THUNK', response)
-//     if (response.ok){
-//         const postsObj = await response.json();
-//         console.log('POSTSOBJ', postsObj)
-//         const posts = postsObj.Posts
-//         console.log('POSTS', posts)
-//         dispatch(getSome(posts))
-//         return posts
-//     }
-//     return response
-// }
 
 export const allPosts = () => async dispatch => {
     const response = await fetch(`/api/posts`)
@@ -110,7 +93,7 @@ export const postCreate = (post, community_name, formData=null) => async dispatc
     }
 }
 
-export const postEdit = (post, post_id) => async dispatch => {
+export const postEdit = (post, post_id, image_id=null, formData=null) => async dispatch => {
     console.log('Post IN THE THUNK ', post)
     const response = await fetch(`/api/posts/${post_id}`, {
         method: 'PUT',
@@ -121,25 +104,24 @@ export const postEdit = (post, post_id) => async dispatch => {
 
     if(response.ok){
         const newPost = await response.json()
-        // console.log("NEWPOST IN CREATE POST", newPost)
-        if(post.image){
-            const payload = {
-                "post_id": newPost.id,
-                "url": post.image
-            }
-            const imageResponse = await fetch(`/api/posts/${newPost.id}/image`, {
+        console.log("NEWPOST IN EDIT POST", newPost)
+        if(formData){
+            console.log("Hello from EDIT POST")
+            const imageResponse = await fetch(`/api/posts/images/${image_id}`, {
                 method: "PUT",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(payload)
+                body: formData
             })
+            console.log("imageResponse---", imageResponse)
             if(imageResponse.ok){
-                const i = await imageResponse.json()
-                newPost.images[i.id] = [i]
+                const newImage = await imageResponse.json()
+                console.log("newImage IN THUNK", newImage)
+                newPost.images = [newImage]
                 dispatch(update(newPost))
                 return newPost
             }
+            else return imageResponse
         }
-        dispatch(createPost(newPost))
+        dispatch(update(newPost))
         return newPost
     }
 }
@@ -160,6 +142,19 @@ export const deletePost = (id) => async dispatch => {
     return response
 }
 
+export const deletePostImage = (id) => async dispatch => {
+    console.log('id IN DELETE THUNK', id)
+    const response = await fetch(`/api/posts/images/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    console.log('REPONSE----', response)
+    if (response.ok){
+        const deletedPostImage = await response.json()
+        return deletedPostImage
+    }
+    return response
+}
 
 
 
