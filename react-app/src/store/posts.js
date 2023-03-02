@@ -106,7 +106,7 @@ export const postEdit = (post, post_id, image_id=null, formData=null) => async d
         const newPost = await response.json()
         console.log("NEWPOST IN EDIT POST", newPost)
         if(formData){
-            console.log("Hello from EDIT POST")
+            console.log("Hello from EDIT POST", image_id)
             const imageResponse = await fetch(`/api/posts/images/${image_id}`, {
                 method: "PUT",
                 body: formData

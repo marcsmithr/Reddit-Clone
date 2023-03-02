@@ -27,6 +27,7 @@ class Comment(db.Model):
                 id,
                 user_id,
                 post_id,
+                parent_id,
                 text,
                 created_at,
                 updated_at
@@ -36,6 +37,7 @@ class Comment(db.Model):
             "id": self.id,
             "user": self.user.to_dict(),
             "post_id": self.post_id,
+            "parent_id": self.parent_id,
             "text": self.text,
             "created_at": self.created_at,
             "updated_at": self.updated_at

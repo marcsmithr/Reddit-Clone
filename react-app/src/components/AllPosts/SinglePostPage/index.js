@@ -4,6 +4,7 @@ import { authenticate, getUser } from '../../../store/session'
 import { allPosts, getOnePost, deletePost } from '../../../store/posts'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadAllComments } from '../../../store/comments'
+import AllComments from '../../Comments/AllComments'
 import './index.css'
 
 function SinglePostPage() {
@@ -13,7 +14,7 @@ function SinglePostPage() {
 
     const currentUser = useSelector(state => state.session.user)
     const post= useSelector((state)=> state.posts.singlePost)
-    const allComments = useSelector((state)=> state.comments.allComments)
+    const allComments = Object.values(useSelector((state)=> state.comments.allComments))
     console.log("ALL COMMENTS", allComments)
     const community_name = post.community_name
 
@@ -102,6 +103,11 @@ function SinglePostPage() {
                     </div>
                 </div>
             </div>
+        </div>
+        <div className='comments-container'>
+            { (allComments.length !==0)&&
+            <AllComments comments={allComments}/>
+        }
         </div>
         </div>
                 <div className='right-main-post-div'>

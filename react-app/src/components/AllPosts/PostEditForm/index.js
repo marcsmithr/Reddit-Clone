@@ -16,6 +16,7 @@ function EditPostForm(){
     const [showErrors, setShowErrors] = useState([])
     const [disabled, setDisabled] = useState(false)
     const [imageLoading, setImageLoading] = useState(false);
+    const [initialImage, setInitialImage] = useState(false)
     const [preview, setPreview] = useState('')
     const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
 
@@ -58,6 +59,9 @@ function EditPostForm(){
         }
         let payload;
 
+        if(initialImage && !preview){
+            dispatch(deletePostImage(imageId))
+        }
         if(postImage){
             setImageLoading(true);
             const formData = new FormData();
@@ -65,6 +69,7 @@ function EditPostForm(){
             payload= {
                 title: postTitle
             }
+            console.log("imageId before dispatch", imageId)
             let newPost = await dispatch(postEdit(payload, post_id, imageId, formData))
             if(newPost) clearData()
         } else{
@@ -90,9 +95,10 @@ function EditPostForm(){
                 setImageForm(false)
                 setPostText(res.text)
             }
-            if(!res.text){
+            if(res.images.length!==0){
                 setImageForm(true)
                 setPostForm(false)
+                setInitialImage(true)
                 setPreview(res.images[0].url)
                 setImageId(res.images[0].id)
             }
@@ -161,10 +167,6 @@ function EditPostForm(){
 
     //RESETS PREVIEW IMAGE WHEN X IS CLICKED
     function resetPreviewImage(){
-        if(imageId){
-        dispatch(deletePostImage(imageId))
-        setImageId('')
-        }
         setPreview('')
         setPostImage('')
     }
