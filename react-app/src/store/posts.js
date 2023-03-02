@@ -93,7 +93,7 @@ export const postCreate = (post, community_name, formData=null) => async dispatc
     }
 }
 
-export const postEdit = (post, post_id, image_id=null, formData=null) => async dispatch => {
+export const postEdit = (post, post_id, image_id=null, formData=null, initialImage=false) => async dispatch => {
     console.log('Post IN THE THUNK ', post)
     const response = await fetch(`/api/posts/${post_id}`, {
         method: 'PUT',
@@ -105,7 +105,7 @@ export const postEdit = (post, post_id, image_id=null, formData=null) => async d
     if(response.ok){
         const newPost = await response.json()
         console.log("NEWPOST IN EDIT POST", newPost)
-        if(formData){
+        if(formData && initialImage){
             console.log("Hello from EDIT POST", image_id)
             const imageResponse = await fetch(`/api/posts/images/${image_id}`, {
                 method: "PUT",
@@ -119,7 +119,24 @@ export const postEdit = (post, post_id, image_id=null, formData=null) => async d
                 dispatch(update(newPost))
                 return newPost
             }
+
+
             else return imageResponse
+        }
+        else if(formData && !initialImage){
+            console.log("FORMDATA IN THUNK", formData)
+            const imageResponse = await fetch(`/api/posts/${newPost.id}/images`, {
+                method: "POST",
+                body: formData
+            })
+            console.log("IMAGERESPONSE", imageResponse)
+                if(imageResponse.ok){
+                    const newImage = await imageResponse.json()
+                    console.log("newImage IN THUNK", newImage)
+                    newPost.images = [newImage]
+                    dispatch(createPost(newPost))
+                    return newPost
+                }
         }
         dispatch(update(newPost))
         return newPost

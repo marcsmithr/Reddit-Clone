@@ -39,7 +39,10 @@ function EditPostForm(){
     const post = useSelector((state)=> state.posts.singlePost)
 
     //CLEARS DATA AND RESETS FORM AFTER SUBMIT THEN SEND TO HOMEPAGE
-    const clearData = () => {
+    const clearData = async() => {
+        await dispatch(allPosts())
+        await dispatch(getUser(post.user.id))
+        await dispatch(getOnePost(post.id))
         setImageLoading(false)
         setPostTitle('')
         setPostText('')
@@ -61,8 +64,18 @@ function EditPostForm(){
 
         if(initialImage && !preview){
             dispatch(deletePostImage(imageId))
-        }
-        if(postImage){
+        } else if(!initialImage && preview){
+            console.log("line67")
+                setImageLoading(true);
+                const formData = new FormData();
+                formData.append("image", postImage);
+                payload= {
+                    title: postTitle
+                }
+            let newPost = await dispatch(postEdit(payload, post_id, imageId, formData))
+            console.log("POSTCREATE RESPONSE IN HANDLE SUBMIT", newPost)
+            if(newPost) clearData()
+        } else if(initialImage && postImage){
             setImageLoading(true);
             const formData = new FormData();
             formData.append("image", postImage);
@@ -70,7 +83,7 @@ function EditPostForm(){
                 title: postTitle
             }
             console.log("imageId before dispatch", imageId)
-            let newPost = await dispatch(postEdit(payload, post_id, imageId, formData))
+            let newPost = await dispatch(postEdit(payload, post_id, imageId, formData, initialImage))
             if(newPost) clearData()
         } else{
             payload = {
@@ -79,9 +92,9 @@ function EditPostForm(){
             }
             let newPost = await dispatch(postEdit(payload, post_id))
             if(newPost) {
-                await dispatch(allPosts())
-                await dispatch(getUser(post.user.id))
-                await dispatch(getOnePost(post.id))
+                // await dispatch(allPosts())
+                // await dispatch(getUser(post.user.id))
+                // await dispatch(getOnePost(post.id))
                 clearData()}
         }
     }
