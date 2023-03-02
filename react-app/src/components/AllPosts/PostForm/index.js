@@ -29,7 +29,8 @@ function CreatePostForm(){
         }
         setPostImage(e.target.files[0])
     }
-    (console.log("UPDATEIMAGE- POSTIMAGE", postImage))
+    console.log("UPDATEIMAGE- POSTIMAGE", postImage)
+
 
     //GRABS THE COMMUNITIES TO BE USED IN THE COMMUNITY SELECTOR
     const communities = Object.values(useSelector((state) => state.communities.allCommunities))
@@ -41,6 +42,7 @@ function CreatePostForm(){
         setPostText('')
         setPostImage('')
         setCommunityName('')
+        setPreview('')
         setErrors([])
         postButton()
 
@@ -142,6 +144,7 @@ function CreatePostForm(){
         setShowErrors([])
         setImageForm(false)
         setPostForm(true)
+        setPreview('')
         setPostImage('')
     }
 

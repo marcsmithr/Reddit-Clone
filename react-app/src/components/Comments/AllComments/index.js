@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loadAllComments } from '../../../store/comments'
 import Comment from '../Comment'
 
-
+console.log("COMMENT COMPONENT", Comment)
 
 
 function AllComments({comments}){
@@ -29,15 +29,16 @@ function AllComments({comments}){
     const rootComments = commentsByParentId[null]
     console.log("rootComments in AllComments", rootComments)
 
-    if(!comments) return null
     return (
         <div>
-            {rootComments.forEach((comment)=>
+            {rootComments.map((comment)=>(
             <div>
-                {console.log("hello from foreach", comment)}
-                <Comment comment={comment}/>
+                {/* {console.log("hello from foreach", comment)}
+                <Comment comment={comment}/> */}
+                {console.log("Comment in foreach", comment.text)}
+              {comment.text}
                 </div>
-            )}
+            ))}
         </div>
     )
 }
