@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useMemo} from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 import { authenticate, getUser } from '../../../store/session'
 import { allPosts, getOnePost, deletePost } from '../../../store/posts'
@@ -14,13 +14,25 @@ function SinglePostPage() {
 
     const currentUser = useSelector(state => state.session.user)
     const post= useSelector((state)=> state.posts.singlePost)
-    const allComments = Object.values(useSelector((state)=> state.comments.allComments))
-    console.log("ALL COMMENTS", allComments)
+    const comments = Object.values(useSelector((state)=> state.comments.allComments))
+
     const community_name = post.community_name
 
     const user = post.user
     const images = post.images
 
+    const commentsByParentId = useMemo(()=>{
+        const group = {}
+        comments.forEach(comment =>{
+            group[comment.parent_id] ||= []
+            group[comment.parent_id].push(comment)
+        })
+        return group
+    }, [comments])
+
+
+    const rootComments = commentsByParentId[null]
+    console.log("rootComments in SinglePost", rootComments)
 
     const removePost = async () => {
         await dispatch(deletePost(post.id))
@@ -44,12 +56,12 @@ function SinglePostPage() {
 
     if(!post||!user) return null
     return (
-        <div className='post-page-body'>
-            <div className='post-page-content'>
-                <div className='left-main-post-div'>
-                    <div className='left-main-post-header'>
+        <div className='single-post-page-body'>
+            <div className='single-post-page-content'>
+                <div className='left-main-single-post-div'>
+                    <div className='left-main-single-post-header'>
                         </div>
-       <div className='post-card-container'>
+       <div className='post-card-container' id='single-post'>
 
             <div className='post-card-likes'>
             </div>
@@ -104,13 +116,13 @@ function SinglePostPage() {
                 </div>
             </div>
         </div>
-        <div className='comments-container'>
-            { (allComments.length !==0)&&
-            <AllComments comments={allComments}/>
+        <div className='comments-outer-container'>
+            { (rootComments?.length !==0)&&
+            <AllComments rootComments={rootComments}/>
         }
         </div>
         </div>
-                <div className='right-main-post-div'>
+                <div className='right-main-single-post-div'>
                 </div>
             </div>
         </div>
