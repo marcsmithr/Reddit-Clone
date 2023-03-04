@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Comment
+from app.models import Comment, Post
 from ..models.db import db
 from ..forms import CommentForm
 
@@ -18,3 +18,29 @@ def all_comments_for_post(id):
     for comment in comments:
         all_comments.append(comment.to_dict())
     return {"Comments": all_comments}
+
+# CREATES A NEW COMMENT ON A POST
+@comment_routes.route('/posts/<int:post_id>/comment/<int:parent_id>', methods=['POST'])
+@login_required
+def new_comment(post_id, parent_id):
+    '''
+    Create a new comment on a post
+    '''
+    form = CommentForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        new_comment = Comment()
+        form.populate_obj(new_comment)
+        new_comment.user_id = current_user.id
+        new_comment.post_id = post_id
+        if(parent_id):
+            new_comment.parent_id = parent_id
+        db.session.add(new_comment)
+        db.session.commit()
+        return new_comment.to_dict(), 201
+
+    if form.errors:
+        return{
+            "errors": form.errors
+        }, 400

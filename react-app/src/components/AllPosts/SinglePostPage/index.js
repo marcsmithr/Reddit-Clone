@@ -8,6 +8,7 @@ import AllComments from '../../Comments/AllComments'
 import './index.css'
 import { getOneCommunity } from '../../../store/communities'
 import CommunityDetails from '../../Communities/CommunityDetails'
+import CommentForm from '../../Comments/CreateComment'
 
 function SinglePostPage() {
     const history = useHistory()
@@ -118,6 +119,9 @@ function SinglePostPage() {
                     </div>
                 </div>
             </div>
+        </div>
+        <div>
+            <CommentForm post_id={post_id} />
         </div>
         <div className='comments-outer-container'>
             { (rootComments?.length !==0)&&
