@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react'
+import React, {useMemo, useState} from 'react'
 import { useSelector } from 'react-redux'
 import AllComments from '../AllComments'
 import './index.css'
@@ -11,8 +11,9 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 
 export function Comment({comment}){
     console.log("Text in Comment", comment.text)
+    const[areChildrenHidden, setAreChildenHidden] = useState(false)
+    console.log("arechildrenhidden", areChildrenHidden)
 
-    const areChildrenHidden = false
     const comments = Object.values(useSelector((state)=> state.comments.allComments))
     const commentsByParentId = useMemo(()=>{
         const group = {}
@@ -29,8 +30,19 @@ export function Comment({comment}){
     }
 
     const childComments = getReplies(comment.id)
-    console.log("comment.id", comment.id)
-    console.log("childComments", childComments)
+
+    function hideReplies() {
+        console.log("arechildrenhidden", areChildrenHidden)
+        setAreChildenHidden(true)
+    }
+
+    function showReplies() {
+        console.log("arechildrenhidden", areChildrenHidden)
+        setAreChildenHidden(false)
+    }
+
+    let nestedCommentStackId = areChildrenHidden? "hidden" : ""
+    let showReplyId = !areChildrenHidden? "hidden" : ""
 
     if(!comment) return null
     return(
@@ -52,12 +64,13 @@ export function Comment({comment}){
             </div>
             {childComments?.length > 0 && (
                 <>
-                    <div className={`nested-comment-stack${areChildrenHidden ? "hidden": ""}`}>
-                        <button className='collapse-line' aria-label='Hide Replies'/>
+                    <div className='nested-comment-stack' id={nestedCommentStackId}>
+                        <button className='collapse-line' aria-label='Hide Replies' onClick={()=>hideReplies()}/>
                         <div className='nested-comments' >
                             <AllComments rootComments={childComments}/>
                         </div>
                     </div>
+                    <button className='show-replies-button' id={showReplyId} onClick={()=>showReplies()}><i className="fa-solid fa-up-right-and-down-left-from-center"></i></button>
                 </>
             )}
         </>

@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loadAllComments } from '../../../store/comments'
 import AllComments from '../../Comments/AllComments'
 import './index.css'
+import { getOneCommunity } from '../../../store/communities'
+import CommunityDetails from '../../Communities/CommunityDetails'
 
 function SinglePostPage() {
     const history = useHistory()
@@ -15,7 +17,7 @@ function SinglePostPage() {
     const currentUser = useSelector(state => state.session.user)
     const post= useSelector((state)=> state.posts.singlePost)
     const comments = Object.values(useSelector((state)=> state.comments.allComments))
-
+    const community = useSelector((state)=> state.communities.singleCommunity)
     const community_name = post.community_name
 
     const user = post.user
@@ -48,13 +50,14 @@ function SinglePostPage() {
     useEffect(()=> {
         // secondFunction()
         dispatch(getOnePost(post_id))
+        dispatch(getOneCommunity(community_name))
         dispatch(loadAllComments(post_id))
     }, [dispatch, post_id])
 
 
 
 
-    if(!post||!user) return null
+    if(!post||!user||!community) return null
     return (
         <div className='single-post-page-body'>
             <div className='single-post-page-content'>
@@ -123,6 +126,9 @@ function SinglePostPage() {
         </div>
         </div>
                 <div className='right-main-single-post-div'>
+                    <div className='post-page-community-details-container'>
+                        <CommunityDetails community={community}/>
+                    </div>
                 </div>
             </div>
         </div>
