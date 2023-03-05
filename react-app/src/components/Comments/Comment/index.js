@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react'
 import { useSelector } from 'react-redux'
 import AllComments from '../AllComments'
+import CommentForm from '../CreateComment'
 import './index.css'
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
@@ -10,20 +11,20 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 
 
 export function Comment({comment}){
-    console.log("Text in Comment", comment.text)
     const[areChildrenHidden, setAreChildenHidden] = useState(false)
-    console.log("arechildrenhidden", areChildrenHidden)
+    const[replying, setReplying] = useState(false)
 
     const comments = Object.values(useSelector((state)=> state.comments.allComments))
+    const post = useSelector((state)=> state.posts.singlePost)
+
     const commentsByParentId = useMemo(()=>{
         const group = {}
         comments.forEach(comment =>{
             group[comment.parent_id] ||= []
             group[comment.parent_id].push(comment)
         })
-        console.log("group in comments",group)
         return group
-    }, [])
+    },[comments])
 
     function getReplies(parent_id){
         return commentsByParentId[parent_id]
@@ -32,17 +33,21 @@ export function Comment({comment}){
     const childComments = getReplies(comment.id)
 
     function hideReplies() {
-        console.log("arechildrenhidden", areChildrenHidden)
         setAreChildenHidden(true)
     }
 
     function showReplies() {
-        console.log("arechildrenhidden", areChildrenHidden)
         setAreChildenHidden(false)
+    }
+
+    function reply(){
+        if(!replying) setReplying(true)
+        else setReplying(false)
     }
 
     let nestedCommentStackId = areChildrenHidden? "hidden" : ""
     let showReplyId = !areChildrenHidden? "hidden" : ""
+    let replyingId = !replying? "hidden" : ""
 
     if(!comment) return null
     return(
@@ -60,6 +65,13 @@ export function Comment({comment}){
                 {comment.text}
             </div>
             <div className='comment-footer'>
+                <button className={`icon-button`} onClick={()=>reply()}>
+                    <i className="fa-regular fa-comment"></i>
+                    <span>Reply</span>
+                </button>
+            </div>
+            <div className='create-reply-container' id={replyingId} >
+                <CommentForm post_id={post.id} parent_id={comment.id}/>
             </div>
             </div>
             {childComments?.length > 0 && (

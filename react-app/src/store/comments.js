@@ -70,15 +70,16 @@ export const loadAllComments = (id)=> async dispatch =>{
 //     }
 // }
 
-export const createComment = (comment, post_id, parent_id=0) => async dispatch => {
-    // console.log("COMMUNITY NAME IN CREATE POST", community_name)
-    // console.log("POST IN CREATE POST", post)
+export const commentCreate = (comment, post_id, parent_id=0) => async dispatch => {
+   console.log("comment in thunk", comment)
+   console.log("post_id in thunk", post_id)
+   console.log("parent_id in thunk", parent_id)
     const response = await fetch(`/api/comments/posts/${post_id}/comment/${parent_id}`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(comment)
       })
-    //   console.log("RESPONSE IN CREATE POST", response)
+      console.log("RESPONSE IN CREATE COMMENT", response)
     if(response.ok){
         const newComment = await response.json()
         // console.log("NEWPOST IN CREATE POST", newPost)

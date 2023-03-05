@@ -13,13 +13,12 @@ import CommentForm from '../../Comments/CreateComment'
 function SinglePostPage() {
     const history = useHistory()
     const dispatch = useDispatch()
-    const { post_id } = useParams()
+    const { post_id, community_name } = useParams()
 
     const currentUser = useSelector(state => state.session.user)
     const post= useSelector((state)=> state.posts.singlePost)
     const comments = Object.values(useSelector((state)=> state.comments.allComments))
     const community = useSelector((state)=> state.communities.singleCommunity)
-    const community_name = post.community_name
 
     const user = post.user
     const images = post.images
@@ -35,7 +34,6 @@ function SinglePostPage() {
 
 
     const rootComments = commentsByParentId[null]
-    console.log("rootComments in SinglePost", rootComments)
 
     const removePost = async () => {
         await dispatch(deletePost(post.id))
@@ -120,7 +118,7 @@ function SinglePostPage() {
                 </div>
             </div>
         </div>
-        <div>
+        <div className='create-comment-form-outer-container'>
             <CommentForm post_id={post_id} />
         </div>
         <div className='comments-outer-container'>

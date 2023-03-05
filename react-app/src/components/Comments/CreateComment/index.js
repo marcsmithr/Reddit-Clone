@@ -1,35 +1,40 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { createComment } from "../../../store/comments"
+import { commentCreate } from "../../../store/comments"
 
 
-function CommentForm({post_id, parent_id = null}){
+function CommentForm({post_id, parent_id = 0}){
     const dispatch = useDispatch()
-    [text, setText] = useState('')
-
+    const [commentText, setCommentText] = useState('')
+    console.log(commentText)
     const handleSubmit = (e) => {
-        e.prevent.default
+        e.preventDefault();
         let comment = {
-            text
+            text: commentText
         }
-        dispatch(createComment(comment, post_id, parent_id))
+        dispatch(commentCreate(comment, post_id, parent_id))
     }
-    const updateText = (e) => setPostText(e.target.value)
+    const updateText = (e) => setCommentText(e.target.value)
 
     return(
-        <form onSubmit={handleSubmit} className='comment-form'>
-            <div>
-                <textarea
-                className="create-comment-text"
-                placeholder="Comment..."
-                value={text}
-                onchange={updateText}
-                maxLength='1000'
-
-                />
-                <button>Comment</button>
-            </div>
-        </form>
+        <div className="create-comment-form-inner-container">
+            <form onSubmit={handleSubmit} className='comment-form'>
+                <div>
+                    <textarea
+                    className="create-comment-text"
+                    type={'text'}
+                    placeholder={'What are your thoughts?'}
+                    value={commentText}
+                    onChange={updateText}
+                    maxLength="1000"
+                    required
+                    />
+                    <div className="create-comment-button-container">
+                        <button className="create-comment-button">Comment</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     )
 }
 
