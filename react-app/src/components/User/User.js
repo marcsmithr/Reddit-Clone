@@ -72,9 +72,9 @@ function User() {
                     {/* <div>
                         <EditUserButton user={user}/>
                     </div> */}
-                    <div>
+                    {/* <div>
                         <DeleteUserButton user={user}/>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
