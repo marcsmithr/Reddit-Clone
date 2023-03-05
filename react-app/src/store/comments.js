@@ -88,9 +88,24 @@ export const commentCreate = (comment, post_id, parent_id=0) => async dispatch =
     }
 }
 
-export const CommentEdit = (comment, comment_id) => async dispatch => {
+export const commentEdit = (comment, comment_id, process="submit") => async dispatch => {
     console.log('comment IN THE THUNK ', comment)
-    const response = await fetch(`/api/comments/${comment_id}`, {
+    if(process==="delete"){
+        const response = await fetch(`/api/comments/${comment_id}/${process}`, {
+            method: 'PUT',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(comment)
+        })
+        console.log("RESPONSE IN THE THUNK", response)
+
+        if(response.ok){
+            const newComment = await response.json()
+            // console.log("NEWPOST IN CREATE POST", newPost)
+            dispatch(update(newComment))
+            return newComment
+        }
+    }else{
+    const response = await fetch(`/api/comments/${comment_id}/${process}`, {
         method: 'PUT',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(comment)
@@ -103,23 +118,10 @@ export const CommentEdit = (comment, comment_id) => async dispatch => {
         dispatch(update(newComment))
         return newComment
     }
+    }
 }
 
 
-// export const deletePost = (id) => async dispatch => {
-//     console.log('id IN DELETE THUNK', id)
-//     const response = await fetch(`/api/posts/${id}`, {
-//         method: 'DELETE',
-//         headers: { 'Content-Type': 'application/json' }
-//     })
-//     console.log('REPONSE----', response)
-//     if (response.ok){
-//         const deletedPost = await response.json()
-//         dispatch(remove(id))
-//         return deletedPost
-//     }
-//     return response
-// }
 
 
 

@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { commentEdit } from '../../../store/comments'
 import { CommentFormContext } from '../../context/CommentContext'
 import AllComments from '../AllComments'
 import CommentForm from '../CreateComment'
@@ -13,6 +14,7 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 
 
 export function Comment({comment}){
+    const dispatch = useDispatch()
     const[areChildrenHidden, setAreChildenHidden] = useState(false)
     const[replying, setReplying] = useState(false)
 
@@ -35,6 +37,15 @@ export function Comment({comment}){
     }
 
     const childComments = getReplies(comment.id)
+
+    function handleDelete(id){
+        const comment = {
+            text: "deleted"
+        }
+
+        console.log("handle delete comment id", id)
+        dispatch(commentEdit(comment, id, "delete"))
+    }
 
     function hideReplies() {
         setAreChildenHidden(true)
@@ -86,6 +97,10 @@ export function Comment({comment}){
                 <button className={`icon-button`} onClick={()=>editAComment()}>
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>Edit</span>
+                </button>
+                <button className={`icon-button`} onClick={()=>handleDelete(comment.id)}>
+                <i class="fa-sharp fa-solid fa-trash"></i>
+                    <span>Delete</span>
                 </button>
             </div>
             <div className='create-reply-container' id={replyingId} >

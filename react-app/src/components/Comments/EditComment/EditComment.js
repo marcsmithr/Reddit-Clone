@@ -1,6 +1,6 @@
 import { useState, useContext } from "react"
 import { useDispatch } from "react-redux"
-import { commentCreate, CommentEdit } from "../../../store/comments"
+import { commentEdit } from "../../../store/comments"
 import { CommentFormContext } from "../../context/CommentContext"
 
 
@@ -15,7 +15,7 @@ function EditCommentForm({text, comment_id}){
         let comment = {
             text: commentText
         }
-    let newComment = dispatch(CommentEdit(comment, comment_id))
+    let newComment = dispatch(commentEdit(comment, comment_id))
     if(newComment){
         setCommentText('')
         setEditComment(false)
