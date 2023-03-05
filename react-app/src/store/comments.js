@@ -2,7 +2,7 @@ const LOAD = 'comments/LOAD'
 const CREATE = 'comments/CREATE'
 const UPDATE = 'comments/UPDATE'
 // const GET_ONE = 'comments/GET_ONE'
-// const DELETE = 'comments/DELETE'
+const DELETE = 'comments/DELETE'
 
 
 
@@ -27,10 +27,10 @@ const update = comment => ({
     comment
 })
 
-// const remove = id => ({
-//     type: DELETE,
-//     id
-// })
+const remove = id => ({
+    type: DELETE,
+    id
+})
 
 
 
@@ -121,6 +121,21 @@ export const commentEdit = (comment, comment_id, process="submit") => async disp
     }
 }
 
+export const deleteComment = (id) => async dispatch => {
+    console.log('id IN DELETE THUNK', id)
+    const response = await fetch(`/api/comments/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    console.log('REPONSE----', response)
+    if (response.ok){
+        const deletedComment = await response.json()
+        dispatch(remove(id))
+        return deletedComment
+    }
+    return response
+}
+
 
 
 
@@ -161,11 +176,11 @@ const commentReducer = (state = initialState, action) => {
             newState.allComments[action.comment.id] = action.comment
             return newState
         }
-        // case DELETE: {
-        //     newState = {...state, allPosts: {...state.allPosts}, singlePost:{...state.singleBusiness}}
-        //     delete newState.allPosts[action.id]
-        //     return newState
-        // }
+        case DELETE: {
+            newState = {...state, allComments: {...state.allComments}, singleComment:{...state.singleComment}}
+            delete newState.allComments[action.id]
+            return newState
+        }
         default:
             return state
     }

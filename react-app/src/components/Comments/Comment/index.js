@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { commentEdit } from '../../../store/comments'
+import { deleteComment, commentEdit } from '../../../store/comments'
 import { CommentFormContext } from '../../context/CommentContext'
 import AllComments from '../AllComments'
 import CommentForm from '../CreateComment'
@@ -16,12 +16,12 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
 export function Comment({comment}){
     const dispatch = useDispatch()
     const[areChildrenHidden, setAreChildenHidden] = useState(false)
-    const[replying, setReplying] = useState(false)
 
     const comments = Object.values(useSelector((state)=> state.comments.allComments))
     const post = useSelector((state)=> state.posts.singlePost)
+    const currentUser = useSelector(state => state.session.user)
 
-    const {closeComment, setCloseComment, targetComment, setTargetComment} = useContext(CommentFormContext)
+    const {closeComment, setCloseComment, targetEditComment, setTargetEditComment, targetReplyComment, setTargetReplyComment} = useContext(CommentFormContext)
 
     const commentsByParentId = useMemo(()=>{
         const group = {}
@@ -39,12 +39,10 @@ export function Comment({comment}){
     const childComments = getReplies(comment.id)
 
     function handleDelete(id){
-        const comment = {
+        let deleteMessage = {
             text: "deleted"
         }
-
-        console.log("handle delete comment id", id)
-        dispatch(commentEdit(comment, id, "delete"))
+        dispatch(commentEdit(deleteMessage, id, "delete"))
     }
 
     function hideReplies() {
@@ -56,27 +54,29 @@ export function Comment({comment}){
     }
 
     function reply(){
-        if(!replying) {
+        if(targetReplyComment===0) {
             setCloseComment(false)
-            setReplying(true)}
+            setTargetReplyComment(comment.id)}
         else {
             setCloseComment(true)
-            setReplying(false)}
+            setTargetReplyComment(0)}
     }
 
     function editAComment(){
-        setTargetComment(comment.id)
+        setTargetEditComment(comment.id)
     }
-    console.log("commentId typeof", typeof comment.id )
+    console.log("Current User", currentUser)
+    console.log("comment.user", comment.user)
+
 
     let nestedCommentStackId = areChildrenHidden? "hidden" : ""
     let showReplyId = !areChildrenHidden? "hidden" : ""
-    let replyingId = !replying||closeComment? "hidden" : ""
+    let replyingId = targetReplyComment!==comment.id||closeComment? "hidden" : ""
 
     if(!comment) return null
     return(
         <>
-        {targetComment===0 && (
+        {targetEditComment===0 && (
             <div className="comment-card">
             <div className='comment-header'>
                 <span className='comment-username'>
@@ -94,21 +94,23 @@ export function Comment({comment}){
                     <i className="fa-regular fa-comment"></i>
                     <span>Reply</span>
                 </button>
-                <button className={`icon-button`} onClick={()=>editAComment()}>
-                    <i class="fa-regular fa-pen-to-square"></i>
-                    <span>Edit</span>
-                </button>
-                <button className={`icon-button`} onClick={()=>handleDelete(comment.id)}>
-                <i class="fa-sharp fa-solid fa-trash"></i>
-                    <span>Delete</span>
-                </button>
+                {currentUser.id === comment.user.id&& (
+                <>
+                    <button className={`icon-button`} onClick={()=>editAComment()}>
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                    <button className={`icon-button `} onClick={()=>handleDelete(comment.id)}>
+                    <i class="fa-sharp fa-solid fa-trash" id='danger'></i>
+                    </button>
+                </>
+                )}
             </div>
             <div className='create-reply-container' id={replyingId} >
-                <CommentForm post_id={post.id} parent_id={comment.id} replying={replying}/>
+                <CommentForm post_id={post.id} parent_id={comment.id} />
             </div>
             </div>
             )}
-            {targetComment===comment.id && (
+            {targetEditComment===comment.id && (
                 <EditCommentForm text={comment.text} comment_id={comment.id}/>
             )}
             {childComments?.length > 0 && (

@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from 'react'
+import {useContext, useEffect, useMemo} from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 import { authenticate, getUser } from '../../../store/session'
 import { allPosts, getOnePost, deletePost } from '../../../store/posts'
@@ -9,6 +9,7 @@ import './index.css'
 import { getOneCommunity } from '../../../store/communities'
 import CommunityDetails from '../../Communities/CommunityDetails'
 import CommentForm from '../../Comments/CreateComment'
+import { CommentFormContext } from '../../context/CommentContext'
 
 function SinglePostPage() {
     const history = useHistory()
@@ -19,6 +20,7 @@ function SinglePostPage() {
     const post= useSelector((state)=> state.posts.singlePost)
     const comments = Object.values(useSelector((state)=> state.comments.allComments))
     const community = useSelector((state)=> state.communities.singleCommunity)
+
 
     const user = post.user
     const images = post.images
@@ -31,6 +33,7 @@ function SinglePostPage() {
         })
         return group
     }, [comments])
+
 
 
     const rootComments = commentsByParentId[null]

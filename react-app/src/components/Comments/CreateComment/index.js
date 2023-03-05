@@ -8,7 +8,7 @@ function CommentForm({post_id, parent_id = 0}){
     const dispatch = useDispatch()
     const [commentText, setCommentText] = useState('')
 
-    const {closeComment, setCloseComment} = useContext(CommentFormContext)
+    const {closeComment, setCloseComment, setTargetEditComment, setTargetReplyComment} = useContext(CommentFormContext)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,6 +19,8 @@ function CommentForm({post_id, parent_id = 0}){
     if(newComment){
         setCommentText('')
         setCloseComment(true)
+        setTargetEditComment(0)
+        setTargetReplyComment(0)
     }
     }
     const updateText = (e) => setCommentText(e.target.value)

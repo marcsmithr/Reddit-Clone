@@ -211,7 +211,7 @@ const postReducer = (state = initialState, action) => {
             return newState
         }
         case DELETE: {
-            newState = {...state, allPosts: {...state.allPosts}, singlePost:{...state.singleBusiness}}
+            newState = {...state, allPosts: {...state.allPosts}, singlePost:{...state.singlePost}}
             delete newState.allPosts[action.id]
             return newState
         }

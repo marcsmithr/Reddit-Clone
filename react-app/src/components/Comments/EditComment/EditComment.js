@@ -8,7 +8,7 @@ function EditCommentForm({text, comment_id}){
     const dispatch = useDispatch()
     const [commentText, setCommentText] = useState(text)
 
-    const {closeComment, setCloseComment, setEditComment, targetComment, setTargetComment} = useContext(CommentFormContext)
+    const {closeComment, setCloseComment, setEditComment, setTargetEditComment} = useContext(CommentFormContext)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +20,7 @@ function EditCommentForm({text, comment_id}){
         setCommentText('')
         setEditComment(false)
         setCloseComment(true)
-        setTargetComment(0)
+        setTargetEditComment(0)
     }
     }
     const updateText = (e) => setCommentText(e.target.value)
@@ -40,7 +40,7 @@ function EditCommentForm({text, comment_id}){
                     />
                     <div className="create-comment-button-container">
                         <button className="create-comment-button">Comment</button>
-                        <button className="cancel-edit-comment-button" onClick={()=>setTargetComment(0)}>Cancel</button>
+                        <button className="cancel-edit-comment-button" onClick={()=>setTargetEditComment(0)}>Cancel</button>
                     </div>
                 </div>
             </form>

@@ -9,7 +9,7 @@ class Comment(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), default = 13)
     post_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("posts.id")), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("comments.id")))
     text = db.Column(db.String(1000), nullable=False)

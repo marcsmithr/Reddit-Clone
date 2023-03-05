@@ -25,11 +25,11 @@ def seed_users():
         username='yes.I.am', email='yes@aa.io', password='password')
     ora = User(
         username='oraoraora', email='ora@aa.io', password='password')
+    speed = User(
+        username='speedWagon', email='speed@aa.io', password='password')
     deleted = User(
         username='deleted', email='deleted@aa.io', password='deleted'
     )
-    speed = User(
-        username='speedWagon', email='speed@aa.io', password='password')
     captain = User(
         username='captainFalconOp', email='captain@aa.io', password='password')
     khornate = User(
@@ -46,8 +46,8 @@ def seed_users():
     db.session.add(star)
     db.session.add(yes)
     db.session.add(ora)
-    db.session.add(deleted)
     db.session.add(speed)
+    db.session.add(deleted)
     db.session.add(captain)
     db.session.add(khornate)
     db.session.commit()

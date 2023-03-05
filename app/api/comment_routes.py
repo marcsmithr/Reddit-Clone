@@ -71,25 +71,13 @@ def update_comment_by_id(id, process):
             "errors": form.errors
         }, 400
 
-#     # DELETES COMMENT
-# @comment_routes.route('/<int:id>/delete', methods=['PUT'])
-# @login_required
-# def update_comment_by_id(id):
-#     current_comment = Comment.query.get(id)
-#     if not current_comment:
-#         return {"errors": "Comment not found"}, 404
-
-#     form = CommentForm()
-#     form['csrf_token'].data = request.cookies['csrf_token']
-
-#     if form.validate_on_submit():
-#         form.populate_obj(current_comment)
-#         # current_comment.user_id = 13
-#         db.session.add(current_comment)
-#         db.session.commit()
-#         return current_comment.to_dict(), 201
-
-#     if form.errors:
-#         return {
-#             "errors": form.errors
-#         }, 400
+#DELETE Comment
+@comment_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_item(id):
+    comment = Comment.query.get(id)
+    if not comment:
+        return {"errors": "Comment not found"}, 404
+    db.session.delete(comment)
+    db.session.commit()
+    return {"message": "Comment deleted"}
