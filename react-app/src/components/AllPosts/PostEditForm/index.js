@@ -19,7 +19,7 @@ function EditPostForm(){
     const [initialImage, setInitialImage] = useState(false)
     const [preview, setPreview] = useState('')
     const {postTitle, setPostTitle, postText, setPostText, postImage, setPostImage, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
-
+    const community = useSelector((state)=> state.communities.singleCommunity)
     //UPDATES USESTATE AS FORM RECIEVES INPUT
     const updateTitle = (e) => setPostTitle(e.target.value)
     const updateText = (e) => setPostText(e.target.value)
@@ -49,7 +49,7 @@ function EditPostForm(){
         setPostImage('')
         setErrors([])
         postButton()
-        history.push(`/s/${communityName}/${post.id}/comments`)
+        history.push(`/s/${community.name}/${post.id}/comments`)
     }
 
     //HANDLE FORM SUBMISSION FUNCTION
@@ -63,6 +63,12 @@ function EditPostForm(){
 
         if(initialImage && !preview){
             dispatch(deletePostImage(imageId))
+            payload = {
+                title: postTitle,
+                text: postText
+            }
+            let newPost = await dispatch(postEdit(payload, post_id))
+            if(newPost) clearData()
 
         } else if(!initialImage && preview){
 
