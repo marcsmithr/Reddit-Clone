@@ -1,7 +1,9 @@
-import React, {useMemo, useState} from 'react'
+import React, {useContext, useEffect, useMemo, useState} from 'react'
 import { useSelector } from 'react-redux'
+import { CommentFormContext } from '../../context/CommentContext'
 import AllComments from '../AllComments'
 import CommentForm from '../CreateComment'
+import EditCommentForm from '../EditComment/EditComment'
 import './index.css'
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
@@ -16,6 +18,8 @@ export function Comment({comment}){
 
     const comments = Object.values(useSelector((state)=> state.comments.allComments))
     const post = useSelector((state)=> state.posts.singlePost)
+
+    const {closeComment, setCloseComment, targetComment, setTargetComment} = useContext(CommentFormContext)
 
     const commentsByParentId = useMemo(()=>{
         const group = {}
@@ -41,17 +45,27 @@ export function Comment({comment}){
     }
 
     function reply(){
-        if(!replying) setReplying(true)
-        else setReplying(false)
+        if(!replying) {
+            setCloseComment(false)
+            setReplying(true)}
+        else {
+            setCloseComment(true)
+            setReplying(false)}
     }
+
+    function editAComment(){
+        setTargetComment(comment.id)
+    }
+    console.log("commentId typeof", typeof comment.id )
 
     let nestedCommentStackId = areChildrenHidden? "hidden" : ""
     let showReplyId = !areChildrenHidden? "hidden" : ""
-    let replyingId = !replying? "hidden" : ""
+    let replyingId = !replying||closeComment? "hidden" : ""
 
     if(!comment) return null
     return(
         <>
+        {targetComment===0 && (
             <div className="comment-card">
             <div className='comment-header'>
                 <span className='comment-username'>
@@ -69,11 +83,19 @@ export function Comment({comment}){
                     <i className="fa-regular fa-comment"></i>
                     <span>Reply</span>
                 </button>
+                <button className={`icon-button`} onClick={()=>editAComment()}>
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <span>Edit</span>
+                </button>
             </div>
             <div className='create-reply-container' id={replyingId} >
-                <CommentForm post_id={post.id} parent_id={comment.id}/>
+                <CommentForm post_id={post.id} parent_id={comment.id} replying={replying}/>
             </div>
             </div>
+            )}
+            {targetComment===comment.id && (
+                <EditCommentForm text={comment.text} comment_id={comment.id}/>
+            )}
             {childComments?.length > 0 && (
                 <>
                     <div className='nested-comment-stack' id={nestedCommentStackId}>

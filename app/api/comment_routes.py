@@ -44,3 +44,27 @@ def new_comment(post_id, parent_id):
         return{
             "errors": form.errors
         }, 400
+
+
+# UPDATE COMMENT
+@comment_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_comment_by_id(id):
+    current_comment = Comment.query.get(id)
+    if not current_comment:
+        return {"errors": "Comment not found"}, 404
+
+    form = CommentForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        form.populate_obj(current_comment)
+
+        db.session.add(current_comment)
+        db.session.commit()
+        return current_comment.to_dict(), 201
+
+    if form.errors:
+        return {
+            "errors": form.errors
+        }, 400

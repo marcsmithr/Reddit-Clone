@@ -129,6 +129,18 @@
 
 }
 
+.cancel-edit-comment-button{
+    margin-right: 5px;
+    width: 80px;
+    height: 25px;
+    background-color: white;
+    border: #0079D3 solid 1px;
+    border-radius: 30px;
+    color: #0079D3;
+    font-size: 13px;
+    font-weight: bold;
+}
+
 .focus{
     box-shadow: 10px 5px 5px black;
 }

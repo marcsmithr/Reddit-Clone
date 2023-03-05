@@ -1,15 +1,17 @@
-// import React, { createContext } from 'react';
+import React, { useState, createContext } from 'react';
 
-// export const CommentContext = createContext()
+export const CommentFormContext = createContext()
 
-// export const CommentProvider = props => {
+export const CommentFormProvider = props => {
+    const [closeComment, setCloseComment] = useState(false)
+    const [editComment, setEditComment] = useState(false)
+    const [targetComment, setTargetComment] = useState(0)
 
 
-//     return(
-//         <PostFormContext.Provider value={{ postTitle, setPostTitle, postText, setPostText, postImage,
-//          setPostImage, communityName, setCommunityName, postForm, setPostForm, imageForm, setImageForm }} >
-//             {props.children}
-//         </PostFormContext.Provider>
-//     )
+    return(
+        <CommentFormContext.Provider value={{ closeComment, setCloseComment, editComment, setEditComment, targetComment, setTargetComment }} >
+            {props.children}
+        </CommentFormContext.Provider>
+    )
 
-// }
+}

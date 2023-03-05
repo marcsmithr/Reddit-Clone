@@ -1,24 +1,26 @@
 import { useState, useContext } from "react"
 import { useDispatch } from "react-redux"
-import { commentCreate } from "../../../store/comments"
+import { commentCreate, CommentEdit } from "../../../store/comments"
 import { CommentFormContext } from "../../context/CommentContext"
 
 
-function CommentForm({post_id, parent_id = 0}){
+function EditCommentForm({text, comment_id}){
     const dispatch = useDispatch()
-    const [commentText, setCommentText] = useState('')
+    const [commentText, setCommentText] = useState(text)
 
-    const {closeComment, setCloseComment} = useContext(CommentFormContext)
+    const {closeComment, setCloseComment, setEditComment, targetComment, setTargetComment} = useContext(CommentFormContext)
 
     const handleSubmit = (e) => {
         e.preventDefault();
         let comment = {
             text: commentText
         }
-    let newComment = dispatch(commentCreate(comment, post_id, parent_id))
+    let newComment = dispatch(CommentEdit(comment, comment_id))
     if(newComment){
         setCommentText('')
+        setEditComment(false)
         setCloseComment(true)
+        setTargetComment(0)
     }
     }
     const updateText = (e) => setCommentText(e.target.value)
@@ -38,6 +40,7 @@ function CommentForm({post_id, parent_id = 0}){
                     />
                     <div className="create-comment-button-container">
                         <button className="create-comment-button">Comment</button>
+                        <button className="cancel-edit-comment-button" onClick={()=>setTargetComment(0)}>Cancel</button>
                     </div>
                 </div>
             </form>
@@ -45,4 +48,4 @@ function CommentForm({post_id, parent_id = 0}){
     )
 }
 
-export default CommentForm
+export default EditCommentForm

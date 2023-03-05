@@ -1,6 +1,6 @@
 const LOAD = 'comments/LOAD'
 const CREATE = 'comments/CREATE'
-// const UPDATE = 'comments/UPDATE'
+const UPDATE = 'comments/UPDATE'
 // const GET_ONE = 'comments/GET_ONE'
 // const DELETE = 'comments/DELETE'
 
@@ -22,10 +22,10 @@ const createComment = comment => ({
     comment
 })
 
-// const update = post => ({
-//     type: UPDATE,
-//     post
-// })
+const update = comment => ({
+    type: UPDATE,
+    comment
+})
 
 // const remove = id => ({
 //     type: DELETE,
@@ -88,39 +88,22 @@ export const commentCreate = (comment, post_id, parent_id=0) => async dispatch =
     }
 }
 
-// export const postEdit = (post, post_id) => async dispatch => {
-//     console.log('Post IN THE THUNK ', post)
-//     const response = await fetch(`/api/posts/${post_id}`, {
-//         method: 'PUT',
-//         headers: {"Content-Type": "application/json"},
-//         body: JSON.stringify(post)
-//     })
-//     console.log("RESPONSE IN THE THUNK", response)
+export const CommentEdit = (comment, comment_id) => async dispatch => {
+    console.log('comment IN THE THUNK ', comment)
+    const response = await fetch(`/api/comments/${comment_id}`, {
+        method: 'PUT',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(comment)
+    })
+    console.log("RESPONSE IN THE THUNK", response)
 
-//     if(response.ok){
-//         const newPost = await response.json()
-//         // console.log("NEWPOST IN CREATE POST", newPost)
-//         if(post.image){
-//             const payload = {
-//                 "post_id": newPost.id,
-//                 "url": post.image
-//             }
-//             const imageResponse = await fetch(`/api/posts/${newPost.id}/image`, {
-//                 method: "PUT",
-//                 headers: {"Content-Type": "application/json"},
-//                 body: JSON.stringify(payload)
-//             })
-//             if(imageResponse.ok){
-//                 const i = await imageResponse.json()
-//                 newPost.images[i.id] = [i]
-//                 dispatch(update(newPost))
-//                 return newPost
-//             }
-//         }
-//         dispatch(createPost(newPost))
-//         return newPost
-//     }
-// }
+    if(response.ok){
+        const newComment = await response.json()
+        // console.log("NEWPOST IN CREATE POST", newPost)
+        dispatch(update(newComment))
+        return newComment
+    }
+}
 
 
 // export const deletePost = (id) => async dispatch => {
@@ -171,11 +154,11 @@ const commentReducer = (state = initialState, action) => {
         //     newState.singlePost = action.post
         //     return newState
         // }
-        // case UPDATE: {
-        //     newState = {...state, allPosts: {...state.allPosts} }
-        //     newState.allPosts[action.post.id] = action.post
-        //     return newState
-        // }
+        case UPDATE: {
+            newState = {...state, allComments: {...state.allComments} }
+            newState.allComments[action.comment.id] = action.comment
+            return newState
+        }
         // case DELETE: {
         //     newState = {...state, allPosts: {...state.allPosts}, singlePost:{...state.singleBusiness}}
         //     delete newState.allPosts[action.id]

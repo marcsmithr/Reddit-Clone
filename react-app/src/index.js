@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { PostFormProvider } from './components/context/PostFormContext';
 import { LoginModalProvider } from './components/context/LoginModalContext';
 import { UserPageProvider } from './components/context/UserPageContext';
+import { CommentFormProvider } from './components/context/CommentContext';
 import './index.css';
 import App from './App';
 import configureStore from './store';
@@ -15,9 +16,11 @@ ReactDOM.render(
     <PostFormProvider>
       <LoginModalProvider>
         <UserPageProvider>
-          <Provider store={store}>
-            <App />
-          </Provider>
+          <CommentFormProvider>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </CommentFormProvider>
         </UserPageProvider>
         </LoginModalProvider>
       </PostFormProvider>
