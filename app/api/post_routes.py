@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Post, Post_Image
+from app.models import Post, Post_Image, Post_Like
 from ..models.db import db
-from ..forms import PostImageForm, PostForm
+from ..forms import PostLikeForm, PostForm
 from app.s3_helpers import (
     upload_file_to_s3, allowed_file, get_unique_filename)
 
@@ -20,8 +20,6 @@ def all_posts():
     for post in posts:
         all_posts.append(post.to_dict())
         print("Hi there")
-        # print({"Reviews": all_reviews})
-    # return {"Reviews": [review.to_dict() for review in reviews]}
     return {"Posts": all_posts}
 
 
@@ -38,6 +36,44 @@ def one_post(id):
         return {"errors": "Post not found"}, 404
 
     return {"Post": post_to_dict}
+
+
+
+
+#DELETE POST
+@post_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_item(id):
+    post = Post.query.get(id)
+    db.session.delete(post)
+    db.session.commit()
+    if not post:
+        return {"errors": "Post not found"}, 404
+    return {"message": "post deleted"}
+
+
+# UPDATE POST
+@post_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_post_by_id(id):
+    current_post = Post.query.get(id)
+    if not current_post:
+        return {"errors": "Post not found"}, 404
+
+    form = PostForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        form.populate_obj(current_post)
+
+        db.session.add(current_post)
+        db.session.commit()
+        return current_post.to_dict(), 201
+
+    if form.errors:
+        return {
+            "errors": form.errors
+        }, 400
 
 
 #CREATE IMAGE
@@ -81,66 +117,12 @@ def post_image(id):
     db.session.commit()
     return {"url": url}
 
-    # form = PostImageForm()
-
-    # form['csrf_token'].data = request.cookies['csrf_token']
-
-    # if form.validate_on_submit():
-    #     new_post_image = Post_Image()
-    #     form.populate_obj(new_post_image)
-    #     post.images.append(new_post_image)
-    #     db.session.add(new_post_image)
-    #     db.session.commit()
-
-    #     return new_post_image.to_dict(), 200
-
-    # if form.errors:
-    #     return {
-    #         "errors": form.errors
-    #     }, 400
-
-#DELETE POST
-@post_routes.route('/<int:id>', methods=['DELETE'])
-@login_required
-def delete_item(id):
-    post = Post.query.get(id)
-    db.session.delete(post)
-    db.session.commit()
-    if not post:
-        return {"errors": "Post not found"}, 404
-    return {"message": "post deleted"}
-
-
-# UPDATE POST
-@post_routes.route('/<int:id>', methods=['PUT'])
-@login_required
-def update_post_by_id(id):
-    current_post = Post.query.get(id)
-    if not current_post:
-        return {"errors": "Post not found"}, 404
-
-    form = PostForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-
-    if form.validate_on_submit():
-        form.populate_obj(current_post)
-
-        db.session.add(current_post)
-        db.session.commit()
-        return current_post.to_dict(), 201
-
-    if form.errors:
-        return {
-            "errors": form.errors
-        }, 400
-
-
 # UPDATE POST IMAGE
 @post_routes.route('/images/<int:id>', methods=['PUT'])
 @login_required
 def update_image_by_id(id):
     current_image = Post_Image.query.get(id)
-    print ('HELLO FROM BACKEND UPDATE IMAGE--------')
+
     if not current_image:
         return {"errors": "Image not found"}, 404
 
@@ -153,9 +135,9 @@ def update_image_by_id(id):
         return {"errors": "file type not permitted"}, 400
 
     image.filename = get_unique_filename(image.filename)
-    print ("IMAGE----------------", image)
+
     upload = upload_file_to_s3(image)
-    print("UPLOAD-----------------", upload)
+
 
     if "url" not in upload:
         # if the dictionary doesn't have a url key
@@ -191,3 +173,76 @@ def delete_image(id):
     return {"message": "Image deleted",
             "post_id": post_id
             }
+
+#CREATE POSTLIKE
+@post_routes.route('/likes', methods=['POST'])
+@login_required
+def new_form():
+    '''
+    Creates a like for a post
+    '''
+
+    form = PostLikeForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+
+    if form.validate_on_submit():
+        new_like = Post_Like()
+        form.populate_obj(new_like)
+        db.session.add(new_like)
+        db.session.commit()
+        return new_like.to_dict(), 201
+
+    if form.errors:
+        print("FORM ERRORS", form.errors)
+        return {
+             "errors": form.errors
+        }, 400
+
+#CREATE POSTLIKE
+@post_routes.route('/likes', methods=['POST'])
+@login_required
+def new_like():
+    '''
+    Creates a like for a post
+    '''
+
+    form = PostLikeForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+
+    if form.validate_on_submit():
+        new_like = PostLikeForm()
+        form.populate_obj(new_like)
+        db.session.add(new_like)
+        db.session.commit()
+        return new_like.to_dict(), 201
+
+    if form.errors:
+        print("FORM ERRORS", form.errors)
+        return {
+             "errors": form.errors
+        }, 400
+
+# UPDATE Like
+@post_routes.route('/likes/<int:id>', methods=['PUT'])
+@login_required
+def update_like_by_id(id):
+    current_like = Post_Like.query.get(id)
+    if not current_like:
+        return {"errors": "Like not found"}, 404
+
+    form = PostLikeForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        form.populate_obj(current_like)
+
+        db.session.add(current_like)
+        db.session.commit()
+        return current_like.to_dict(), 201
+
+    if form.errors:
+        return {
+            "errors": form.errors
+        }, 400

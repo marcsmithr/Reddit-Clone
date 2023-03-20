@@ -19,6 +19,7 @@ class Post(db.Model):
 
     user = db.relationship('User', back_populates='post')
     images = db.relationship('Post_Image', back_populates='post', cascade='all, delete-orphan')
+    likes = db.relationship('Post_Like', back_populates='post', cascade='all, delete-orphan')
     community = db.relationship('Community', back_populates='posts')
     comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
     def to_dict(self):
@@ -48,6 +49,7 @@ class Post(db.Model):
             "title": self.title,
             "text": self.text,
             "images": [image.to_dict() for image in self.images],
+            "likes": [like.to_dict() for like in self.likes],
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }
@@ -78,6 +80,7 @@ class Post(db.Model):
             "title": self.title,
             "text": self.text,
             "images": [image.to_dict() for image in self.images],
+            "likes": [like.to_dict() for like in self.likes],
             "created_at": self.created_at,
             "updated_at": self.updated_at
         }
@@ -108,4 +111,35 @@ class Post_Image(db.Model):
             "id": self.id,
             "post_id": self.post_id,
             "url": self.url,
+        }
+
+class Post_Like(db.Model):
+    __tablename__ = 'post_likes'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("posts.id")))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
+    is_like = db.Column(db.Boolean, nullable=False)
+
+    post = relationship('Post', back_populates='likes')
+    user = relationship('User', back_populates='likes')
+
+    def to_dict(self):
+        """
+        Returns a dict representing Post Image
+        {
+            id,
+            post_id,
+            user_id,
+            is_like
+        }
+        """
+        return {
+            "id": self.id,
+            "post_id": self.post_id,
+            "user_id": self.user_id,
+            "is_like": self.is_like
         }

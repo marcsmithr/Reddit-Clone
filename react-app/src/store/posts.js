@@ -87,6 +87,7 @@ export const postCreate = (post, community_name, formData=null) => async dispatc
     }
 }
 
+
 export const postEdit = (post, post_id, image_id=null, formData=null, initialImage=false) => async dispatch => {
     const response = await fetch(`/api/posts/${post_id}`, {
         method: 'PUT',
@@ -152,6 +153,37 @@ export const deletePostImage = (id) => async dispatch => {
         return deletedPostImage
     }
     return response
+}
+
+export const createLike = (payload, post) => async dispatch => {
+
+    const response = await fetch(`/api/posts/likes`, {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload)
+    })
+
+    if(response.ok){
+        const createdLike = await response.json()
+        post.likes.push(createdLike)
+        dispatch(update(post))
+        return createdLike
+    }
+}
+
+export const updateLike = (payload, id, post) => async dispatch => {
+
+    const response = await fetch(`/api/posts/likes/${id}`, {
+        method: 'PUT',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload)
+    })
+
+    if(response.ok){
+        const newLike = await response.json()
+        dispatch(update(post))
+        return newLike
+    }
 }
 
 

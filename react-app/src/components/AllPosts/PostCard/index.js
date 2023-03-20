@@ -2,8 +2,22 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './index.css'
 
+function evaluateLikes (arr){
+    let likes = []
+    let dislikes = []
+    arr.forEach(el => {
+        if(el.is_like) likes.push(el)
+        else dislikes.push(el)
+    });
+    console.log(arr)
+    console.log(likes)
+    console.log(dislikes)
+    return (likes.length - dislikes.length)
+}
+
 function PostCard({post}) {
     const user = post.user
+    const likes = evaluateLikes(post.likes)
 
     const images = post.images
     if(!post||!user) return null
@@ -12,6 +26,7 @@ function PostCard({post}) {
             <Link className='post-card-link' to={`/s/${post.community_name}/${post.id}/comments`}>
                 <div className='post-card-container'>
                         <div className='post-card-likes'>
+                            <span>{likes}</span>
                         </div>
                         <div className='post-card-main'>
                             <div className='post-info-container'>
