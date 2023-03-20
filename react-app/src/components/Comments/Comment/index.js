@@ -65,8 +65,6 @@ export function Comment({comment}){
     function editAComment(){
         setTargetEditComment(comment.id)
     }
-    console.log("Current User", currentUser)
-    console.log("comment.user", comment.user)
 
 
     let nestedCommentStackId = areChildrenHidden? "hidden" : ""

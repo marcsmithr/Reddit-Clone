@@ -71,8 +71,6 @@ function EditPostForm(){
             if(newPost) clearData()
 
         } else if(!initialImage && preview){
-
-            console.log("line67")
                 setImageLoading(true);
                 const formData = new FormData();
                 formData.append("image", postImage);

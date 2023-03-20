@@ -29,7 +29,6 @@ function CreatePostForm(){
         }
         setPostImage(e.target.files[0])
     }
-    console.log("UPDATEIMAGE- POSTIMAGE", postImage)
 
 
     //GRABS THE COMMUNITIES TO BE USED IN THE COMMUNITY SELECTOR
@@ -57,7 +56,6 @@ function CreatePostForm(){
     //HANDLE FORM SUBMISSION FUNCTION
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log("hello from handle submit")
 
         if(errors){
             setShowErrors(errors)
@@ -68,13 +66,10 @@ function CreatePostForm(){
             setImageLoading(true);
             const formData = new FormData();
             formData.append("image", postImage);
-            console.log("FORMDATA.IMAGE IN HANDLE SUBMIT", formData.get('image'))
-            console.log("POST IMAGE FILE OBJ IN SUBMIT", postImage)
             payload= {
                 title: postTitle
             }
             let newPost = await dispatch(postCreate(payload, communityName, formData))
-            console.log("POSTCREATE RESPONSE IN HANDLE SUBMIT", newPost)
             if(newPost) clearData()
         } else{
             payload = {

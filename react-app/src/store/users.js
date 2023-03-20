@@ -48,7 +48,6 @@ export const updateUser = (user, id) => async dispatch => {
 
 
 export const deleteUser = (id) => async (dispatch) => {
-    console.log("ID IN THUNK", id)
     const response = await fetch (`/api/users/${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }

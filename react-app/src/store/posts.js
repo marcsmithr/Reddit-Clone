@@ -60,29 +60,23 @@ export const allPosts = () => async dispatch => {
 }
 
 export const postCreate = (post, community_name, formData=null) => async dispatch => {
-    // console.log("COMMUNITY NAME IN CREATE POST", community_name)
-    // console.log("POST IN CREATE POST", post)
 
     const response = await fetch(`/api/communities/${community_name}/posts`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(post)
       })
-    //   console.log("RESPONSE IN CREATE POST", response)
+
     if(response.ok){
         const newPost = await response.json()
-        // console.log("NEWPOST IN CREATE POST", newPost)
         if(formData){
 
-            console.log("FORMDATA IN THUNK", formData)
             const imageResponse = await fetch(`/api/posts/${newPost.id}/images`, {
                 method: "POST",
                 body: formData
             })
-            console.log("IMAGERESPONSE", imageResponse)
             if(imageResponse.ok){
                 const newImage = await imageResponse.json()
-                console.log("newImage IN THUNK", newImage)
                 newPost.images = [newImage]
                 dispatch(createPost(newPost))
                 return newPost
@@ -94,27 +88,21 @@ export const postCreate = (post, community_name, formData=null) => async dispatc
 }
 
 export const postEdit = (post, post_id, image_id=null, formData=null, initialImage=false) => async dispatch => {
-    console.log('Post IN THE THUNK ', post)
     const response = await fetch(`/api/posts/${post_id}`, {
         method: 'PUT',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(post)
     })
-    console.log("RESPONSE IN THE THUNK", response)
 
     if(response.ok){
         const newPost = await response.json()
-        console.log("NEWPOST IN EDIT POST", newPost)
         if(formData && initialImage){
-            console.log("Hello from EDIT POST", image_id)
             const imageResponse = await fetch(`/api/posts/images/${image_id}`, {
                 method: "PUT",
                 body: formData
             })
-            console.log("imageResponse---", imageResponse)
             if(imageResponse.ok){
                 const newImage = await imageResponse.json()
-                console.log("newImage IN THUNK", newImage)
                 newPost.images = [newImage]
                 dispatch(update(newPost))
                 return newPost
@@ -124,15 +112,12 @@ export const postEdit = (post, post_id, image_id=null, formData=null, initialIma
             else return imageResponse
         }
         else if(formData && !initialImage){
-            console.log("FORMDATA IN THUNK", formData)
             const imageResponse = await fetch(`/api/posts/${newPost.id}/images`, {
                 method: "POST",
                 body: formData
             })
-            console.log("IMAGERESPONSE", imageResponse)
                 if(imageResponse.ok){
                     const newImage = await imageResponse.json()
-                    console.log("newImage IN THUNK", newImage)
                     newPost.images = [newImage]
                     dispatch(createPost(newPost))
                     return newPost
@@ -145,12 +130,10 @@ export const postEdit = (post, post_id, image_id=null, formData=null, initialIma
 
 
 export const deletePost = (id) => async dispatch => {
-    console.log('id IN DELETE THUNK', id)
     const response = await fetch(`/api/posts/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
     })
-    console.log('REPONSE----', response)
     if (response.ok){
         const deletedPost = await response.json()
         dispatch(remove(id))
@@ -160,12 +143,10 @@ export const deletePost = (id) => async dispatch => {
 }
 
 export const deletePostImage = (id) => async dispatch => {
-    console.log('id IN DELETE THUNK', id)
     const response = await fetch(`/api/posts/images/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
     })
-    console.log('REPONSE----', response)
     if (response.ok){
         const deletedPostImage = await response.json()
         return deletedPostImage

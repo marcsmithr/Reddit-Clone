@@ -10,7 +10,6 @@ function CommunityPostDetails(){
 
     const dispatch = useDispatch()
     const {community_name} = useParams()
-    console.log(community_name)
     const community = useSelector((state)=> state.communities.singleCommunity)
 
     useEffect (()=>{

@@ -181,10 +181,8 @@ def update_image_by_id(id):
 @post_routes.route('/images/<int:id>', methods=['DELETE'])
 @login_required
 def delete_image(id):
-    print("DID WE HIT THE DELETE ROUTE?---------YES")
+
     image = Post_Image.query.get(id)
-    print("IMAGE IN THE BACKEND---------", image)
-    print("IMAGE IN THE BACKEND---------", image.to_dict())
     if not image:
         return {"errors": "Image not found"}, 404
     post_id = image.post_id
