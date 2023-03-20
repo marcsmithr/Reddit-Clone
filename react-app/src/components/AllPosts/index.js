@@ -21,7 +21,7 @@ function AllPosts() {
         setPostImage('')
     }
 
-    const posts = Object.values(allPosts)
+    const posts = Object.values(allPosts).reverse()
     const clearData = () => {
         setPostTitle('')
         setPostText('')
