@@ -157,7 +157,7 @@ export const deletePostImage = (id) => async dispatch => {
 
 export const createLike = (payload, post) => async dispatch => {
 
-    const response = await fetch(`/api/posts/likes`, {
+    const response = await fetch(`/api/posts/${post.id}/likes`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(payload)
@@ -165,15 +165,15 @@ export const createLike = (payload, post) => async dispatch => {
 
     if(response.ok){
         const createdLike = await response.json()
-        post.likes.push(createdLike)
-        dispatch(update(post))
+        const newPost = post.likes.push(createdLike)
+        dispatch(update(newPost))
         return createdLike
     }
 }
 
-export const updateLike = (payload, id, post) => async dispatch => {
+export const updateLike = (payload, likeId, post, userId) => async dispatch => {
 
-    const response = await fetch(`/api/posts/likes/${id}`, {
+    const response = await fetch(`/api/posts/${post.id}/likes/${likeId}`, {
         method: 'PUT',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(payload)
@@ -181,9 +181,34 @@ export const updateLike = (payload, id, post) => async dispatch => {
 
     if(response.ok){
         const newLike = await response.json()
+        post.likes.forEach(like=>{
+            if(like.user_id===userId){
+                like=newLike
+            }
+        })
         dispatch(update(post))
         return newLike
     }
+}
+
+export const deleteLike = (likeId, post, userId) => async dispatch => {
+    console.log("likeId in thunk", likeId)
+    const response = await fetch(`/api/posts/${post.id}/likes/${likeId}/delete`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    if (response.ok){
+        const deletedLike = await response.json()
+        post.likes.forEach(like=>{
+            if(like.user_id===userId){
+                let targetLikeIndex = post.likes.indexOf(like)
+                post.likes.splice(targetLikeIndex,1)
+            }
+        })
+        dispatch(update(post))
+        return deletedLike
+    }
+    return response
 }
 
 

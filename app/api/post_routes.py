@@ -174,13 +174,31 @@ def delete_image(id):
             "post_id": post_id
             }
 
+
+#GET ALL LIKES FOR POST
+@post_routes.route('<int:id>/likes')
+def all_likes_for_post(id):
+    '''
+    Queries for all of the likes for a single post
+    '''
+    print("ID IN BACKEND-----------", id)
+    likes = Post_Like.query.filter_by(post_id=id).all()
+    print("LIKES IN BACKEND------", likes)
+    all_likes = []
+    for like in likes:
+        all_likes.append(like.to_dict())
+    print("ALL LIKES SET---------", all_likes)
+    return {"likes": all_likes}
+
+
 #CREATE POSTLIKE
-@post_routes.route('/likes', methods=['POST'])
+@post_routes.route('<int:id>/likes', methods=['POST'])
 @login_required
-def new_form():
+def new_like(id):
     '''
     Creates a like for a post
     '''
+    print("request----------------", request)
 
     form = PostLikeForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -199,36 +217,13 @@ def new_form():
              "errors": form.errors
         }, 400
 
-#CREATE POSTLIKE
-@post_routes.route('/likes', methods=['POST'])
-@login_required
-def new_like():
-    '''
-    Creates a like for a post
-    '''
 
-    form = PostLikeForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-
-
-    if form.validate_on_submit():
-        new_like = PostLikeForm()
-        form.populate_obj(new_like)
-        db.session.add(new_like)
-        db.session.commit()
-        return new_like.to_dict(), 201
-
-    if form.errors:
-        print("FORM ERRORS", form.errors)
-        return {
-             "errors": form.errors
-        }, 400
 
 # UPDATE Like
-@post_routes.route('/likes/<int:id>', methods=['PUT'])
+@post_routes.route('/<int:post_id>/likes/<int:like_id>', methods=['PUT'])
 @login_required
-def update_like_by_id(id):
-    current_like = Post_Like.query.get(id)
+def update_like_by_id(post_id, like_id):
+    current_like = Post_Like.query.get(like_id)
     if not current_like:
         return {"errors": "Like not found"}, 404
 
@@ -246,3 +241,17 @@ def update_like_by_id(id):
         return {
             "errors": form.errors
         }, 400
+
+#DELETES A LIKE
+@post_routes.route('/<int:post_id>/likes/<int:like_id>/delete', methods=['DELETE'])
+@login_required
+def delete_like(post_id, like_id):
+    '''
+    DELETES A LIKE
+    '''
+    like= Post_Like.query.get(like_id)
+    if not like:
+        return {"errors": "Like not found"}, 404
+    db.session.delete(like)
+    db.session.commit()
+    return {"message": "Like deleted"}

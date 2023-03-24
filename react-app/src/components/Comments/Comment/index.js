@@ -5,6 +5,7 @@ import { CommentFormContext } from '../../context/CommentContext'
 import AllComments from '../AllComments'
 import CommentForm from '../CreateComment'
 import EditCommentForm from '../EditComment/EditComment'
+import { LoginModalContext } from '../../context/LoginModalContext'
 import './index.css'
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
@@ -17,6 +18,11 @@ export function Comment({comment}){
     const dispatch = useDispatch()
     const[areChildrenHidden, setAreChildenHidden] = useState(false)
 
+    const { showMenu, setShowMenu} = useContext(LoginModalContext)
+    const openMenu = () => {
+        if (showMenu) return;
+        setShowMenu(true);
+    };
     const comments = Object.values(useSelector((state)=> state.comments.allComments))
     const post = useSelector((state)=> state.posts.singlePost)
     const currentUser = useSelector(state => state.session.user)
@@ -65,6 +71,8 @@ export function Comment({comment}){
     function editAComment(){
         setTargetEditComment(comment.id)
     }
+    console.log("Current User", currentUser)
+    console.log("comment.user", comment.user)
 
 
     let nestedCommentStackId = areChildrenHidden? "hidden" : ""
@@ -88,19 +96,32 @@ export function Comment({comment}){
                 {comment.text}
             </div>
             <div className='comment-footer'>
-                <button className={`icon-button`} onClick={()=>reply()}>
-                    <i className="fa-regular fa-comment"></i>
-                    <span>Reply</span>
-                </button>
-                {currentUser.id === comment.user.id&& (
-                <>
-                    <button className={`icon-button`} onClick={()=>editAComment()}>
-                        <i class="fa-regular fa-pen-to-square"></i>
+                {!currentUser && (
+                    <a href='#top'>
+                    <button className={`icon-button`} onClick={openMenu}>
+                        <i className="fa-regular fa-comment"></i>
+                        <span>Reply</span>
                     </button>
-                    <button className={`icon-button `} onClick={()=>handleDelete(comment.id)}>
-                    <i class="fa-sharp fa-solid fa-trash" id='danger'></i>
-                    </button>
-                </>
+                    </a>
+                )}
+                {currentUser && (
+                    <>
+                        <button className={`icon-button`} onClick={()=>reply()}>
+                            <i className="fa-regular fa-comment"></i>
+                            <span>Reply</span>
+                        </button>
+
+                        {currentUser.id === comment.user.id&& (
+                        <>
+                            <button className={`icon-button`} onClick={()=>editAComment()}>
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </button>
+                            <button className={`icon-button `} onClick={()=>handleDelete(comment.id)}>
+                            <i class="fa-sharp fa-solid fa-trash" id='danger'></i>
+                            </button>
+                        </>
+                        )}
+                    </>
                 )}
             </div>
             <div className='create-reply-container' id={replyingId} >

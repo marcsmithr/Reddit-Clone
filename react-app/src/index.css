@@ -61,6 +61,16 @@ textarea{
 
 }
 
+.vote-button{
+    background-color: #F2F6F7;
+    border: none;
+}
+.vote{
+    color: rgba(98, 98, 98, 0.569);
+    font-size: 25px;
+
+}
+
 #active{
     color: #0079D3;
     border-bottom: solid 3px #0079D3;
@@ -69,6 +79,10 @@ textarea{
 #hidden{
     display: none;
     visibility: hidden;
+}
+
+#voted{
+    color:#FF4500
 }
 
 /* .post-card-likes{

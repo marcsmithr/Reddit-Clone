@@ -14,6 +14,7 @@ function AllPosts() {
         communityName, setCommunityName, imageForm, setImageForm, postForm, setPostForm} = useContext(PostFormContext)
 
     const allPosts = useSelector(state => state.posts.allPosts)
+    const user = useSelector(state => state.session.user)
 
     function postButton() {
         setImageForm(false)
@@ -45,6 +46,7 @@ function AllPosts() {
                         {posts.map((post) => (
                             <PostCard
                             post={post}
+                            currentUser={user}
                             key={post.id}
                             />
                         ))}
