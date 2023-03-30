@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { loadAllLikes } from '../../../store/likes'
-import { createLike, deleteLike, updateLike } from '../../../store/posts'
+import { allPosts, createLike, deleteLike, updateLike } from '../../../store/posts'
 import './index.css'
 
 function evaluateLikes (arr){
@@ -32,13 +31,8 @@ function PostCard({post}) {
     const [downvote, setDownvote] = useState(false)
     const [hasVoted, setHasVoted] = useState(false)
     const [usersLikeId, setUsersLikeId]= useState(0)
+    const [likes, setLikes] = useState(0)
     const user = post.user
-    let likes = []
-    if(post.likes){
-
-        likes = evaluateLikes(post.likes)
-    }
-
     const currentUser = useSelector(state => state.session.user)
 
 
@@ -49,7 +43,7 @@ function PostCard({post}) {
         console.log("hasvoted?", hasVoted)
         console.log("userLikeId", usersLikeId)
         if(!upvote&&!hasVoted){
-
+            console.log("creating")
             setDownvote(false)
             setUpvote(true)
             let payload = {
@@ -60,11 +54,15 @@ function PostCard({post}) {
             console.log("create payload", payload)
             const like = dispatch(createLike(payload,post))
             setUsersLikeId(like.id)
-
+            setLikes(prev=>prev+1)
+            dispatch(allPosts())
         }
 
         else if(!upvote&&hasVoted){
 
+            console.log("editing")
+            setDownvote(false)
+            setUpvote(true)
             let payload = {
                 post_id: post.id,
                 user_id: currentUser.id,
@@ -72,34 +70,41 @@ function PostCard({post}) {
             }
             const like = dispatch(updateLike(payload, usersLikeId, post, currentUser.id))
             setUsersLikeId(like.id)
+            dispatch(allPosts())
 
         } else {
-
-            setDownvote(false)
-            setUpvote(false)
             dispatch(deleteLike(usersLikeId, post, currentUser.id))
-            setHasVoted(false)
-            setUsersLikeId(0)
-
+            .then(()=>setUpvote(false))
+            .then(()=>setDownvote(false))
+            .then(()=>setHasVoted(false))
+            .then(()=>{
+                setUsersLikeId(0)
+            })
+            console.log("usersLikeId--- expecting 0", usersLikeId)
+            console.log("hasVoted?--- expecting false", hasVoted)
+            dispatch(allPosts())
         }
     }
     const downvoted = ()=>{
         console.log("hasvoted?", hasVoted)
         console.log("userLikeId", usersLikeId)
         if(!downvote&&!hasVoted){
-
-        setUpvote(false)
-        setDownvote(true)
-        let payload = {
-            post_id: post.id,
-            user_id: currentUser.id,
-            is_like: false
-        }
-        const like = dispatch(createLike(payload, post))
-        setUsersLikeId(like.id)
+            console.log("creating")
+            setUpvote(false)
+            setDownvote(true)
+            let payload = {
+                post_id: post.id,
+                user_id: currentUser.id,
+                is_like: false
+            }
+            const like = dispatch(createLike(payload, post))
+            setUsersLikeId(like.id)
+            setLikes(prev=>prev-1)
+            dispatch(allPosts())
 
         } else if(!downvote&&hasVoted){
 
+            console.log("editing")
             setUpvote(false)
             setDownvote(true)
             let payload = {
@@ -109,13 +114,20 @@ function PostCard({post}) {
             }
             const like = dispatch(updateLike(payload, usersLikeId, post, currentUser.id))
             setUsersLikeId(like.id)
+            dispatch(allPosts())
 
         } else {
-            setUpvote(false)
-            setDownvote(false)
+            console.log("deleting")
             dispatch(deleteLike(usersLikeId, post, currentUser.id))
-            setHasVoted(false)
-            setUsersLikeId(0)
+            .then(()=>setUpvote(false))
+            .then(()=>setDownvote(false))
+            .then(()=>setHasVoted(false))
+            .then(()=>{
+                setUsersLikeId(0)
+            })
+            console.log("usersLikeId--- expecting 0", usersLikeId)
+            console.log("hasVoted?--- expecting false", hasVoted)
+            dispatch(allPosts())
         }
     }
 
@@ -135,7 +147,14 @@ function PostCard({post}) {
                 }
             }
         }
-    }, [post, upvote])
+    }, [post, upvote, downvote])
+
+
+    useEffect(()=>{
+        if (post.likes){
+            setLikes(evaluateLikes(post.likes))
+        }
+    }, [post])
 
     const upvoteId = upvote? "voted" : ""
     const downvoteId = downvote? "voted" : ""

@@ -156,7 +156,7 @@ export const deletePostImage = (id) => async dispatch => {
 }
 
 export const createLike = (payload, post) => async dispatch => {
-
+console.log("payload in createLike", payload)
     const response = await fetch(`/api/posts/${post.id}/likes`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
@@ -164,10 +164,9 @@ export const createLike = (payload, post) => async dispatch => {
     })
 
     if(response.ok){
-        const createdLike = await response.json()
-        const newPost = post.likes.push(createdLike)
+        const newPost = await response.json()
         dispatch(update(newPost))
-        return createdLike
+        return newPost
     }
 }
 
