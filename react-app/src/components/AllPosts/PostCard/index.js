@@ -31,6 +31,7 @@ function PostCard({post}) {
     const [downvote, setDownvote] = useState(false)
     const [hasVoted, setHasVoted] = useState(false)
     const [usersLikeId, setUsersLikeId]= useState(0)
+    const [isLoading, setIsLoading]= useState(false)
     const [likes, setLikes] = useState(0)
     const user = post.user
     const currentUser = useSelector(state => state.session.user)
@@ -40,8 +41,7 @@ function PostCard({post}) {
     const images = post.images
 
     const upvoted = ()=>{
-        console.log("hasvoted?", hasVoted)
-        console.log("userLikeId", usersLikeId)
+        setIsLoading(true)
         if(!upvote&&!hasVoted){
             console.log("creating")
             setDownvote(false)
@@ -56,6 +56,7 @@ function PostCard({post}) {
             setUsersLikeId(like.id)
             setLikes(prev=>prev+1)
             dispatch(allPosts())
+            .then(()=> setIsLoading(false))
         }
 
         else if(!upvote&&hasVoted){
@@ -71,23 +72,20 @@ function PostCard({post}) {
             const like = dispatch(updateLike(payload, usersLikeId, post, currentUser.id))
             setUsersLikeId(like.id)
             dispatch(allPosts())
+            .then(()=> setIsLoading(false))
 
         } else {
             dispatch(deleteLike(usersLikeId, post, currentUser.id))
             .then(()=>setUpvote(false))
             .then(()=>setDownvote(false))
             .then(()=>setHasVoted(false))
-            .then(()=>{
-                setUsersLikeId(0)
-            })
-            console.log("usersLikeId--- expecting 0", usersLikeId)
-            console.log("hasVoted?--- expecting false", hasVoted)
+            .then(()=>setUsersLikeId(0))
+            .then(()=> setIsLoading(false))
             dispatch(allPosts())
         }
     }
     const downvoted = ()=>{
-        console.log("hasvoted?", hasVoted)
-        console.log("userLikeId", usersLikeId)
+        setIsLoading(true)
         if(!downvote&&!hasVoted){
             console.log("creating")
             setUpvote(false)
@@ -101,6 +99,7 @@ function PostCard({post}) {
             setUsersLikeId(like.id)
             setLikes(prev=>prev-1)
             dispatch(allPosts())
+            .then(()=> setIsLoading(false))
 
         } else if(!downvote&&hasVoted){
 
@@ -115,6 +114,7 @@ function PostCard({post}) {
             const like = dispatch(updateLike(payload, usersLikeId, post, currentUser.id))
             setUsersLikeId(like.id)
             dispatch(allPosts())
+            .then(()=> setIsLoading(false))
 
         } else {
             console.log("deleting")
@@ -122,11 +122,8 @@ function PostCard({post}) {
             .then(()=>setUpvote(false))
             .then(()=>setDownvote(false))
             .then(()=>setHasVoted(false))
-            .then(()=>{
-                setUsersLikeId(0)
-            })
-            console.log("usersLikeId--- expecting 0", usersLikeId)
-            console.log("hasVoted?--- expecting false", hasVoted)
+            .then(()=>setUsersLikeId(0))
+            .then(()=> setIsLoading(false))
             dispatch(allPosts())
         }
     }
@@ -158,17 +155,18 @@ function PostCard({post}) {
 
     const upvoteId = upvote? "voted" : ""
     const downvoteId = downvote? "voted" : ""
+    const isDisabled = isLoading? "disabled": ""
 
     if(!post||!user) return null
     return (
         <>
                 <div className='post-card-container'>
                         <div className='post-card-likes'>
-                            <button className='vote-button' onClick={upvoted}>
+                            <button className='vote-button' onClick={upvoted} disabled={isDisabled}>
                                 <i className="fa-solid fa-chevron-up vote" id={upvoteId}></i>
                             </button>
                             <span>{likes}</span>
-                            <button className='vote-button' onClick={downvoted}>
+                            <button className='vote-button' onClick={downvoted} disabled={isDisabled}>
                                 <i className="fa-solid fa-chevron-down vote" id={downvoteId}></i>
                             </button>
                         </div>
