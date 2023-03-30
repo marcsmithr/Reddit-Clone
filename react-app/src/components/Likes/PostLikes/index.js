@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { allPosts, createLike, deleteLike, updateLike } from '../../../store/posts'
 import './index.css'
 
+//function which returns the amount of likes minus dislikes
 function evaluateLikes (arr){
     let likes = []
     let dislikes = []
@@ -12,8 +13,9 @@ function evaluateLikes (arr){
     });
     return (likes.length - dislikes.length)
 }
-
+//function which checks if the current user has voted on post before
 function checkHasVoted(arr, id=null){
+    //loops through post.likes array and compares current user's id to all like user_ids
     if(arr && arr.length>0){
         for (let like of arr){
             if(like.user_id == id){
@@ -35,41 +37,50 @@ function PostLikes ({post}){
     const user = post.user
     const currentUser = useSelector(state => state.session.user)
 
-
+    // a function linked to upvote button which handles like CRUD
     const upvoted = ()=>{
+        //setIsLoading to avoid having overlapping like fetches
         setIsLoading(true)
+        //checks that the upvote button is not active and the user has not voted on this post before
         if(!upvote&&!hasVoted){
-            console.log("creating")
+            //this "if" statement initiates the creation of a new like
             setDownvote(false)
             setUpvote(true)
+            //create a like with a is_like set to true, designating that it is an upvote
             let payload = {
                 post_id: post.id,
                 user_id: currentUser.id,
                 is_like: true
             }
-            console.log("create payload", payload)
-            const like = dispatch(createLike(payload,post))
+            //create the like
+            const like = dispatch(createLike(payload, post))
+            //set userLikeId which can later be passed into put and delete requests
             setUsersLikeId(like.id)
-            setLikes(prev=>prev+1)
+            //increment likes
+            // setLikes(prev=>prev+1)
+            //dispatch allPosts to rerender page NOT IDEAL REFACTOR
             dispatch(allPosts())
             .then(()=> setIsLoading(false))
         }
-
+        //checks that the upvote button is not active and the user HAS voted on this post before
         else if(!upvote&&hasVoted){
-
-            console.log("editing")
+            //this "if" statement initiates the update of an existing like
             setDownvote(false)
             setUpvote(true)
+            //update existing like with a is_like set to true, designating that it is an upvote
             let payload = {
                 post_id: post.id,
                 user_id: currentUser.id,
                 is_like: true
             }
+            //update the like
             const like = dispatch(updateLike(payload, usersLikeId, post, currentUser.id))
+            //set userLikeId which can later be passed into put and delete requests PROBABLY UNNESSESSARY
             setUsersLikeId(like.id)
+            //dispatch allPosts to rerender page NOT IDEAL REFACTOR
             dispatch(allPosts())
             .then(()=> setIsLoading(false))
-
+            //if upvote button IS active and the user HAS voted on this post before delete like
         } else {
             dispatch(deleteLike(usersLikeId, post, currentUser.id))
             .then(()=>setUpvote(false))
@@ -80,6 +91,9 @@ function PostLikes ({post}){
             dispatch(allPosts())
         }
     }
+
+    // a function linked to upvote button which handles like CRUD
+    //a mirror of upvote
     const downvoted = ()=>{
         setIsLoading(true)
         if(!downvote&&!hasVoted){
@@ -93,7 +107,6 @@ function PostLikes ({post}){
             }
             const like = dispatch(createLike(payload, post))
             setUsersLikeId(like.id)
-            setLikes(prev=>prev-1)
             dispatch(allPosts())
             .then(()=> setIsLoading(false))
 
@@ -124,7 +137,8 @@ function PostLikes ({post}){
         }
     }
 
-
+    //checks if user has voted on post before
+    //if yes set hasVoted, userLikeId, upvote, and downvote appropriately
     useEffect(()=>{
         if(currentUser&&post.likes){
             let vote = checkHasVoted(post.likes, currentUser.id)
@@ -142,15 +156,17 @@ function PostLikes ({post}){
         }
     }, [post, upvote, downvote])
 
-
+    //sets the aggrigate value of like vs dislikes
     useEffect(()=>{
         if (post.likes){
             setLikes(evaluateLikes(post.likes))
         }
     }, [post])
 
+    //dynamically sets the css on the upvote and downvote arrow
     const upvoteId = upvote? "voted" : ""
     const downvoteId = downvote? "voted" : ""
+    //disables buttons while a fetch is in progress
     const isDisabled = isLoading? "disabled": ""
 
     if(!post||!user) return null
