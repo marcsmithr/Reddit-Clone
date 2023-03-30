@@ -4,6 +4,7 @@ import PostCard from './PostCard'
 import CreatePostCommunity from '../HomePage/CreatePostCommunity'
 import CodeLangBox from '../HomePage/CodeLangBox'
 import { PostFormContext } from '../context/PostFormContext'
+import PostLikes from '../Likes/PostLikes'
 
 import './index.css'
 

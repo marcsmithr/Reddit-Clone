@@ -54,6 +54,8 @@ function PostLikes ({post}){
             }
             //create the like
             const like = dispatch(createLike(payload, post))
+
+            setLikes(prev=> prev+=1)
             //set userLikeId which can later be passed into put and delete requests
             setUsersLikeId(like.id)
             //increment likes
@@ -106,6 +108,7 @@ function PostLikes ({post}){
                 is_like: false
             }
             const like = dispatch(createLike(payload, post))
+            setLikes(prev=> prev-=1)
             setUsersLikeId(like.id)
             dispatch(allPosts())
             .then(()=> setIsLoading(false))
