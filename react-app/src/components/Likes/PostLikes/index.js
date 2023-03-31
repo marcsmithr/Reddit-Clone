@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { allPosts, createLike, deleteLike, updateLike } from '../../../store/posts'
+import { allPosts, createLike, deleteLike, getOnePost, updateLike } from '../../../store/posts'
 import './index.css'
 
 //function which returns the amount of likes minus dislikes
@@ -60,6 +60,7 @@ function PostLikes ({post}){
             // setLikes(prev=>prev+1)
             //dispatch allPosts to rerender page NOT IDEAL REFACTOR
             dispatch(allPosts())
+            // dispatch(getOnePost(post.id))
             .then(()=> setIsLoading(false))
         }
         //checks that the upvote button is not active and the user HAS voted on this post before
@@ -79,6 +80,7 @@ function PostLikes ({post}){
             setUsersLikeId(like.id)
             //dispatch allPosts to rerender page NOT IDEAL REFACTOR
             dispatch(allPosts())
+            // dispatch(getOnePost(post.id))
             .then(()=> setIsLoading(false))
             //if upvote button IS active and the user HAS voted on this post before delete like
         } else {
@@ -89,6 +91,7 @@ function PostLikes ({post}){
             .then(()=>setUsersLikeId(0))
             .then(()=> setIsLoading(false))
             dispatch(allPosts())
+            // dispatch(getOnePost(post.id))
         }
     }
 
@@ -108,6 +111,7 @@ function PostLikes ({post}){
             const like = dispatch(createLike(payload, post))
             setUsersLikeId(like.id)
             dispatch(allPosts())
+            // dispatch(getOnePost(post.id))
             .then(()=> setIsLoading(false))
 
         } else if(!downvote&&hasVoted){
@@ -123,6 +127,7 @@ function PostLikes ({post}){
             const like = dispatch(updateLike(payload, usersLikeId, post, currentUser.id))
             setUsersLikeId(like.id)
             dispatch(allPosts())
+            // dispatch(getOnePost(post.id))
             .then(()=> setIsLoading(false))
 
         } else {
@@ -133,6 +138,7 @@ function PostLikes ({post}){
             .then(()=>setHasVoted(false))
             .then(()=>setUsersLikeId(0))
             .then(()=> setIsLoading(false))
+            // dispatch(getOnePost(post.id))
             dispatch(allPosts())
         }
     }

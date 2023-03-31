@@ -10,6 +10,7 @@ import { getOneCommunity } from '../../../store/communities'
 import CommunityDetails from '../../Communities/CommunityDetails'
 import CommentForm from '../../Comments/CreateComment'
 import { CommentFormContext } from '../../context/CommentContext'
+import PostLikes from '../../Likes/PostLikes'
 
 function SinglePostPage() {
     const history = useHistory()
@@ -69,6 +70,7 @@ function SinglePostPage() {
        <div className='post-card-container' id='single-post'>
 
             <div className='post-card-likes'>
+                    <PostLikes post={post}/>
             </div>
             <div className='post-card-main'>
                 <div className='post-info-container'>
