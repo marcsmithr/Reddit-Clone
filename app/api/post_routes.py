@@ -198,9 +198,6 @@ def new_like(id):
     '''
     Creates a like for a post
     '''
-    print("request----------------", request)
-    post = Post.query.get_or_404(id)
-    print("post after query------", post.to_dict())
     form = PostLikeForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
@@ -238,7 +235,8 @@ def update_like_by_id(post_id, like_id):
 
         db.session.add(current_like)
         db.session.commit()
-        return current_like.to_dict(), 201
+        post = Post.query.get_or_404(post_id)
+        return post.to_dict(), 201
 
     if form.errors:
         return {

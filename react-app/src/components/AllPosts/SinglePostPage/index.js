@@ -70,7 +70,7 @@ function SinglePostPage() {
        <div className='post-card-container' id='single-post'>
 
             <div className='post-card-likes'>
-                {/* <PostLikes post={post}/> */}
+                <PostLikes post={post}/>
             </div>
             <div className='post-card-main'>
                 <div className='post-info-container'>

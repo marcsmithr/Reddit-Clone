@@ -245,6 +245,7 @@ const postReducer = (state = initialState, action) => {
         case UPDATE: {
             newState = {...state, allPosts: {...state.allPosts} }
             newState.allPosts[action.post.id] = action.post
+            newState.singlePost = action.post
             return newState
         }
         case DELETE: {
