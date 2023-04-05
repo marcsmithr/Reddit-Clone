@@ -164,9 +164,9 @@ console.log("payload in createLike", payload)
     })
 
     if(response.ok){
-        const newPost = await response.json()
+        const {newPost, newLike} = await response.json()
         dispatch(update(newPost))
-        return newPost
+        return newLike
     }
 }
 
@@ -179,13 +179,8 @@ export const updateLike = (payload, likeId, post, userId) => async dispatch => {
     })
 
     if(response.ok){
-        const newLike = await response.json()
-        post.likes.forEach(like=>{
-            if(like.user_id===userId){
-                like=newLike
-            }
-        })
-        dispatch(update(post))
+        const {newPost, newLike} = await response.json()
+        dispatch(update(newPost))
         return newLike
     }
 }
@@ -244,6 +239,7 @@ const postReducer = (state = initialState, action) => {
         }
         case UPDATE: {
             newState = {...state, allPosts: {...state.allPosts} }
+            console.log("action in reducer", action)
             newState.allPosts[action.post.id] = action.post
             newState.singlePost = action.post
             return newState

@@ -209,7 +209,11 @@ def new_like(id):
         db.session.commit()
         post = Post.query.get_or_404(id)
         print("post before return------", post)
-        return post.to_dict(), 201
+
+        return {
+            "newPost": post.to_dict(),
+            "newLike": new_like.to_dict()
+                }, 201
 
     if form.errors:
         print("FORM ERRORS", form.errors)
@@ -236,7 +240,8 @@ def update_like_by_id(post_id, like_id):
         db.session.add(current_like)
         db.session.commit()
         post = Post.query.get_or_404(post_id)
-        return post.to_dict(), 201
+        return {"newPost": post.to_dict(),
+                "newLike": current_like.to_dict()}, 201
 
     if form.errors:
         return {
