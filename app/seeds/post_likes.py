@@ -38,7 +38,7 @@ def seed_post_likes():
     )
     like8 = Post_Like(
         post_id=17,
-        user_id=17,
+        user_id=12,
         is_like=True
     )
     like9 = Post_Like(
