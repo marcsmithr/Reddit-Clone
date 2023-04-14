@@ -2,52 +2,52 @@ from app.models import db, Post_Like, environment, SCHEMA
 
 def seed_post_likes():
     like1 = Post_Like(
-        post_id=1,
+        post_id=18,
         user_id=3,
         is_like=True
     )
     like2 = Post_Like(
-        post_id=1,
+        post_id=18,
         user_id=4,
         is_like=True
     )
     like3 = Post_Like(
-        post_id=1,
+        post_id=18,
         user_id=5,
         is_like=True
     )
     like4 = Post_Like(
-        post_id=1,
+        post_id=18,
         user_id=6,
         is_like=False
     )
     like5 = Post_Like(
-        post_id=1,
+        post_id=18,
         user_id=7,
         is_like=False
     )
     like6 = Post_Like(
-        post_id=1,
+        post_id=18,
         user_id=8,
         is_like=True
     )
     like7 = Post_Like(
-        post_id=2,
+        post_id=17,
         user_id=1,
         is_like=True
     )
     like8 = Post_Like(
-        post_id=2,
-        user_id=2,
+        post_id=17,
+        user_id=17,
         is_like=True
     )
     like9 = Post_Like(
-        post_id=2,
+        post_id=17,
         user_id=4,
         is_like=False
     )
     like10 = Post_Like(
-        post_id=2,
+        post_id=17,
         user_id=5,
         is_like=True
     )

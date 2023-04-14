@@ -3,7 +3,7 @@ from app.models import db, environment, SCHEMA, Comment
 def seed_comments():
     onecurse1comment1 = Comment(
         user_id=1,
-        post_id=1,
+        post_id=18,
         parent_id=None,
         text=
         '''
@@ -15,7 +15,7 @@ def seed_comments():
 
     twocurse1comment1reply1 = Comment(
         user_id =3,
-        post_id=1,
+        post_id=18,
         parent_id=1,
         text=
         '''
@@ -25,7 +25,7 @@ def seed_comments():
 
     threecurse1comment2 = Comment(
         user_id =4,
-        post_id=1,
+        post_id=18,
         parent_id=None,
         text=
         '''
@@ -36,7 +36,7 @@ Well, I think he sounds like Werner Herzog but my party likes to report that he 
     )
     fourcurse1comment2reply1 = Comment(
         user_id =5,
-        post_id=1,
+        post_id=18,
         parent_id=3,
         text=
         '''
@@ -48,7 +48,7 @@ my current one's just a bad Christopher Lee impression.
 
     fivecurse1comment2reply1reply1 = Comment(
         user_id =6,
-        post_id=1,
+        post_id=18,
         parent_id=4,
         text=
         '''

@@ -27,9 +27,62 @@ def seed_communities():
         community_banner="https://assets.pokemon.com/assets/cms2/img/misc/halloween/halloween-hub-banner-desktop.jpg"
         )
 
+    gaming = Community(
+        owner_id =3,
+        name='gaming',
+        title="s/gaming",
+        description='''
+            A subreddit for (almost) anything related to games - video games,
+              board games, card games, etc. (but not sports).
+            ''',
+        community_image="https://styles.redditmedia.com/t5_2qh03/styles/communityIcon_1isvxgkk7hw51.png?width=256&s=b2c4017083ea0176a3dd4837f6e009bbc8384f15",
+        community_banner="https://external-preview.redd.it/yabJrOEEZCI9Y88CKoqKPq6VOMtloovnp5_ugi21i6Y.png?width=960&crop=smart&auto=webp&v=enabled&s=605aaded17a1c63620cbfeff571e4e45dded4c69"
+        )
+
+
+    wholesomememes = Community(
+        owner_id =4,
+        name='wholesomememes',
+        title="Internet for the Spirit",
+        description='''
+            Welcome to the wholesome side of the internet!
+              This community is for those searching for a way to capture virtue on the internet.
+            ''',
+        community_image="https://i.ibb.co/qxFYBgf/subseddit-icon.png",
+        community_banner="https://i.kym-cdn.com/photos/images/original/001/598/631/40d.jpg"
+        )
+
+    dataisbeautiful = Community(
+        owner_id =5,
+        name='dataisbeautiful',
+        title="DataIsBeautiful",
+        description='''
+            DataIsBeautiful is for visualizations that effectively convey information.
+              Aesthetics are an important part of information visualization, but pretty
+                pictures are not the sole aim of this subreddit.
+            ''',
+        community_image="https://styles.redditmedia.com/t5_2tk95/styles/communityIcon_hrq90p2z27k11.jpg",
+        community_banner="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOE1ferpUhtO_HYaj10PcYxWilp1bAxowAMA&usqp=CAU"
+        )
+
+    mildlyinfuriating = Community(
+        owner_id =6,
+        name='mildlyinfuriating',
+        title="jukmifgguggh",
+        description='''
+            jukmifgguggh fbrltbruh
+            ''',
+        community_image="https://i.ibb.co/qxFYBgf/subseddit-icon.png",
+        community_banner="https://i.redd.it/sgf6r5easbh31.jpg"
+        )
+
 
     db.session.add(curseofzrahd)
     db.session.add(pokemonsters)
+    db.session.add(gaming)
+    db.session.add(wholesomememes)
+    db.session.add(dataisbeautiful)
+    db.session.add(mildlyinfuriating)
     db.session.commit()
 
 
