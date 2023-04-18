@@ -62,10 +62,27 @@ function CodeLangBox (){
                     </span>
                 </div>
             </div>
-            <a href="https://github.com/marcsmithr">
+            <a href="https://github.com/marcsmithr" target="_blank">
             <div className="about-me">
                     <div className="git-hub-span-container">
+                    <i class="fa-brands fa-github"></i>
                         <span className="git-hub-span">Git Hub</span>
+                    </div>
+            </div>
+            </a>
+            <a href="https://www.linkedin.com/in/marc-smith-240720224/" target="_blank">
+            <div className="about-me">
+                    <div className="git-hub-span-container">
+                        <i class="fa-brands fa-linkedin"></i>
+                        <span className="git-hub-span">LinkedIn</span>
+                    </div>
+            </div>
+            </a>
+            <a href="https://wellfound.com/u/marc-smith-24" target="_blank">
+            <div className="about-me">
+                    <div className="git-hub-span-container">
+                        <i class="fa-brands fa-angellist"></i>
+                        <span className="git-hub-span">Wellfound</span>
                     </div>
             </div>
             </a>
