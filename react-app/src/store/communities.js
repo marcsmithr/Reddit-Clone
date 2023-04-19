@@ -33,14 +33,10 @@ const remove = id => ({
 
 
 export const getOneCommunity = (community_name) => async dispatch => {
-    // console.log("COMMUNITY NAME IN THUNK", community_name)
     const response = await fetch(`/api/communities/${community_name}`);
-    // console.log("RESPONSE IN THUNK", response)
     if (response.ok){
         const communityObj = await response.json();
-        // console.log("COMMUNITYOBJ IN THUNK", communityObj)
         const community = communityObj.Community
-        // console.log("COMMUNITY IN THUNK", community)
         dispatch(getOne(community))
         return community
     }
@@ -91,7 +87,6 @@ export const updateCommunity = (community, id) => async dispatch => {
 }
 
 export const deleteCommunity = (id) => async dispatch => {
-    // console.log('PARAMS IN THUNK', params)
     const response = await fetch(`/api/communities/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }

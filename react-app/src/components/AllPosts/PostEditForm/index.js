@@ -136,7 +136,6 @@ function EditPostForm(){
         if (errors.length > 0) setDisabled(true)
         else setDisabled(false)
         setErrors(errors)
-        console.log("ERRORS", errors)
     }, [imageForm, postForm, postTitle, postImage, communityName, disabled])
 
     //PREVIEW FUNCTIONS

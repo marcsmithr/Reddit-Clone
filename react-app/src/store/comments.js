@@ -56,17 +56,6 @@ export const loadAllComments = (id)=> async dispatch =>{
     }
 }
 
-// export const allComments = (id) => async dispatch => {
-//     console.log("HELLO FROM ALLCOMMENTS")
-//     const response = await fetch(`/api/comments/post/${id}`)
-//     console.log("RESPONSE FROM ALLComments", response)
-//     if(response.ok){
-//         const commentsObj = await response.json()
-//         const comments = commentsObj.Comments
-//         dispatch(loadAll(comments))
-//         return comments
-//     }
-// }
 
 export const commentCreate = (comment, post_id, parent_id=0) => async dispatch => {
     const response = await fetch(`/api/comments/posts/${post_id}/comment/${parent_id}`, {
@@ -76,7 +65,6 @@ export const commentCreate = (comment, post_id, parent_id=0) => async dispatch =
       })
     if(response.ok){
         const newComment = await response.json()
-        // console.log("NEWPOST IN CREATE POST", newPost)
         dispatch(createComment(newComment))
         return newComment
     }
@@ -92,7 +80,6 @@ export const commentEdit = (comment, comment_id, process="submit") => async disp
 
         if(response.ok){
             const newComment = await response.json()
-            // console.log("NEWPOST IN CREATE POST", newPost)
             dispatch(update(newComment))
             return newComment
         }
@@ -105,7 +92,6 @@ export const commentEdit = (comment, comment_id, process="submit") => async disp
 
     if(response.ok){
         const newComment = await response.json()
-        // console.log("NEWPOST IN CREATE POST", newPost)
         dispatch(update(newComment))
         return newComment
     }

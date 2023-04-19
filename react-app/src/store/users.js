@@ -19,12 +19,9 @@ const update = community => ({
 
 
 export const allUsers = () => async dispatch => {
-    // console.log("HELLO FROM ALLUsers")
     const response = await fetch(`/api/users`)
-    // console.log("RESPONSE FROM ALLUsers", response)
     if(response.ok){
         const usersObj = await response.json()
-        // console.log('USERSOBJ', usersObj)
         const users = usersObj.users
         dispatch(loadAll(users))
         return users

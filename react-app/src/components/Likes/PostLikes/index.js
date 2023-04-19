@@ -38,7 +38,6 @@ function PostLikes ({post}){
 
     const user = post.user
     const currentUser = useSelector(state => state.session.user)
-    console.log("userlikeId after useeffect",usersLikeId)
     //checks if user has voted on post before
     //if yes set hasVoted, userLikeId, upvote, and downvote appropriately
 
@@ -51,20 +50,16 @@ function PostLikes ({post}){
             case "0 up":
                 case "-1 up":
                     setUserlike(1)
-                console.log("switch case 1ups")
                 break
             case "0 down":
                 case "1 down":
                 setUserlike(-1)
-                console.log("switch case -1ups")
                 break
                 case "1 up":
                     case "-1 down":
                         setUserlike(0)
-                        console.log("switch case 0ups")
                         break
             default:
-                console.log("default")
             }
     }
 
@@ -133,7 +128,6 @@ function PostLikes ({post}){
     }, [])
 
     useEffect(()=>{
-        console.log("userLike in useEffect", userLike)
         if(userLike===0){
             setVoteId(["", ""])
         } else if (userLike===1){
@@ -141,7 +135,6 @@ function PostLikes ({post}){
         } else {
             setVoteId(["", "voted"])
         }
-        console.log("voteId in useEffect", voteId)
     }, [userLike])
 
     if(!post||!user) return null

@@ -156,7 +156,6 @@ export const deletePostImage = (id) => async dispatch => {
 }
 
 export const createLike = (payload, post) => async dispatch => {
-console.log("payload in createLike", payload)
     const response = await fetch(`/api/posts/${post.id}/likes`, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
@@ -186,7 +185,6 @@ export const updateLike = (payload, likeId, post, userId) => async dispatch => {
 }
 
 export const deleteLike = (likeId, post, userId) => async dispatch => {
-    console.log("likeId in thunk", likeId)
     const response = await fetch(`/api/posts/${post.id}/likes/${likeId}/delete`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
@@ -239,7 +237,6 @@ const postReducer = (state = initialState, action) => {
         }
         case UPDATE: {
             newState = {...state, allPosts: {...state.allPosts} }
-            console.log("action in reducer", action)
             newState.allPosts[action.post.id] = action.post
             newState.singlePost = action.post
             return newState
