@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react'
 import { PostFormContext } from '../../context/PostFormContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory} from 'react-router-dom'
 import { postCreate } from '../../../store/posts'
+import handlePreviewImage from '../../../utils/previewImage'
 import './index.css'
-import { getUser } from '../../../store/session'
+
 
 function CreatePostForm(){
     const dispatch = useDispatch()
@@ -130,6 +131,7 @@ function CreatePostForm(){
 
       const updateAndPreview = (e) => {
         handleCreateBase64(e)
+        // handlePreviewImage(e)
         updateImage(e)
       }
 

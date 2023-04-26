@@ -29,7 +29,7 @@ def seed_post_images():
 
     gaming3 = Post_Image(
         post_id = 16,
-        url = 'https://preview.redd.it/6xark3ve9qta1.jpg?width=640&crop=smart&auto=webp&v=enabled&s=f640364588ce13dc3adec3c4386f3806dd9692d1'
+        url = 'https://static1.cbrimages.com/wordpress/wp-content/uploads/2021/01/Witcher-3-Vesemir-and-Geralt.jpg'
     )
 
     wholesomememes1 = Post_Image(
