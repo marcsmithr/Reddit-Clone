@@ -5,6 +5,7 @@ import { PostFormProvider } from './components/context/PostFormContext';
 import { LoginModalProvider } from './components/context/LoginModalContext';
 import { UserPageProvider } from './components/context/UserPageContext';
 import { CommentFormProvider } from './components/context/CommentContext';
+import { PreviewImageProvider } from './components/context/PreviewImageContext';
 import './index.css';
 import App from './App';
 import configureStore from './store';
@@ -13,17 +14,19 @@ const store = configureStore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <PostFormProvider>
-      <LoginModalProvider>
-        <UserPageProvider>
-          <CommentFormProvider>
-            <Provider store={store}>
-              <App />
-            </Provider>
-          </CommentFormProvider>
-        </UserPageProvider>
-        </LoginModalProvider>
-      </PostFormProvider>
+    <PreviewImageProvider>
+      <PostFormProvider>
+        <LoginModalProvider>
+          <UserPageProvider>
+            <CommentFormProvider>
+              <Provider store={store}>
+                <App />
+              </Provider>
+            </CommentFormProvider>
+          </UserPageProvider>
+          </LoginModalProvider>
+        </PostFormProvider>
+      </PreviewImageProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
