@@ -3,8 +3,9 @@ import { PostFormContext } from '../../context/PostFormContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { allPosts, deletePostImage, getOnePost, postEdit } from '../../../store/posts'
-import './index.css'
 import { getUser } from '../../../store/session'
+import handlePreviewImage from '../../../utils/ImageUploads/previewImage'
+import './index.css'
 
 function EditPostForm(){
     const dispatch = useDispatch()
@@ -32,9 +33,6 @@ function EditPostForm(){
     }
 
     const {communityName, post_id} = useParams()
-
-    //GRABS THE COMMUNITIES TO BE USED IN THE COMMUNITY SELECTOR
-    const communities = Object.values(useSelector((state) => state.communities.allCommunities))
 
     const post = useSelector((state)=> state.posts.singlePost)
 
@@ -139,28 +137,11 @@ function EditPostForm(){
     }, [imageForm, postForm, postTitle, postImage, communityName, disabled])
 
     //PREVIEW FUNCTIONS
-    const handleCreateBase64 = useCallback(async (e) => {
-        const file = e.target.files[0];
-        const convertToBase64 = (file) => {
-            return new Promise((resolve, reject) => {
-              const fileReader = new FileReader();
-                fileReader.readAsDataURL(file);
-                fileReader.onload = () => {
-                  resolve(fileReader.result);
-                };
+    const handleCreateBase64 = useCallback(handlePreviewImage,[])
 
-              fileReader.onerror = (error) => {
-                reject(error);
-              };
-            });
-          };
-        const base64 = await convertToBase64(file);
-        setPreview(base64);
-      }, []);
-
-
-      const updateAndPreview = (e) => {
+    const updateAndPreview = (e) => {
         handleCreateBase64(e)
+        .then(data=>setPreview(data))
         updateImage(e)
       }
 
