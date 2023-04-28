@@ -3,7 +3,7 @@ import { PostFormContext } from '../../context/PostFormContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory} from 'react-router-dom'
 import { postCreate } from '../../../store/posts'
-import handlePreviewImage from '../../../utils/previewImage'
+import handlePreviewImage from '../../../utils/ImageUploads/previewImage'
 import './index.css'
 
 
@@ -84,7 +84,7 @@ function CreatePostForm(){
 
     //FORM VALIDATION USEEFFECT
     useEffect(()=>{
-        const errors = []
+        let errors = []
         if(imageForm){
             if(postImage){
                 if(postImage?.type !== 'image/jpg' && postImage?.type !== 'image/png' && postImage?.type !== 'image/jpeg'){
@@ -108,28 +108,31 @@ function CreatePostForm(){
     }, [imageForm, postForm, postTitle, postImage, communityName, disabled])
 
     //PREVIEW FUNCTIONS
-    const handleCreateBase64 = useCallback(async (e) => {
-        const file = e.target.files[0];
-        const convertToBase64 = (file) => {
-            return new Promise((resolve, reject) => {
-              const fileReader = new FileReader();
-                fileReader.readAsDataURL(file);
-                fileReader.onload = () => {
-                  resolve(fileReader.result);
-                };
+    const handleCreateBase64 = useCallback(handlePreviewImage,[])
+    // const handleCreateBase64 = useCallback(async (e) => {
+    //     const file = e.target.files[0];
+    //     const convertToBase64 = (file) => {
+    //         return new Promise((resolve, reject) => {
+    //           const fileReader = new FileReader();
+    //             fileReader.readAsDataURL(file);
+    //             fileReader.onload = () => {
+    //               resolve(fileReader.result);
+    //             };
 
-              fileReader.onerror = (error) => {
-                reject(error);
-              };
-            });
-          };
-        const base64 = await convertToBase64(file);
-        setPreview(base64);
-      }, []);
+    //           fileReader.onerror = (error) => {
+    //             reject(error);
+    //           };
+    //         });
+    //       };
+    //     const base64 = await convertToBase64(file);
+    //     setPreview(base64);
+    //   }, []);
 
 
       const updateAndPreview = (e) => {
+        // debugger
         handleCreateBase64(e)
+        .then(data=>setPreview(data))
         // handlePreviewImage(e)
         updateImage(e)
       }
