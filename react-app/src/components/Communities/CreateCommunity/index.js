@@ -4,16 +4,20 @@ import { useHistory } from "react-router-dom";
 import { LoginModalContext } from "../../context/LoginModalContext";
 import { createCommunity } from "../../../store/communities";
 import './index.css'
-import { getUser } from "../../../store/session";
+import handlePreviewImage from "../../../utils/ImageUploads/previewImage";
 
 function CreateCommunityButton({ user }) {
   const dispatch = useDispatch();
+  const [ errors, setErrors ] = useState([])
+  const [disabled, setDisabled] = useState(true)
   const [showCreateCom, setShowCreateCom] = useState(false);
   const [communityName, setCommunityName] = useState('')
   const [communityTitle, setCommunityTitle] = useState('')
   const [description, setDescription] = useState('')
   const [communityImage, setCommunityImage] = useState('')
+  const [previewCI, setPreviewCI] = useState('')
   const [communityBanner, setCommunityBanner] = useState('')
+  const [previewCB, setPreviewCB] = useState('')
   const ulRef = useRef();
   const history = useHistory()
 
@@ -41,34 +45,64 @@ function CreateCommunityButton({ user }) {
     setShowMenu(true);
   };
 
-  // useEffect(() => {
-  //   if (!showMenu) return;
-
-  //   document.addEventListener('click', closeMenu);
-
-  //   return () => document.removeEventListener("click", closeMenu);
-  // }, [showMenu]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let payload = {
-      name: communityName,
-      title: communityTitle,
-      description: communityTitle,
-      community_image: 'https://i.ibb.co/qxFYBgf/subseddit-icon.png',
-      community_banner: 'https://i.redd.it/sgf6r5easbh31.jpg'
-    }
+    const formData = new FormData();
+    formData.append("name", communityName)
+    formData.append("title", communityTitle)
+    formData.append("description", description)
+
     if(communityImage){
-      payload.community_image = communityImage
+      formData.append("community_image", communityImage)
     }
     if(communityBanner){
+      formData.append("community_banner", communityBanner)
       payload.community_banner = communityBanner
     }
     let newCommunityName
-    dispatch(createCommunity(payload))
+    dispatch(createCommunity(formData))
     .then((res)=> newCommunityName = res.name)
     .then(() => history.push(`/s/${newCommunityName}`))
   };
+
+    //FORM VALIDATION USEEFFECT
+    useEffect(()=>{
+      let errors = []
+
+          if(communityImage){
+              if(communityImage?.type !== 'image/jpg' && communityImage?.type !== 'image/png' && communityImage?.type !== 'image/jpeg'){
+                  errors.push('Please select a valid image file type')
+                  setErrors(['Please select a valid image file type (jpg, png, jpeg)'])
+              }
+          }
+          if(communityBanner){
+            if(communityBanner?.type !== 'image/jpg' && communityBanner?.type !== 'image/png' && communityBanner?.type !== 'image/jpeg'){
+                errors.push('Please select a valid image file type')
+                setErrors(['Please select a valid image file type (jpg, png, jpeg)'])
+            }
+        }
+
+      if (errors.length > 0) setDisabled(true)
+      else setDisabled(false)
+      setErrors(errors)
+      console.log("ERRORS", errors)
+  }, [communityImage, communityBanner])
+
+
+  const handleCreateBase64 = useCallback(handlePreviewImage,[])
+
+  const updateAndPreviewCI = (e) => {
+    handleCreateBase64(e)
+    .then(data=>setPreviewCI(data))
+    updateCommunityImage(e)
+  }
+
+  const updateAndPreviewCB = (e) => {
+    handleCreateBase64(e)
+    .then(data=>setPreviewCB(data))
+    updateCommunityBanner(e)
+  }
 
   let ulClassName = "profile-dropdown" + (showCreateCom ? "" : " hidden");
 
@@ -102,6 +136,7 @@ function CreateCommunityButton({ user }) {
                         <input
                         className='community-form-name margin-t-10 create-form-child'
                         type={'text'}
+                        name="community_name"
                         placeholder={'Community Name'}
                         required
                         value={communityName}
@@ -116,6 +151,7 @@ function CreateCommunityButton({ user }) {
                         <input
                         id='community-form-title'
                         type={'text'}
+                        name="community_title"
                         placeholder={'Community Title'}
                         required
                         value={communityTitle}
@@ -127,6 +163,7 @@ function CreateCommunityButton({ user }) {
                         <textarea
                             className='community-form-description create-form-child'
                             type={'text'}
+                            name="description"
                             placeholder={'Decription'}
                             value={description}
                             onChange={updateDescription}
@@ -137,19 +174,23 @@ function CreateCommunityButton({ user }) {
                         <div className="form-input">
                         <input
                         className='community-form-image create-form-child'
-                        type='url'
+                        type='file'
+                        accept='image/*, png, jpeg, jpg'
+                        name="community_image"
                         placeholder={'Community Icon (optional)'}
                         value={communityImage}
-                        onChange={updateCommunityImage}
+                        onChange={updateAndPreviewCI}
                         />
                         </div>
                         <div className="form-input">
                         <input
                         className='community-form-banner create-form-child'
-                        type='url'
+                        type='file'
+                        accept='image/*, png, jpeg, jpg'
+                        name="community_banner"
                         placeholder={'Community Banner (optional)'}
                         value={communityBanner}
-                        onChange={updateCommunityBanner}
+                        onChange={updateAndPreviewCB}
                         />
                         </div>
                         <div className='community-submit-container margin-t-10'>

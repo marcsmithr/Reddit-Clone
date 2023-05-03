@@ -59,13 +59,13 @@ export const allCommunities = () => async dispatch => {
     }
 }
 
-export const createCommunity = (newCommunity) => async dispatch =>{
+export const createCommunity = (formData) => async dispatch =>{
     const response = await fetch(`/api/communities/new`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(newCommunity)
+          body: formData
     })
     if(response.ok){
         const createdCommunity = await response.json()

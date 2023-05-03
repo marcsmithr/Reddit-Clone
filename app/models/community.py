@@ -13,8 +13,8 @@ class Community(db.Model):
     name = db.Column(db.String(50), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(2000), nullable=False)
-    community_image = db.Column(db.String(1000))
-    community_banner = db.Column(db.String(1000))
+    community_image = db.Column(db.String(1000), default="https://i.ibb.co/qxFYBgf/subseddit-icon.png")
+    community_banner = db.Column(db.String(1000), default="https://i.redd.it/sgf6r5easbh31.jpg")
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), default=func.now())
 
